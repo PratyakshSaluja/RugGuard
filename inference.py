@@ -1,0 +1,370 @@
+"""
+inference.py — RugGuard baseline inference runner.
+
+Runs an LLM agent against the RugGuard OpenEnv server, classifying crypto
+tokens across three tasks (contract / transaction / liquidity analysis) and
+emitting structured logs in the exact format required by the OpenEnv Round 1
+evaluator.
+
+Environment variables (per Round 1 submission spec):
+    API_BASE_URL      OpenAI-compatible LLM endpoint
+                      (default: https://router.huggingface.co/v1)
+    MODEL_NAME        Model identifier
+                      (default: Qwen/Qwen2.5-72B-Instruct)
+    HF_TOKEN          Hugging Face / API key — REQUIRED, no default
+    LOCAL_IMAGE_NAME  Optional, only used with from_docker_image()
+    RUGGUARD_URL      RugGuard env server URL
+                      (default: http://localhost:8000)
+
+STDOUT format (one line per event, exact key=value layout):
+    [START] task=<task_name> env=<benchmark> model=<model_name>
+    [STEP]  step=<n> action=<action_str> reward=<0.00> done=<true|false> error=<msg|null>
+    [END]   success=<true|false> steps=<n> score=<0.00> rewards=<r1,r2,...,rn>
+
+The script emits ONE [START]/[END] block per task type (3 total), so each
+task is graded independently in the [0, 1] range as the spec requires.
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import os
+import sys
+from typing import Any, Dict, List, Optional
+
+import requests
+from openai import OpenAI
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+    stream=sys.stderr,
+)
+logger = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# Config — per Round 1 submission checklist:
+#   * Defaults are set ONLY for API_BASE_URL and MODEL_NAME
+#   * HF_TOKEN has NO default (must be supplied via env var)
+#   * LOCAL_IMAGE_NAME is optional and only used with from_docker_image()
+# ---------------------------------------------------------------------------
+API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
+MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
+HF_TOKEN = os.getenv("HF_TOKEN")
+LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
+
+RUGGUARD_URL: str = os.getenv("RUGGUARD_URL", "http://localhost:8000")
+
+BENCHMARK = "rugguard_env"
+TEMPERATURE = 0.2
+MAX_TOKENS = 512
+HTTP_TIMEOUT = 60
+
+# Per-step max reward is 1.0 → per-task max == number of steps actually taken.
+# The runner reads `total_steps` from the env reset/step responses, so this
+# script auto-scales to whatever STEPS_PER_TASK the server is configured with.
+SUCCESS_SCORE_THRESHOLD = 0.5  # task succeeds if normalized score >= 0.5
+
+TASK_ORDER = ["contract_analysis", "transaction_analysis", "liquidity_analysis"]
+
+
+# ---------------------------------------------------------------------------
+# Structured log helpers — exact key=value format required by evaluator
+# ---------------------------------------------------------------------------
+
+def log_start(task: str, env: str, model: str) -> None:
+    print(f"[START] task={task} env={env} model={model}", flush=True)
+
+
+def log_step(
+    step: int,
+    action: str,
+    reward: float,
+    done: bool,
+    error: Optional[str],
+) -> None:
+    err_str = "null" if error is None else error.replace("\n", " ").replace("\r", " ")
+    # Action must be single-line
+    action_clean = action.replace("\n", " ").replace("\r", " ")
+    print(
+        f"[STEP] step={step} action={action_clean} reward={reward:.2f} "
+        f"done={'true' if done else 'false'} error={err_str}",
+        flush=True,
+    )
+
+
+def log_end(
+    success: bool,
+    steps: int,
+    score: float,
+    rewards: List[float],
+) -> None:
+    rewards_str = ",".join(f"{r:.2f}" for r in rewards)
+    print(
+        f"[END] success={'true' if success else 'false'} steps={steps} "
+        f"score={score:.2f} rewards={rewards_str}",
+        flush=True,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Env HTTP helpers
+# ---------------------------------------------------------------------------
+
+def env_reset(base_url: str) -> Dict[str, Any]:
+    resp = requests.post(f"{base_url}/reset", json={}, timeout=HTTP_TIMEOUT)
+    resp.raise_for_status()
+    return resp.json()
+
+
+def env_step(base_url: str, action: Dict[str, Any]) -> Dict[str, Any]:
+    resp = requests.post(
+        f"{base_url}/step", json={"action": action}, timeout=HTTP_TIMEOUT
+    )
+    resp.raise_for_status()
+    return resp.json()
+
+
+def parse_obs(payload: Dict[str, Any]) -> Dict[str, Any]:
+    obs = payload.get("observation", payload)
+    return {
+        "task_type": obs.get("task_type", "contract_analysis"),
+        "token_name": obs.get("token_name", ""),
+        "token_data": obs.get("token_data", ""),
+        "step_number": obs.get("step_number", 1),
+        "total_steps": obs.get("total_steps", 45),
+        "last_reward": obs.get("last_reward", 0.0),
+        "done": payload.get("done", obs.get("done", False)),
+        "reward": payload.get("reward", obs.get("reward", 0.0)),
+    }
+
+
+# ---------------------------------------------------------------------------
+# LLM call (OpenAI client — mandated by spec)
+# ---------------------------------------------------------------------------
+
+SYSTEM_PROMPT = (
+    "You are a blockchain security expert specialising in crypto token scam "
+    "detection. Always respond with a single valid JSON object and nothing else."
+)
+
+
+def build_user_prompt(obs: Dict[str, Any]) -> str:
+    task_desc = {
+        "contract_analysis": "Analyse this Solidity smart contract code for red flags.",
+        "transaction_analysis": "Analyse this on-chain transaction pattern for scam signals.",
+        "liquidity_analysis": "Analyse this liquidity pool data for exit risk or manipulation.",
+    }.get(obs["task_type"], "Analyse the token data.")
+
+    return (
+        f"Task: {task_desc}\n\n"
+        f"Token: {obs['token_name']}\n\n"
+        f"Data:\n{obs['token_data']}\n\n"
+        "Classify this token. Respond ONLY with this JSON:\n"
+        "{\n"
+        '  "verdict": "<rug_pull|honeypot|wash_trading|safe>",\n'
+        '  "confidence": <float 0.0-1.0>,\n'
+        '  "reasoning": "<concise explanation>"\n'
+        "}\n\n"
+        "Definitions:\n"
+        "- rug_pull: developer drains liquidity/funds and abandons project\n"
+        "- honeypot: users can buy but cannot sell (trapped funds)\n"
+        "- wash_trading: artificial volume via coordinated self-trades\n"
+        "- safe: no significant scam signals detected\n"
+    )
+
+
+def get_verdict(client: OpenAI, obs: Dict[str, Any]) -> Dict[str, Any]:
+    try:
+        completion = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": build_user_prompt(obs)},
+            ],
+            temperature=TEMPERATURE,
+            max_tokens=MAX_TOKENS,
+            stream=False,
+        )
+        text = (completion.choices[0].message.content or "").strip()
+        # Strip markdown fences if present
+        if text.startswith("```"):
+            text = "\n".join(
+                l for l in text.splitlines() if not l.startswith("```")
+            ).strip()
+        parsed = json.loads(text)
+    except Exception as exc:
+        logger.warning(f"LLM call failed: {exc}")
+        parsed = {"verdict": "safe", "confidence": 0.5, "reasoning": f"error: {exc}"}
+
+    valid_verdicts = {"rug_pull", "honeypot", "wash_trading", "safe"}
+    if parsed.get("verdict") not in valid_verdicts:
+        parsed["verdict"] = "safe"
+    try:
+        parsed["confidence"] = max(0.0, min(1.0, float(parsed.get("confidence", 0.5))))
+    except (TypeError, ValueError):
+        parsed["confidence"] = 0.5
+    if not isinstance(parsed.get("reasoning"), str):
+        parsed["reasoning"] = "no reasoning"
+
+    return parsed
+
+
+# ---------------------------------------------------------------------------
+# Per-task log buffer
+# ---------------------------------------------------------------------------
+
+class TaskRunner:
+    """Collects steps for one task and emits a single START/STEP*/END block."""
+
+    def __init__(self, task_name: str, model_name: str):
+        self.task_name = task_name
+        self.model_name = model_name
+        self.rewards: List[float] = []
+        self.steps: List[Dict[str, Any]] = []
+        self.last_error: Optional[str] = None
+
+    def record_step(
+        self,
+        action_str: str,
+        reward: float,
+        done: bool,
+        error: Optional[str],
+    ) -> None:
+        self.rewards.append(reward)
+        self.steps.append(
+            {"action": action_str, "reward": reward, "done": done, "error": error}
+        )
+        if error:
+            self.last_error = error
+
+    def emit(self) -> Dict[str, Any]:
+        log_start(task=self.task_name, env=BENCHMARK, model=self.model_name)
+        for i, s in enumerate(self.steps, start=1):
+            log_step(
+                step=i,
+                action=s["action"],
+                reward=s["reward"],
+                done=s["done"],
+                error=s["error"],
+            )
+        max_reward = float(len(self.steps)) if self.steps else 1.0
+        score = sum(self.rewards) / max_reward if max_reward > 0 else 0.0
+        score = min(max(score, 0.0), 1.0)
+        success = score >= SUCCESS_SCORE_THRESHOLD
+        log_end(
+            success=success,
+            steps=len(self.steps),
+            score=score,
+            rewards=self.rewards,
+        )
+        return {
+            "task": self.task_name,
+            "score": score,
+            "success": success,
+            "steps": len(self.steps),
+        }
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+def main() -> None:
+    client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
+
+    runners: Dict[str, TaskRunner] = {
+        t: TaskRunner(t, MODEL_NAME) for t in TASK_ORDER
+    }
+
+    fatal_error: Optional[str] = None
+
+    try:
+        reset_payload = env_reset(RUGGUARD_URL)
+        obs = parse_obs(reset_payload)
+        logger.info(f"Episode started — first token: {obs['token_name']}")
+
+        # Walk the full episode; route each step to its task's runner
+        max_steps = obs.get("total_steps", 45)
+        for _ in range(max_steps):
+            if obs["done"]:
+                break
+
+            current_task = obs["task_type"]
+            runner = runners.get(current_task)
+            if runner is None:
+                logger.warning(f"Unknown task type: {current_task}")
+                break
+
+            verdict_data = get_verdict(client, obs)
+            action_str = (
+                f"{verdict_data['verdict']}|conf={verdict_data['confidence']:.2f}|"
+                f"{verdict_data['reasoning'][:100]}"
+            )
+
+            step_error: Optional[str] = None
+            try:
+                step_payload = env_step(
+                    RUGGUARD_URL,
+                    {
+                        "verdict": verdict_data["verdict"],
+                        "confidence": verdict_data["confidence"],
+                        "reasoning": verdict_data["reasoning"],
+                    },
+                )
+                reward = float(step_payload.get("reward") or 0.0)
+                done = bool(step_payload.get("done", False))
+                next_obs = parse_obs(step_payload)
+            except Exception as exc:
+                step_error = str(exc)
+                reward = 0.0
+                done = True
+                next_obs = obs
+                logger.error(f"Step error: {exc}")
+
+            runner.record_step(
+                action_str=action_str,
+                reward=reward,
+                done=done,
+                error=step_error,
+            )
+
+            logger.info(
+                f"{current_task} | token={obs.get('token_name','?')} | "
+                f"verdict={verdict_data['verdict']} | reward={reward:.4f}"
+            )
+
+            obs = next_obs
+
+    except Exception as exc:
+        fatal_error = str(exc)
+        logger.error(f"Episode error: {exc}")
+
+    # Emit one [START]/[STEP]*/[END] block per task, in order
+    summaries = []
+    for task in TASK_ORDER:
+        runner = runners[task]
+        if not runner.steps and fatal_error:
+            # Still emit a minimal block so the evaluator sees all 3 tasks
+            log_start(task=task, env=BENCHMARK, model=MODEL_NAME)
+            log_step(step=1, action="error", reward=0.0, done=True, error=fatal_error)
+            log_end(success=False, steps=1, score=0.0, rewards=[0.0])
+            summaries.append({"task": task, "score": 0.0, "success": False})
+        else:
+            summaries.append(runner.emit())
+
+    # Human-readable summary on stderr (does not affect [START]/[STEP]/[END] parsing)
+    logger.info("=" * 60)
+    for s in summaries:
+        logger.info(
+            f"{s['task']:>22}: score={s['score']:.2f} success={s['success']}"
+        )
+    logger.info("=" * 60)
+
+    if fatal_error:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

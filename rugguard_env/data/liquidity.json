@@ -1,0 +1,316 @@
+{
+  "samples": [
+    {
+      "token_name": "MOONROCKET",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: MOONROCKET/WBNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Initial LP: $2,340,000 (100% provided by deployer)\n- LP tokens: NOT locked — held directly in deployer wallet\n- Deployer LP share: 100% (no community LP providers)\n- LP removal: all tokens removed in single tx, block #28441923\n- Time to rug from listing: 72 hours\n- Pool depth post-rug: $420 (dust)\n- Price impact of removing LP: -99.8% immediate price drop\n- Token/WBNB ratio manipulation: ratio changed 3x in 24h before rug"
+    },
+    {
+      "token_name": "SAFEMOON2",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: SAFEMOON2/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $1,840,000 — LP is locked via Unicrypt for 1 year\n- LP lock appears legitimate to deter suspicion\n- Buy tax: 5% | Sell tax: 5% (appears normal)\n- Hidden mechanism: buyers added to blacklist after first purchase\n- LP lock is real but irrelevant — trapped buyers cannot sell regardless\n- Pool shows healthy depth on DEX screener ($1.8M)\n- Price: artificially stable due to no sell pressure (everyone trapped)\n- Slippage tolerance required: 6% (slightly above normal)"
+    },
+    {
+      "token_name": "DEFISHIELD",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: DEFISHIELD/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $6,100,000 (community-provided LP, 340 LP providers)\n- Concentrated liquidity: 80% of LP in ±20% price range\n- Largest LP provider: 8.2% of pool (institutional market maker)\n- 18-month pool history, consistent TVL growth\n- No LP lock required — distributed among community\n- Price impact for $100K trade: 0.8% (deep and liquid)\n- Fee tier: 0.3%, accrued $2.1M in fees since inception\n- APY for LP providers: 12.4% (organic fee generation)"
+    },
+    {
+      "token_name": "PHANTOMSWAP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: PHANTOMSWAP/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Reported TVL: $18,400,000\n- Actual verifiable TVL: $92,000 (per on-chain token balances)\n- Discrepancy source: TVL dashboard reads manipulated price oracle\n- Price oracle: single-block TWAP easily manipulated by deployer\n- Real-time pool reserves: 45,000 PHANTOM + 180 BNB ($92K)\n- Fake TVL calculation: uses manipulated spot price * inflated supply\n- LP providers: 2 addresses (both controlled by operator)\n- Volume vs TVL ratio: 308x (physically impossible for real AMM)"
+    },
+    {
+      "token_name": "CHAINLINK2",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: CHAINLINK2/ETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $4,200,000 across 3 fee tiers\n- LP locked: $2.1M on Team Finance, 1-year lockup (6 months remaining)\n- Free-float LP: $2.1M from 220 community providers\n- Price impact $50K trade: 0.4% (excellent depth)\n- 6-month TWAP price: within 3% of spot (stable)\n- No single LP provider >12% of pool\n- LP fee revenue: $890,000 distributed in 6 months\n- Pool manipulation risk: very low (deep, distributed)"
+    },
+    {
+      "token_name": "DRAINMASTER",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: DRAINMASTER/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL at peak: $890,000\n- LP lock status: NONE — all LP held by deployer\n- emergencyDrain() called: Day 3, 03:17 UTC\n- LP removal method: single removeAllLiquidity() call\n- Time from LP creation to removal: 71.5 hours\n- Pool TVL after rug: $0.00\n- Deployer address: 6-day-old wallet, no prior DeFi history\n- Post-rug token price: -99.9%, still showing on PancakeSwap (ghost pool)"
+    },
+    {
+      "token_name": "USDGOLD",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: USDGOLD/USDC Pool (QuickSwap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $8,500,000 locked on Unicrypt for 2 years (14 months remaining)\n- Lock transaction: verifiable on Unicrypt dashboard\n- LP distribution: 65% locked (team), 35% community\n- Price range: $0.0094-$0.0108 (±7% range, stable)\n- Price impact $100K trade: 0.6%\n- 8-month track record, LP grew from $1.2M to $8.5M organically\n- Audited by Hacken — LP mechanism: no issues found\n- Anti-rug: lock contract cannot be bypassed by deployer"
+    },
+    {
+      "token_name": "LOOPWASH",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: LOOPWASH/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $18,000\n- Self-reported market cap on CMC: $12,400,000\n- Self-reported daily volume: $8,100,000\n- Actual daily DEX volume: $420 (3 real trades)\n- LP providers: 1 (deployer only)\n- Price is stable because deployer controls both sides of pool\n- Price impact: even $5,000 trade would move price 22% (paper-thin liquidity)\n- Token listed on CMC using faked API volume endpoint"
+    },
+    {
+      "token_name": "ETHYIELD",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: ETHYIELD/WETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $11,200,000 across full range + concentrated positions\n- No lock required — 180 independent LP providers\n- Largest LP: 6.8% of pool (institutional MM)\n- 6-month TWAP: within 4% of spot continuously\n- Volume/TVL ratio: 0.18 (healthy, not wash-traded)\n- Daily fee revenue to LPs: $9,800 average\n- Price impact $200K trade: 0.9%\n- No flash loan attacks or price oracle manipulation in history"
+    },
+    {
+      "token_name": "EXITSCAM",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: EXITSCAM/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Presale raised: $1,400,000\n- DEX listing LP: $700,000 (50% of raise — standard red flag, rest to team)\n- LP lock: NONE\n- Time to selfdestruct: 72 hours post-listing\n- Pool destruction: selfdestruct() deleted contract, pool became inaccessible\n- $700,000 LP + $700,000 team allocation: all gone\n- No LP lock contract deployed despite promises in whitepaper\n- Whitepaper stated '80% of funds to LP, locked 2 years' — false"
+    },
+    {
+      "token_name": "FOMOPUMP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: FOMOPUMP/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,800,000\n- 24h volume: $44,700,000 (claimed)\n- Volume/TVL ratio: 15.96 (extreme — legitimate tokens average 0.1-0.5)\n- Price movement in 24h: +1,800% then -94%\n- LP provider: 1 address (deployer)\n- All high-volume trades originate from 3 coordinated wallets\n- LP removed at market peak: $4.2M extracted (LP grew from wash volume)\n- Wash trading purpose: attract retail FOMO at the peak before dump"
+    },
+    {
+      "token_name": "SOLIDGOV",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: SOLIDGOV/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $7,800,000 across 3 price ranges\n- LP controlled by DAO treasury (4/7 multisig)\n- 340 independent LP providers\n- Volume/TVL ratio: 0.28 (healthy)\n- Price stable within 12% band for 2 years\n- TWAP oracle used by 3 lending protocols as price feed\n- No oracle manipulation attempts detected\n- LP removal requires DAO governance vote (3-day timelock)"
+    },
+    {
+      "token_name": "VOLUMEKING",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: VOLUMEKING/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $340,000 (deployer-controlled)\n- Claimed 24h volume: $67,000,000\n- Volume/TVL ratio: 197x (physically impossible for AMM mechanics)\n- Impact: if $67M actually traded through a $340K pool, pool would be depleted in first trade\n- Explanation: volume numbers generated off-chain and submitted to API\n- Actual on-chain swap count in 24h: 14\n- Price: perfectly flat for 30 days (deployer controls both sides)\n- LP lock: none"
+    },
+    {
+      "token_name": "INSTARUG",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: INSTARUG/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- LP at listing: $340,000\n- LP lock: NOT locked — held in deployer wallet\n- Unlocked LP: deployer could remove at any time\n- Extra minting: 10 billion tokens minted 3 hours post-launch\n- Minted tokens sold into pool: price -82% in 15 minutes\n- LP removed: remaining $284,000 in single transaction\n- Combined haul: $624,000 (LP + token sales)\n- Pool now: empty, token worthless"
+    },
+    {
+      "token_name": "LOCKEDNFT",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: LOCKEDNFT/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $1,240,000 — LP locked for 365 days on Unicrypt\n- Lock is legitimate — this is NOT a liquidity rug\n- Trap mechanism: buyers cannot sell (contract lock, not LP issue)\n- Pool shows healthy depth and locked LP — appears safe\n- Buy tax: 2% (reasonable)\n- Sell tax: 2% (reasonable — but irrelevant since sells impossible)\n- Volume: $890,000 in buys, $0 in sells from non-deployer wallets\n- LP lock used as credibility signal while internal honeypot traps buyers"
+    },
+    {
+      "token_name": "POLKABASE",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: POLKABASE/MATIC Pool (QuickSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $9,300,000 — no lock (fixed supply, no mint function)\n- No lock needed: no admin can drain contract or mint new tokens\n- 180 independent LP providers\n- Largest single LP: 4.1% of pool\n- 2-year pool history, TVL grown from $400K\n- Daily volume: $2.1M, volume/TVL: 0.23 (healthy)\n- Price impact $100K trade: 0.5%\n- Pool has survived 4 major market downturns without LP exodus"
+    },
+    {
+      "token_name": "AUDITEDTOKEN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: AUDITEDTOKEN/USDC Pool (Uniswap V3 + Curve)\nLiquidity Pool Analysis:\n- Uniswap V3 TVL: $8,200,000\n- Curve pool TVL: $6,800,000 (stable swap)\n- Total liquidity: $15,000,000\n- LP providers: 890 addresses\n- Volume/TVL: 0.32 (healthy)\n- TWAP oracle used by Aave and Compound as price feed\n- Curve integration: generates 4.2% base APY for stablecoin holders\n- No LP concentration risk — distributed community liquidity"
+    },
+    {
+      "token_name": "APPROVERUG",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: APPROVERUG/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL at attack: $3,400,000\n- LP locked on Unicrypt — LP itself was NOT the attack vector\n- Attack vector: transferFrom() allowed owner to drain user wallets directly\n- LP remains locked and worthless after attack\n- Users lost funds from their wallets, not from pool\n- $1,800,000 drained from 2,341 user wallets via transferFrom exploit\n- LP lock created false sense of security\n- Lesson: LP lock does not protect against contract-level exploits"
+    },
+    {
+      "token_name": "FAKESWAP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: FAKESWAP/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $480,000\n- Claimed volume: $31,000,000/day\n- Volume/TVL ratio: 64.6x (wash trading signal)\n- All 'volume' is circular: same 8 wallets trading back and forth\n- Price oracle: spot price manipulated once per minute by operator\n- PancakeSwap TWAP is unusable for this pool (oracle manipulation)\n- LP providers: 2 (both operator-controlled)\n- Purpose: achieve top-10 volume ranking on aggregators"
+    },
+    {
+      "token_name": "METAVERSE2",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: METAVERSE2/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $4,200,000 (auto-growing via 1% fee mechanism)\n- LP compounds automatically — TVL grown from $500K to $4.2M in 9 months\n- LP providers: 280 addresses\n- Volume/TVL: 0.43 (healthy, fee mechanism drives usage)\n- Price impact $50K trade: 0.6%\n- No LP lock needed — fee mechanism aligns incentives long-term\n- Team LP (2% of supply locked): adds $340K to pool\n- Daily fee to LPs: $7,800 average"
+    },
+    {
+      "token_name": "HIDDENWALL",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: HIDDENWALL/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,100,000 — LP locked for 6 months on PinkLock\n- LP lock: legitimate — creates false sense of security\n- maxTxAmount mechanism: set to 1 token on day 4, blocking all sells\n- Pool appears liquid on DEX screener but is inaccessible to sellers\n- Buy volume day 1-3: $2.1M\n- Sell volume day 4 onwards: $0 (for non-deployer)\n- Price chart: steady increase day 1-3, flat after (no sell pressure)\n- LP lock is red herring — the trap is in maxTxAmount, not LP"
+    },
+    {
+      "token_name": "OPENDEFI",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: OPENDEFI/MATIC Pool (QuickSwap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $6,400,000\n- 2% buy/sell fee: 1% to LP, 1% to DAO treasury\n- LP has grown from $800K via fee compounding over 11 months\n- Fee cap of 5% enforced in contract — cannot be raised above this\n- 390 independent LP providers\n- Volume/TVL: 0.14 (healthy)\n- Price impact $100K trade: 0.7%\n- DAO treasury: $1.2M USDC accumulated from fees (auditable)"
+    },
+    {
+      "token_name": "SPOOKYMINT",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: SPOOKYMINT/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL before mint: $2,800,000\n- LP lock: NONE\n- Day 12 event: 900M tokens minted (900% supply inflation)\n- Token/BNB reserve ratio shifted dramatically — token price crashed\n- Deployer sold minted tokens into pool: $1,100,000 extracted\n- LP then removed: additional $1,700,000 extracted\n- Total rug: $2,800,000\n- Pool now: empty"
+    },
+    {
+      "token_name": "BLUECHIP",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: BLUECHIP/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $18,000,000 — deepest liquidity in this dataset\n- LP distribution: 1,200 independent providers\n- Largest LP: 3.2% of pool (verified market maker firm)\n- 3-year pool history — survived multiple bear markets\n- Volume/TVL: 0.17 (conservative, long-term holder base)\n- 0.5% burn on sell reduces supply over time\n- Price impact $500K trade: 1.1% (extremely deep)\n- Annual fee revenue to LPs: $3.8M"
+    },
+    {
+      "token_name": "GHOSTLIQ",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: GHOSTLIQ/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Self-reported TVL (project dashboard): $45,000,000\n- DefiLlama tracked TVL: $84,000\n- On-chain pool reserves: 420,000 GHOSTLIQ + 24 ETH ($72K)\n- TVL inflation: project dashboard uses manipulated token price\n- Price oracle: self-hosted, not Chainlink or Uniswap TWAP\n- Volume/actual TVL: 0 (no organic trades in 30 days)\n- LP provider: 1 address (deployer)\n- Attempted CEX listing: rejected by 4 major exchanges after forensics"
+    },
+    {
+      "token_name": "SILENTDRAIN",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: SILENTDRAIN/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $6,200,000 at peak\n- LP: distributed among 340 community providers\n- Hidden drain: 20% of every transfer to 0x1337..., including LP interactions\n- Every time LP was added/removed, 20% drained silently\n- Over 6 months: $3,400,000 drained from LP fee accounting\n- LP providers received only 80% of their expected fee revenue\n- Pool appeared normal on DEX aggregators\n- Detection: researcher noticed fee revenue 20% below theoretical"
+    },
+    {
+      "token_name": "CLEARCHAIN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: CLEARCHAIN/ETH Wrapped Pool\nLiquidity Pool Analysis:\n- Direct ETH backing: 4,200 ETH held in contract ($12.6M)\n- 100% collateralization ratio — verifiable on-chain\n- Not an AMM pool — direct mint/redeem against ETH\n- 14,000 depositors\n- Largest depositor: 180 ETH (4.3% of pool)\n- No LP concentration risk\n- Reentrancy guard prevents flash loan attacks\n- Two independent audits confirm: no manipulation vectors\n- Redemption: always 1:1 ETH, zero slippage"
+    },
+    {
+      "token_name": "REBASETOKEN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: REBASETOKEN/USDC Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,800,000\n- Rebase adjusts token balance automatically to target $1.00\n- LP providers: token side of pool rebases — special LP math applies\n- 14-month track record, price within ±5% of target\n- Volume/TVL: 0.37 (healthy)\n- LP providers: 180 addresses\n- Rebase trigger: automated keeper, not manual (admin cannot control timing)\n- Oracle: Chainlink ETH/USD + USDC/USD\n- No LP lock needed — no admin can drain reserves"
+    },
+    {
+      "token_name": "TAXMAX",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: TAXMAX/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,400,000 at peak (day 7)\n- LP: NOT locked\n- Tax-ramping mechanism: sell tax raised from 0% to 99% over 21 days\n- As sell tax rose, sell volume dropped, LP grew from buy fees\n- Day 21: deployer removed LP: $3,200,000 extracted\n- Tax accumulation: $400,000 from accumulated taxes (paid to dev address)\n- Total extracted: $3,600,000 across 21 days\n- Legal grey area: sell tax was technically disclosed in contract (but not UI)"
+    },
+    {
+      "token_name": "VESTALPHA",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: VESTALPHA/ETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $7,400,000 — organically grown\n- Team allocation: locked in VestingWallet, cannot be added to pool until vested\n- Community LP providers: 410 addresses\n- Largest LP: 5.8% of pool\n- 10-month track record\n- Volume/TVL: 0.30 (healthy)\n- Price impact $100K trade: 0.8%\n- LP Bootstrapped via LBP — no whale sniping at launch\n- Anti-rug: team tokens in vesting contract cannot touch LP"
+    },
+    {
+      "token_name": "MICROHONEY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: MICROHONEY/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,800,000 — LP locked on PinkLock for 1 year\n- Appears safe: locked LP, reasonable tax, clean chart\n- Trap: minimum sell threshold continuously raised\n- Pool depth is irrelevant — users cannot sell due to min threshold\n- Buy pressure: $2.8M in (1,890 wallets)\n- Sell pressure: $0 out (threshold blocks all sells)\n- Deployer's sell bypass: sold $1,200,000 ignoring threshold\n- LP lock: legitimate but serves as credibility cover for the threshold trap"
+    },
+    {
+      "token_name": "COMMUNITYPOOL",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: COMMUNITYPOOL/MATIC Pool (QuickSwap V3 + SushiSwap)\nLiquidity Pool Analysis:\n- QuickSwap TVL: $3,400,000\n- SushiSwap TVL: $2,400,000\n- Total: $5,800,000 across 2 DEXs\n- LP providers: 620 addresses (well distributed)\n- Max wallet cap prevents single-wallet LP concentration\n- Volume/TVL: 0.28 across both pools\n- DAO can migrate LP between DEXs via governance (3-day timelock)\n- No LP lock — 620 providers create decentralized custody\n- 14-month history, LP grew from $290K organically"
+    },
+    {
+      "token_name": "SIPHON",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: SIPHON/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL at peak: $28,000,000 (community-provided LP over 6 months)\n- LP: distributed among 890 providers\n- Hidden drain: 20% of every pool interaction drained to 0x1337...\n- Each LP add: only 80% actually entered the pool\n- Each LP remove: only 80% returned to provider\n- Accumulated drain from LP interactions alone: $4,200,000\n- Total drained across all transfer types: $126,000,000 (including holder transfers)\n- Pool TVL appeared normal — drain was invisible in standard analytics"
+    },
+    {
+      "token_name": "TRUSTPROTOCOL",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: TRUSTPROTOCOL/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $7,200,000 managed by DAO\n- DAO controls LP via 4/7 multisig\n- LP strategy: actively managed with 3-day governance delay on changes\n- Single pause incident (8 hours): caused by external DeFi market cascade\n- Pool recovered to pre-pause TVL within 2 weeks\n- Volume/TVL: 0.26\n- Insurance fund: $800K covers smart contract exploits\n- Annual LP fee revenue: $1.4M distributed to 280 providers"
+    },
+    {
+      "token_name": "CLOAKRUG",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: CLOAKRUG/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,200,000 (all from deployer)\n- LP lock: NONE — 100% held by deployer\n- rug() function: extracted all ETH from pool via tx.origin bypass\n- LP removal speed: complete in 1 block (~12 seconds)\n- Obfuscation: deployer used CREATE2 with random salt, pool address not traceable\n- Funds moved: Uniswap pool -> EOA -> 6-hop mixing -> final wallet\n- Pool chart: straight up for 5 days, then vertical drop to zero\n- 4,200 victims lost $3.2M combined"
+    },
+    {
+      "token_name": "FAIRLAUNCH",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: FAIRLAUNCH/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,400,000 — 100% community-provided\n- Zero team LP (team has no tokens at all)\n- 280 independent LP providers\n- LP grew organically from $0 (no team seed)\n- Volume/TVL: 0.23 (healthy)\n- Price impact $50K trade: 0.8%\n- No LP lock needed — no team tokens to dump\n- 8-month track record\n- Largest LP provider: 6.2% (community whale, wallet publicly known)"
+    },
+    {
+      "token_name": "HIDDENPROXY",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: HIDDENPROXY/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL at attack: $4,800,000\n- LP locked on Unicrypt — appeared safe to investors\n- Attack via proxy upgrade (not LP removal):\n  1. Upgrade implementation to malicious contract\n  2. Malicious contract: minted 10T tokens in same tx\n  3. Dumped tokens into pool — price -99.9%\n  4. Extracted LP (now worth more due to token price crash mechanics)\n- LP lock bypassed: lock protects LP tokens, not the token price\n- $4,800,000 extracted in 3.5 minutes\n- LP lock was irrelevant — upgrade attack drained value through price crash"
+    },
+    {
+      "token_name": "DECENTRAL",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: DECENTRAL/ETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $8,900,000 (1.5-year track record)\n- LP: 520 independent providers\n- Largest LP: 4.9% of pool\n- No admin: no possibility of LP-affecting governance attack\n- Volume/TVL: 0.31 (healthy)\n- Price impact $200K trade: 1.3%\n- Pool survived 2 major market downturns without LP exodus\n- Annual fee revenue: $2.8M distributed to LP providers\n- Zero oracle manipulation attempts in 1.5-year history"
+    },
+    {
+      "token_name": "PERMABUY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: PERMABUY/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,900,000 — LP locked on PinkLock for 1 year\n- Appears legitimate: locked LP, clean chart, active volume\n- Sell function requires matching internal router hash — impossible for users\n- Pool depth is healthy but inaccessible to sellers\n- Buy volume: $2.4M from 4,102 wallets\n- Sell volume from public wallets: $0\n- Deployer used admin bypass: sold $2.38M through LP directly\n- LP lock created credibility — 4,102 buyers trusted the lock signal"
+    },
+    {
+      "token_name": "PUMPNDUMP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: PUMPNDUMP/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL at peak: $6,800,000 (inflated by wash trading)\n- Initial LP: $120,000 (deployer)\n- Bot activity inflated price 1,800%: LP value grew to $6.8M on paper\n- Volume/TVL at peak: 6.6x (wash trading signature)\n- LP dump: operator removed all LP at peak — extracted $6.8M\n- Retail investors who added LP during pump: lost $4.1M\n- Total victim losses: $4.1M from retail LP + retail token buyers\n- Post-dump pool: $0 TVL, ghost pool remains on PancakeSwap"
+    },
+    {
+      "token_name": "SNAPSHOT",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: SNAPSHOT/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $4,800,000\n- LP providers: 310 addresses\n- Snapshot mechanism cannot affect LP (read-only)\n- No admin LP control — only DAO can propose changes (3-day timelock)\n- Volume/TVL: 0.23\n- Price impact $100K trade: 0.9%\n- No flash loan vulnerabilities (snapshot uses historical blocks)\n- 2-year track record\n- Annual fee revenue: $1.1M"
+    },
+    {
+      "token_name": "TRANSFERLOCK",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: TRANSFERLOCK/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $1,800,000 — LP locked on Unicrypt for 1 year\n- LP lock: genuine\n- transfersEnabled = false: makes LP inaccessible to regular users\n- Buying: possible (deployer executes buy via admin bypass)\n- Selling: impossible (requires transfersEnabled = true)\n- $1.4M in buy-side funds trapped by token transfer lock\n- LP lock is visible and marketed as 'proof of legitimacy'\n- Trap: locked LP is also inaccessible — even the 'locked' funds are stuck\n- Promoted as 'stealth launch' with 'transfers enabling soon'"
+    },
+    {
+      "token_name": "DECENTRALFI",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: DECENTRALFI/ETH Pool (Uniswap V3 + Curve)\nLiquidity Pool Analysis:\n- Uniswap V3 TVL: $14,000,000\n- Curve TVL: $8,000,000\n- Total: $22,000,000 (deepest in portfolio)\n- 940 independent LP providers\n- Volume/TVL: 0.28\n- Price impact $500K trade: 1.0%\n- Used as collateral in 6 lending protocols (AAVE, Compound, etc.)\n- 2-year zero-incident track record\n- No admin of any kind — fully immutable protocol"
+    },
+    {
+      "token_name": "VERITOKEN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: VERITOKEN/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $2,100,000\n- Access-restricted: only KYC-verified addresses can trade\n- LP providers: 89 verified institutional addresses\n- Volume: $440,000/day (lower due to KYC requirement)\n- Volume/TVL: 0.21 (healthy for restricted token)\n- No wash trading possible — KYC prevents anonymous bot wallets\n- Price impact $50K trade: 1.4% (less deep due to restricted LP base)\n- Compliance: all LP providers are KYC-verified MSBs or institutions"
+    },
+    {
+      "token_name": "ZEROADMIN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: ZEROADMIN/ETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $5,100,000\n- LP providers: 380 addresses\n- No admin: no possible governance attack on LP\n- Volume/TVL: 0.33 (healthy)\n- Price impact $100K trade: 1.1%\n- 1-year track record, LP grew from $200K\n- No concentration risk — largest LP: 5.1% of pool\n- Annual fee revenue: $1.4M distributed to 380 providers\n- Zero oracle manipulation attempts"
+    },
+    {
+      "token_name": "REVERSEHONEY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: REVERSEHONEY/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,200,000 — LP locked via DXSale for 6 months\n- LP lock provides false security signal\n- pauseSale() called day 8: disabled all buys AND sells for regular users\n- Deployer excluded from pause: sold $1.78M via admin exclusion\n- Pool TVL remains $2.2M but is inaccessible to all non-deployer addresses\n- 3,412 holders own worthless tokens they cannot sell\n- Chart: normal activity for 8 days, then complete flatline\n- LP lock expires in 4 months — at that point remaining LP drainable by anyone"
+    },
+    {
+      "token_name": "SHADOWSELL",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: SHADOWSELL/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,100,000 — LP locked via Team Finance for 1 year\n- LP lock: genuine and verifiable\n- Whitelist mechanism: only ops-approved addresses can sell\n- Pool has $3.1M in liquidity but is accessible only to 1 address\n- Buy volume from public: $2.1M (6,781 wallets)\n- Sell volume from public: $0\n- Deployer sold $2.1M using their approved status\n- LP lock creates confidence signal; whitelist creates exit barrier"
+    },
+    {
+      "token_name": "SELLBLOCK",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: SELLBLOCK/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $1,600,000 — LP locked on Unicrypt for 6 months\n- LP depth appears fine: $1.6M in pool\n- Sell function calls admin contract which always returns false\n- Pool is accessible in principle but sell approval always denied\n- Buy volume: $1.3M from 2,109 wallets\n- Sell volume: $0 from regular wallets\n- Admin approval contract: programmed to return false for all callers\n- Deployer sold $1.28M via internal bypass that skips approval check"
+    },
+    {
+      "token_name": "GHOSTMINT",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: GHOSTMINT/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Initial LP: $310,000 (50% of presale, rest to dev)\n- LP lock: NONE — held in deployer wallet\n- Day 1: dev dumped 80% of holdings, pool drained to $4,200\n- LP then removed: $4,200 extracted (rest already worthless)\n- Total loss: $620,000 (presale funds + LP)\n- Post-rug: pool shows as active on PancakeSwap (ghost listing)\n- Red flag pre-launch: no lock contract deployed despite promises\n- Dev wallet: 0 prior on-chain history, funded via mixer"
+    },
+    {
+      "token_name": "QUANTUM",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: QUANTUM/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $19,200,000 — largest pool in this dataset\n- LP providers: 1,400 independent addresses\n- Largest single LP: 2.8% of pool (verified market maker)\n- 24-month track record — zero LP manipulation events\n- Volume/TVL: 0.25 (healthy)\n- Price impact $1M trade: 1.8%\n- Used as Aave V3 collateral: $42M borrowed against QUANTUM\n- Annual LP fee revenue: $7.4M distributed to 1,400 providers"
+    },
+    {
+      "token_name": "CIRCUITBREAK",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: CIRCUITBREAK/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $210,000 (deployer-controlled)\n- Claimed volume: $48,000,000/day (CoinGecko ranking: #54)\n- Volume/TVL ratio: 228x — physically impossible\n- Analysis: 6-wallet closed loop, each trade $8M, completing 6-hop cycle in 18 seconds\n- All 'volume' reverts to same starting wallet\n- Net pool reserve change after 1 day: $0 (circular, no real pressure)\n- LP provider: 1 (deployer only)\n- Purpose: achieve CoinGecko top 100 by volume to attract retail listings"
+    },
+    {
+      "token_name": "AIRDROPRUG",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: AIRDROPRUG/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $4,100,000 — LP locked via Team Finance for 1 year\n- LP lock appears legitimate and credible\n- Pool depth: appears healthy at $4.1M\n- Buy volume: $3.2M from regular buyers (all trapped, blacklisted)\n- Sell volume from public: $0 (blacklisted on purchase)\n- Insider sells (whitelisted airdrop recipients): $3.2M successfully sold\n- Pool TVL grew from insider buys used as liquidity seed\n- Pattern: locked LP used to signal legitimacy; insider whitelist enables exit"
+    }
+  ]
+}

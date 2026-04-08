@@ -1,0 +1,28 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.eggs/
+build/
+dist/
+
+# Virtualenvs
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Secrets
+.env
+*.pem
+*.key
+
+# Logs / temp
+*.log
+/tmp/

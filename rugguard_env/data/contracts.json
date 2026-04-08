@@ -1,0 +1,334 @@
+{
+  "samples": [
+    {
+      "token_name": "MOONROCKET",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract MOONROCKET {\n  address private owner;\n  mapping(address=>uint256) public balances;\n  uint256 public totalSupply = 1000000000e18;\n  constructor() { owner = msg.sender; balances[owner] = totalSupply; }\n  function transfer(address to, uint256 amt) external {\n    require(balances[msg.sender] >= amt);\n    balances[msg.sender] -= amt;\n    balances[to] += amt;\n  }\n  // Owner can drain all liquidity at any time\n  function rugPull() external { require(msg.sender==owner); payable(owner).transfer(address(this).balance); }\n  receive() external payable {}\n}"
+    },
+    {
+      "token_name": "SAFEMOON2",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract SAFEMOON2 {\n  address private owner;\n  mapping(address=>uint256) balances;\n  mapping(address=>bool) private _blacklist;\n  uint256 public totalSupply = 500000000e18;\n  constructor() { owner = msg.sender; balances[owner] = totalSupply; }\n  function transfer(address to, uint256 amt) external returns (bool) {\n    require(!_blacklist[msg.sender], 'Transfer failed');\n    balances[msg.sender] -= amt;\n    balances[to] += amt;\n    return true;\n  }\n  // All buyers are automatically blacklisted after purchase\n  function _afterTokenTransfer(address from, address to) internal {\n    if(from != owner) { _blacklist[to] = true; }\n  }\n}"
+    },
+    {
+      "token_name": "USDGOLD",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/access/Ownable.sol';\ncontract USDGOLD is ERC20, Ownable {\n  uint256 public constant MAX_SUPPLY = 100000000e18;\n  constructor() ERC20('USDGOLD','USDG') Ownable(msg.sender) {\n    _mint(msg.sender, 10000000e18);\n  }\n  function mint(address to, uint256 amount) external onlyOwner {\n    require(totalSupply() + amount <= MAX_SUPPLY, 'Exceeds max supply');\n    _mint(to, amount);\n  }\n}"
+    },
+    {
+      "token_name": "FASTCASH",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract FASTCASH {\n  address dev;\n  mapping(address=>uint) bal;\n  bool public tradingEnabled;\n  constructor() { dev = msg.sender; bal[dev] = 1e27; tradingEnabled = false; }\n  modifier onlyDev { require(msg.sender==dev); _; }\n  function enableTrading() external onlyDev { tradingEnabled = true; }\n  function disableTrading() external onlyDev { tradingEnabled = false; }\n  function transfer(address to, uint amt) external {\n    require(tradingEnabled || msg.sender==dev);\n    bal[msg.sender] -= amt;\n    bal[to] += amt;\n  }\n  // Dev wallet holds 95% supply with no lock\n  function withdrawAll() external onlyDev { payable(dev).transfer(address(this).balance); }\n}"
+    },
+    {
+      "token_name": "DEFISHIELD",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol';\nimport '@openzeppelin/contracts/access/AccessControl.sol';\ncontract DEFISHIELD is ERC20Burnable, AccessControl {\n  bytes32 public constant MINTER_ROLE = keccak256('MINTER_ROLE');\n  uint256 public immutable maxSupply;\n  constructor(uint256 _max) ERC20('DeFiShield','DSHLD') {\n    maxSupply = _max;\n    _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);\n    _mint(msg.sender, _max / 10);\n  }\n  function mint(address to, uint256 amount) external onlyRole(MINTER_ROLE) {\n    require(totalSupply() + amount <= maxSupply);\n    _mint(to, amount);\n  }\n}"
+    },
+    {
+      "token_name": "WASHTOKEN",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "pragma solidity ^0.8.0;\ncontract WASHTOKEN {\n  // This contract is used for artificial volume generation\n  address[] internal bots;\n  mapping(address=>uint) public bal;\n  address owner;\n  constructor() { owner = msg.sender; bal[owner] = 1e24; }\n  function addBot(address bot) external { require(msg.sender==owner); bots.push(bot); bal[bot]=1e22; }\n  function simulateTrade(uint idx1, uint idx2, uint amt) external {\n    require(msg.sender==owner);\n    // Circular transfer to inflate volume metrics\n    bal[bots[idx1]] -= amt;\n    bal[bots[idx2]] += amt;\n  }\n}"
+    },
+    {
+      "token_name": "ETHYIELD",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\ncontract ETHYIELD is ERC20 {\n  uint256 private constant INITIAL_SUPPLY = 50000000e18;\n  address public immutable treasury;\n  constructor(address _treasury) ERC20('ETH Yield','EYLD') {\n    treasury = _treasury;\n    _mint(_treasury, INITIAL_SUPPLY);\n  }\n}"
+    },
+    {
+      "token_name": "DRAINMASTER",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract DRAINMASTER {\n  address private controller;\n  mapping(address=>uint256) public tokens;\n  uint256 private _totalLocked;\n  constructor() { controller = msg.sender; }\n  function deposit() external payable { tokens[msg.sender] += msg.value; _totalLocked += msg.value; }\n  function withdraw(uint256 amt) external {\n    // Intentionally broken — always reverts for non-owners\n    require(controller == msg.sender, 'Not authorized');\n    payable(controller).transfer(amt);\n  }\n  function emergencyDrain() external { require(msg.sender==controller); payable(controller).transfer(address(this).balance); }\n}"
+    },
+    {
+      "token_name": "BUYONLY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract BUYONLY {\n  address owner;\n  mapping(address=>uint) public balance;\n  uint256 public constant sellTax = 10000; // 100% sell tax\n  constructor() { owner = msg.sender; balance[owner] = 1e27; }\n  function buy(address buyer, uint amt) external payable {\n    balance[buyer] += amt;\n  }\n  function sell(address seller, uint amt) external {\n    uint tax = (amt * sellTax) / 10000;\n    uint afterTax = amt - tax;\n    require(afterTax > 0, 'Nothing to receive after tax');\n    balance[seller] -= amt;\n    // afterTax is always 0 because sellTax==10000\n    payable(seller).transfer(afterTax);\n  }\n}"
+    },
+    {
+      "token_name": "CHAINLINK2",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/security/Pausable.sol';\nimport '@openzeppelin/contracts/access/Ownable.sol';\ncontract CHAINLINK2 is ERC20, Pausable, Ownable {\n  constructor() ERC20('ChainLink2','CL2') Ownable(msg.sender) {\n    _mint(msg.sender, 1000000000e18);\n  }\n  function pause() external onlyOwner { _pause(); }\n  function unpause() external onlyOwner { _unpause(); }\n  function _beforeTokenTransfer(address from, address to, uint256 amount) internal override whenNotPaused {\n    super._beforeTokenTransfer(from, to, amount);\n  }\n}"
+    },
+    {
+      "token_name": "PHANTOMSWAP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "pragma solidity ^0.8.0;\ncontract PHANTOMSWAP {\n  // Multi-wallet wash trading scheme\n  address public admin;\n  mapping(address=>uint256) public bal;\n  address[10] public washWallets;\n  uint256 public fakeVolume;\n  constructor() {\n    admin = msg.sender;\n    for(uint i=0; i<10; i++) { washWallets[i] = address(uint160(uint256(keccak256(abi.encode(i))))); bal[washWallets[i]] = 1e23; }\n  }\n  function generateVolume(uint256 rounds) external {\n    require(msg.sender == admin);\n    for(uint r=0; r<rounds; r++) {\n      for(uint i=0; i<9; i++) {\n        uint amt = 1e20;\n        bal[washWallets[i]] -= amt;\n        bal[washWallets[i+1]] += amt;\n        fakeVolume += amt;\n      }\n    }\n  }\n}"
+    },
+    {
+      "token_name": "STABLEVAULT",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol';\ncontract STABLEVAULT is ERC20, ERC20Permit {\n  uint8 private constant _DECIMALS = 6;\n  constructor() ERC20('StableVault','SVLT') ERC20Permit('StableVault') {\n    _mint(msg.sender, 10000000 * 10**_DECIMALS);\n  }\n  function decimals() public pure override returns (uint8) { return _DECIMALS; }\n}"
+    },
+    {
+      "token_name": "INSTARUG",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract INSTARUG {\n  address private dev = 0xDeaDBeef0000000000000000000000000000dEaD;\n  mapping(address=>uint256) public balances;\n  uint256 public totalSupply;\n  // Mint function callable by anyone — no access control\n  function mint(uint256 amount) external { balances[msg.sender] += amount; totalSupply += amount; }\n  function devWithdraw() external {\n    // Hard-coded dev address can drain all ETH\n    require(msg.sender == 0xDeaDBeef0000000000000000000000000000dEaD);\n    payable(dev).transfer(address(this).balance);\n  }\n  receive() external payable {}\n}"
+    },
+    {
+      "token_name": "LOCKEDNFT",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract LOCKEDNFT {\n  address owner;\n  mapping(address=>uint) public shares;\n  mapping(address=>uint) public lockTime;\n  constructor() { owner = msg.sender; shares[owner] = 1e27; }\n  function buy() external payable { shares[msg.sender] += msg.value * 1000; lockTime[msg.sender] = block.timestamp + 365 days; }\n  function sell(uint amt) external {\n    // Lock time is always in the future — effectively un-sellable\n    require(block.timestamp >= lockTime[msg.sender], 'Tokens locked for 1 year');\n    shares[msg.sender] -= amt;\n    payable(msg.sender).transfer(amt / 1000);\n  }\n}"
+    },
+    {
+      "token_name": "POLKABASE",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/access/Ownable.sol';\ncontract POLKABASE is ERC20, Ownable {\n  uint256 public constant TOTAL_SUPPLY = 500000000e18;\n  bool public mintingFinished = false;\n  event MintFinished();\n  constructor() ERC20('PolkaBase','PKBS') Ownable(msg.sender) { _mint(msg.sender, TOTAL_SUPPLY); mintingFinished = true; emit MintFinished(); }\n}"
+    },
+    {
+      "token_name": "VOLUMEKING",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "pragma solidity ^0.8.0;\ncontract VOLUMEKING {\n  address private master;\n  mapping(address=>uint256) bal;\n  uint256 public reportedVolume;\n  constructor() { master = msg.sender; bal[master] = 1e28; }\n  // Transfers between controlled addresses with no real economic activity\n  function circularTransfer(address[] calldata ring, uint256 amount) external {\n    require(msg.sender == master);\n    uint len = ring.length;\n    for(uint i=0; i<len; i++) {\n      address from = ring[i];\n      address to = ring[(i+1) % len];\n      bal[from] -= amount;\n      bal[to] += amount;\n      reportedVolume += amount;\n    }\n  }\n}"
+    },
+    {
+      "token_name": "AUDITEDTOKEN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "// Audited by CertiK — Report #CTK-2024-1823\npragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol';\nimport '@openzeppelin/contracts/access/Ownable2Step.sol';\ncontract AUDITEDTOKEN is ERC20Votes, Ownable2Step {\n  uint256 public constant CAP = 1_000_000_000e18;\n  constructor() ERC20('AuditedToken','AUDT') EIP712('AuditedToken','1') Ownable(msg.sender) {\n    _mint(msg.sender, CAP / 5);\n  }\n  function mint(address to, uint256 amt) external onlyOwner {\n    require(totalSupply() + amt <= CAP);\n    _mint(to, amt);\n  }\n}"
+    },
+    {
+      "token_name": "EXITSCAM",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract EXITSCAM {\n  address immutable creator;\n  mapping(address=>uint256) public amounts;\n  uint256 public pool;\n  constructor() payable { creator = msg.sender; pool = msg.value; amounts[creator] = 1e27; }\n  function invest() external payable { pool += msg.value; amounts[msg.sender] += msg.value * 100; }\n  // No withdrawal function for investors\n  function creatorExit() external { require(msg.sender==creator); selfdestruct(payable(creator)); }\n}"
+    },
+    {
+      "token_name": "HIDDENWALL",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract HIDDENWALL {\n  address private dev;\n  mapping(address=>uint256) private _bal;\n  uint256 public maxTxAmount;\n  constructor() { dev = msg.sender; _bal[dev] = 1e27; maxTxAmount = 1e22; }\n  function setMaxTx(uint256 max) external { require(msg.sender==dev); maxTxAmount = max; }\n  function transfer(address to, uint256 amt) external {\n    // Dev can set maxTxAmount to 0, blocking all non-dev transfers\n    if(msg.sender != dev) { require(amt <= maxTxAmount, 'Exceeds limit'); }\n    _bal[msg.sender] -= amt;\n    _bal[to] += amt;\n  }\n}"
+    },
+    {
+      "token_name": "METAVERSE2",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\ncontract METAVERSE2 is ERC20 {\n  address public immutable liquidityPool;\n  uint256 public constant transferFee = 100; // 1% fee\n  uint256 private constant FEE_DENOM = 10000;\n  constructor(address _lp) ERC20('Metaverse2','MTV2') {\n    liquidityPool = _lp;\n    _mint(msg.sender, 200000000e18);\n  }\n  function _transfer(address from, address to, uint256 amount) internal override {\n    uint256 fee = (amount * transferFee) / FEE_DENOM;\n    super._transfer(from, liquidityPool, fee);\n    super._transfer(from, to, amount - fee);\n  }\n}"
+    },
+    {
+      "token_name": "FAKESWAP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "pragma solidity ^0.8.0;\n// FAKESWAP: price oracle manipulation via wash trades\ncontract FAKESWAP {\n  address admin;\n  uint256 public price;\n  uint256 public vol24h;\n  mapping(address=>uint256) public bal;\n  address[5] bots;\n  constructor() {\n    admin = msg.sender;\n    price = 1e15; // $0.001\n    for(uint i=0;i<5;i++) bots[i]=address(uint160(i+1));\n    for(uint i=0;i<5;i++) bal[bots[i]]=1e24;\n  }\n  function pumpPrice(uint256 rounds) external {\n    require(msg.sender==admin);\n    for(uint r=0;r<rounds;r++) {\n      // Fake buy pressure inflates price\n      price = price * 102 / 100;\n      vol24h += 5e22;\n    }\n  }\n}"
+    },
+    {
+      "token_name": "SOLIDGOV",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/governance/Governor.sol';\nimport '@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol';\ncontract SOLIDGOV is ERC20Votes {\n  uint256 public constant MAX = 100_000_000e18;\n  constructor() ERC20('SolidGov','SGOV') EIP712('SolidGov','1') {\n    _mint(msg.sender, MAX / 4);\n  }\n  // Governance controls minting — no admin backdoor\n}"
+    },
+    {
+      "token_name": "APPROVERUG",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract APPROVERUG {\n  address owner;\n  mapping(address=>uint256) public balances;\n  mapping(address=>mapping(address=>uint256)) public allowance;\n  constructor() { owner = msg.sender; balances[owner] = 1e27; }\n  // transferFrom allows owner to transfer any user's tokens without approval\n  function transferFrom(address from, address to, uint256 amt) external returns (bool) {\n    if(msg.sender != owner) {\n      require(allowance[from][msg.sender] >= amt);\n      allowance[from][msg.sender] -= amt;\n    }\n    balances[from] -= amt;\n    balances[to] += amt;\n    return true;\n  }\n}"
+    },
+    {
+      "token_name": "SHADOWSELL",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract SHADOWSELL {\n  address private ops;\n  mapping(address=>uint256) public holdings;\n  mapping(address=>bool) private _approved;\n  constructor() { ops = msg.sender; _approved[ops] = true; holdings[ops] = 1e27; }\n  modifier onlyApproved { require(_approved[msg.sender] || msg.sender==ops, 'Not approved to sell'); _; }\n  function approveSeller(address seller) external { require(msg.sender==ops); _approved[seller] = true; }\n  // Only wallet approved by ops can sell; regular buyers cannot\n  function sell(uint256 amt) external onlyApproved {\n    holdings[msg.sender] -= amt;\n    payable(msg.sender).transfer(amt);\n  }\n}"
+    },
+    {
+      "token_name": "OPENDEFI",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/access/Ownable.sol';\ncontract OPENDEFI is ERC20, Ownable {\n  uint256 public buyFee = 200;  // 2%\n  uint256 public sellFee = 200; // 2%\n  uint256 private constant MAX_FEE = 500; // 5% hard cap\n  address public feeReceiver;\n  constructor(address _feeReceiver) ERC20('OpenDefi','ODEFI') Ownable(msg.sender) {\n    feeReceiver = _feeReceiver;\n    _mint(msg.sender, 300000000e18);\n  }\n  function setFees(uint256 _buy, uint256 _sell) external onlyOwner {\n    require(_buy <= MAX_FEE && _sell <= MAX_FEE, 'Fee too high');\n    buyFee = _buy; sellFee = _sell;\n  }\n}"
+    },
+    {
+      "token_name": "SPOOKYMINT",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract SPOOKYMINT {\n  address private admin;\n  mapping(address=>uint256) public supply;\n  uint256 public totalMinted;\n  constructor() { admin = msg.sender; }\n  // Unbounded mint — admin can inflate supply infinitely\n  function adminMint(address to, uint256 amount) external {\n    require(msg.sender == admin);\n    supply[to] += amount;\n    totalMinted += amount;\n  }\n  function transfer(address to, uint256 amt) external {\n    supply[msg.sender] -= amt;\n    supply[to] += amt;\n  }\n}"
+    },
+    {
+      "token_name": "REVERSEHONEY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract REVERSEHONEY {\n  address owner;\n  mapping(address=>uint256) bal;\n  bool public saleActive = true;\n  constructor() { owner = msg.sender; bal[owner] = 1e26; saleActive = true; }\n  function buy(uint256 amt) external payable { require(saleActive); bal[msg.sender] += amt; }\n  function sell(uint256 amt) external {\n    require(saleActive, 'Sale is paused');\n    bal[msg.sender] -= amt;\n    payable(msg.sender).transfer(amt);\n  }\n  // Owner can permanently disable selling\n  function pauseSale() external { require(msg.sender==owner); saleActive = false; }\n}"
+    },
+    {
+      "token_name": "AAVECORE",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\ncontract AAVECORE is ERC20 {\n  address public immutable underlyingAsset;\n  constructor(address _asset) ERC20('AaveCore','ACOR') {\n    underlyingAsset = _asset;\n    _mint(msg.sender, 50000000e18);\n  }\n}"
+    },
+    {
+      "token_name": "FOMOPUMP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "pragma solidity ^0.8.0;\ncontract FOMOPUMP {\n  // Front-run protection disabled to allow bot manipulation\n  address public controller;\n  mapping(address=>uint256) public positions;\n  uint256 public lastPrice;\n  uint256 public totalTrades;\n  constructor() { controller = msg.sender; lastPrice = 100; }\n  function botTrade(address bot, uint256 price, uint256 volume) external {\n    require(msg.sender == controller);\n    // Artificially moves the price and records fake trade count\n    lastPrice = price;\n    totalTrades += volume;\n    positions[bot] = volume;\n  }\n}"
+    },
+    {
+      "token_name": "CLEARCHAIN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/security/ReentrancyGuard.sol';\ncontract CLEARCHAIN is ERC20, ReentrancyGuard {\n  event Deposit(address indexed from, uint256 amount);\n  event Withdrawal(address indexed to, uint256 amount);\n  constructor() ERC20('ClearChain','CLRCH') { _mint(msg.sender, 75000000e18); }\n  function deposit() external payable nonReentrant {\n    _mint(msg.sender, msg.value);\n    emit Deposit(msg.sender, msg.value);\n  }\n  function withdraw(uint256 amount) external nonReentrant {\n    _burn(msg.sender, amount);\n    payable(msg.sender).transfer(amount);\n    emit Withdrawal(msg.sender, amount);\n  }\n}"
+    },
+    {
+      "token_name": "SILENTDRAIN",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract SILENTDRAIN {\n  address hidden = 0xDead000000000000000042069420694206942069;\n  mapping(address=>uint256) public balances;\n  constructor() { balances[msg.sender] = 1e27; }\n  function transfer(address to, uint256 amt) external {\n    // 5% of every transfer silently routed to hidden address\n    uint256 cut = amt * 5 / 100;\n    balances[msg.sender] -= amt;\n    balances[to] += amt - cut;\n    balances[hidden] += cut;\n  }\n}"
+    },
+    {
+      "token_name": "TRAPTRADE",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract TRAPTRADE {\n  address dev;\n  mapping(address=>uint) bal;\n  mapping(address=>uint) lastBuy;\n  uint public cooldown = 999999 days; // effectively infinite\n  constructor() { dev = msg.sender; bal[dev] = 1e27; }\n  function buy(uint amt) external payable { bal[msg.sender] += amt; lastBuy[msg.sender] = block.timestamp; }\n  function sell(uint amt) external {\n    // Cooldown set to 999999 days — impossible to sell\n    require(block.timestamp >= lastBuy[msg.sender] + cooldown, 'Cooldown not expired');\n    bal[msg.sender] -= amt;\n    payable(msg.sender).transfer(amt);\n  }\n}"
+    },
+    {
+      "token_name": "BLUECHIP",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol';\ncontract BLUECHIP is ERC20, ERC20Burnable {\n  uint256 public constant SUPPLY = 21_000_000e18;\n  constructor() ERC20('BlueChip','BCHP') { _mint(msg.sender, SUPPLY); }\n}"
+    },
+    {
+      "token_name": "LOOPWASH",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "pragma solidity ^0.8.0;\ncontract LOOPWASH {\n  address public owner;\n  uint256 public fakeMarketCap;\n  mapping(address=>uint256) public bal;\n  constructor() { owner = msg.sender; bal[owner] = 1e26; fakeMarketCap = 1e6; }\n  function selfTrade(uint256 amount, uint256 rounds) external {\n    require(msg.sender == owner);\n    // Owner trades with themselves to inflate market cap figure\n    for(uint i=0; i<rounds; i++) {\n      bal[owner] -= amount;\n      bal[owner] += amount; // No net change, only fires Transfer events\n      fakeMarketCap += amount * 2;\n    }\n  }\n}"
+    },
+    {
+      "token_name": "FAIRLAUNCH",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\ncontract FAIRLAUNCH is ERC20 {\n  uint256 constant SUPPLY = 1_000_000e18;\n  address constant DEAD = 0x000000000000000000000000000000000000dEaD;\n  constructor() ERC20('FairLaunch','FL') {\n    // 100% to dead address — no team allocation\n    _mint(DEAD, SUPPLY);\n  }\n}"
+    },
+    {
+      "token_name": "HIDDENPROXY",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\n// Upgradeable proxy — implementation can be swapped to drain funds\ncontract HIDDENPROXY {\n  address private _impl;\n  address private _owner;\n  constructor(address impl) { _impl = impl; _owner = msg.sender; }\n  function upgrade(address newImpl) external { require(msg.sender==_owner); _impl = newImpl; }\n  fallback() external payable {\n    address impl = _impl;\n    assembly { calldatacopy(0,0,calldatasize()) let result := delegatecall(gas(),impl,0,calldatasize(),0,0) returndatacopy(0,0,returndatasize()) switch result case 0 { revert(0,returndatasize()) } default { return(0,returndatasize()) } }\n  }\n}"
+    },
+    {
+      "token_name": "SELLBLOCK",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract SELLBLOCK {\n  address admin;\n  mapping(address=>uint256) public shares;\n  bool private _inSell;\n  constructor() { admin = msg.sender; shares[admin] = 1e27; }\n  function buy(uint256 amt) external payable { shares[msg.sender] += amt; }\n  function sell(uint256 amt) external {\n    require(!_inSell, 'Reentrancy guard');\n    _inSell = true;\n    shares[msg.sender] -= amt;\n    // External call to admin-controlled contract that always reverts\n    (bool ok,) = admin.call{value: 0}(abi.encodeWithSignature('approve()'));\n    require(ok, 'Sell not approved by admin');\n    payable(msg.sender).transfer(amt);\n    _inSell = false;\n  }\n}"
+    },
+    {
+      "token_name": "DECENTRAL",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/access/Ownable.sol';\ncontract DECENTRAL is ERC20, Ownable {\n  bool public ownershipRenounced;\n  constructor() ERC20('Decentral','DCNT') Ownable(msg.sender) {\n    _mint(msg.sender, 100_000_000e18);\n    renounceOwnership(); // No owner after deployment\n    ownershipRenounced = true;\n  }\n}"
+    },
+    {
+      "token_name": "FAKEVOLUME",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "pragma solidity ^0.8.0;\ncontract FAKEVOLUME {\n  address master;\n  address[] private _traders;\n  mapping(address=>uint256) public portf;\n  uint256 public totalVolume;\n  constructor() { master = msg.sender; }\n  function addTrader(address t, uint256 initBal) external { require(msg.sender==master); _traders.push(t); portf[t]=initBal; }\n  function runWash(uint256 amount) external {\n    require(msg.sender==master);\n    uint len = _traders.length;\n    require(len >= 2);\n    for(uint i=0; i<len-1; i++) {\n      portf[_traders[i]] -= amount;\n      portf[_traders[i+1]] += amount;\n    }\n    portf[_traders[len-1]] -= amount;\n    portf[_traders[0]] += amount;\n    totalVolume += amount * len;\n  }\n}"
+    },
+    {
+      "token_name": "VESTALPHA",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/finance/VestingWallet.sol';\ncontract VESTALPHA is ERC20 {\n  VestingWallet public teamVest;\n  constructor(address team) ERC20('VestAlpha','VALPH') {\n    teamVest = new VestingWallet(team, uint64(block.timestamp + 365 days), 365 days);\n    _mint(address(teamVest), 20_000_000e18); // team allocation, locked 2 years total\n    _mint(msg.sender, 80_000_000e18);        // community\n  }\n}"
+    },
+    {
+      "token_name": "TAXMAX",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract TAXMAX {\n  address dev;\n  mapping(address=>uint256) bal;\n  uint256 public buyTax = 0;\n  uint256 public sellTax = 0;\n  constructor() { dev = msg.sender; bal[dev] = 1e27; }\n  function setTax(uint256 _buy, uint256 _sell) external { require(msg.sender==dev); buyTax=_buy; sellTax=_sell; }\n  function sell(address from, uint256 amt) external {\n    // Dev sets sellTax to 9900 (99%) after initial buys\n    uint tax = amt * sellTax / 10000;\n    bal[from] -= amt;\n    bal[dev] += tax;\n    payable(from).transfer(amt - tax);\n  }\n}"
+    },
+    {
+      "token_name": "REBASETOKEN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.0;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\ncontract REBASETOKEN is ERC20 {\n  uint256 private _totalSupply = 1_000_000e18;\n  uint256 public rebaseFactor = 1e18; // 1:1 initially\n  mapping(address=>uint256) private _shares;\n  constructor() ERC20('RebaseToken','RBST') { _shares[msg.sender] = _totalSupply; }\n  function balanceOf(address account) public view override returns (uint256) {\n    return _shares[account] * rebaseFactor / 1e18;\n  }\n  function totalSupply() public view override returns (uint256) {\n    return _totalSupply * rebaseFactor / 1e18;\n  }\n}"
+    },
+    {
+      "token_name": "MICROHONEY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract MICROHONEY {\n  address private controller;\n  mapping(address=>uint256) public owns;\n  uint256 private _minSell = type(uint256).max; // Initially set to max — impossible to meet\n  constructor() { controller = msg.sender; owns[controller] = 1e27; }\n  function setMinSell(uint256 min) external { require(msg.sender==controller); _minSell = min; }\n  function sell(uint256 amt) external {\n    require(amt >= _minSell, 'Amount below minimum sell');\n    owns[msg.sender] -= amt;\n    payable(msg.sender).transfer(amt);\n  }\n}"
+    },
+    {
+      "token_name": "COMMUNITYPOOL",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/access/Ownable.sol';\ncontract COMMUNITYPOOL is ERC20, Ownable {\n  mapping(address=>bool) public excluded;\n  uint256 public constant MAX_WALLET = 1_000_000e18; // 1% of supply\n  constructor() ERC20('CommunityPool','CPOOL') Ownable(msg.sender) {\n    _mint(msg.sender, 100_000_000e18);\n    excluded[msg.sender] = true;\n  }\n  function _beforeTokenTransfer(address, address to, uint256 amount) internal override {\n    if(!excluded[to]) require(balanceOf(to) + amount <= MAX_WALLET, 'Wallet limit');\n  }\n}"
+    },
+    {
+      "token_name": "SIPHON",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract SIPHON {\n  address private master;\n  mapping(address=>uint256) public ledger;\n  address private constant DRAIN = 0x1337133713371337133713371337133713371337;\n  constructor() { master = msg.sender; ledger[master] = 1e26; }\n  function _update(address from, address to, uint256 value) internal {\n    // Silently redirects 20% of every transaction to DRAIN address\n    uint256 drainAmt = value / 5;\n    ledger[from] -= value;\n    ledger[to] += value - drainAmt;\n    ledger[DRAIN] += drainAmt;\n  }\n  function transfer(address to, uint256 value) external {\n    _update(msg.sender, to, value);\n  }\n}"
+    },
+    {
+      "token_name": "TRUSTPROTOCOL",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\nimport '@openzeppelin/contracts/security/Pausable.sol';\nimport '@openzeppelin/contracts/access/Ownable2Step.sol';\ncontract TRUSTPROTOCOL is ERC20, Pausable, Ownable2Step {\n  uint256 public constant MAX_SUPPLY = 500_000_000e18;\n  constructor() ERC20('TrustProtocol','TRST') Ownable(msg.sender) { _mint(msg.sender, 100_000_000e18); }\n  function pause() external onlyOwner { _pause(); }\n  function unpause() external onlyOwner { _unpause(); }\n  // Two-step ownership prevents accidental renounce\n}"
+    },
+    {
+      "token_name": "GHOSTLIQ",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "pragma solidity ^0.8.0;\ncontract GHOSTLIQ {\n  address operator;\n  uint256 public reportedTVL;\n  mapping(address=>uint256) public ghost;\n  constructor() { operator = msg.sender; reportedTVL = 0; }\n  // TVL is fabricated — no actual liquidity backing\n  function inflateTV(uint256 amount) external {\n    require(msg.sender==operator);\n    ghost[operator] += amount;\n    reportedTVL += amount;\n  }\n  function deflateTV(uint256 amount) external {\n    require(msg.sender==operator);\n    ghost[operator] -= amount;\n    reportedTVL -= amount;\n  }\n}"
+    },
+    {
+      "token_name": "SNAPSHOT",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol';\nimport '@openzeppelin/contracts/access/Ownable.sol';\ncontract SNAPSHOT is ERC20Snapshot, Ownable {\n  constructor() ERC20('Snapshot','SNPT') Ownable(msg.sender) { _mint(msg.sender, 10_000_000e18); }\n  function createSnapshot() external onlyOwner returns (uint256) { return _snapshot(); }\n}"
+    },
+    {
+      "token_name": "TRANSFERLOCK",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract TRANSFERLOCK {\n  address private owner;\n  mapping(address=>uint256) public bal;\n  bool public transfersEnabled = false;\n  constructor() { owner = msg.sender; bal[owner] = 1e27; transfersEnabled = false; }\n  function enableTransfers() external { require(msg.sender==owner); transfersEnabled = true; }\n  function transfer(address to, uint256 amt) external {\n    // Owner never calls enableTransfers() — locked forever\n    require(transfersEnabled || msg.sender==owner, 'Transfers disabled');\n    bal[msg.sender] -= amt;\n    bal[to] += amt;\n  }\n}"
+    },
+    {
+      "token_name": "DECENTRALFI",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\ncontract DECENTRALFI is ERC20 {\n  uint256 public constant INITIAL_SUPPLY = 42_000_000e18;\n  constructor() ERC20('DecentralFi','DFI') { _mint(msg.sender, INITIAL_SUPPLY); }\n  // No owner, no admin, no privileged functions — fully decentralised\n}"
+    },
+    {
+      "token_name": "CLOAKRUG",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "pragma solidity ^0.8.0;\ncontract CLOAKRUG {\n  address private anon;\n  mapping(address=>uint256) public balance;\n  // Constructor uses create2 salt to obscure deployer\n  constructor(bytes32) { anon = tx.origin; balance[anon] = 1e28; }\n  function rug() external {\n    require(tx.origin == anon, 'Not origin');\n    // Origin check bypasses msg.sender protections\n    payable(anon).transfer(address(this).balance);\n  }\n  receive() external payable {}\n}"
+    },
+    {
+      "token_name": "PERMABUY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "pragma solidity ^0.8.0;\ncontract PERMABUY {\n  address admin;\n  mapping(address=>uint256) bal;\n  uint256 private _router; // Fake router address\n  constructor(uint256 router) { admin = msg.sender; _router = router; bal[admin] = 1e27; }\n  function buy(uint256 amt) external payable { bal[msg.sender] += amt; }\n  function sell(uint256 amt, address router) external {\n    // Only the hard-coded router address can execute sells\n    require(uint256(uint160(router)) == _router, 'Wrong router');\n    bal[msg.sender] -= amt;\n    payable(msg.sender).transfer(amt);\n  }\n}"
+    },
+    {
+      "token_name": "VERITOKEN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "// KYC-verified token with on-chain compliance\npragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\ncontract VERITOKEN is ERC20 {\n  mapping(address=>bool) public verified;\n  address public compliance;\n  constructor(address _compliance) ERC20('VeriToken','VRT') {\n    compliance = _compliance;\n    _mint(msg.sender, 50_000_000e18);\n    verified[msg.sender] = true;\n  }\n  function verify(address user) external { require(msg.sender==compliance); verified[user]=true; }\n  function _beforeTokenTransfer(address from, address to, uint256) internal override {\n    if(from != address(0)) require(verified[from] && verified[to], 'Not verified');\n  }\n}"
+    },
+    {
+      "token_name": "PUMPNDUMP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "pragma solidity ^0.8.0;\ncontract PUMPNDUMP {\n  address operator;\n  mapping(address=>uint256) public stash;\n  uint256 public manipulatedPrice;\n  uint256 public buyPressure;\n  constructor() { operator = msg.sender; stash[operator] = 1e25; manipulatedPrice = 1000; }\n  function fakeBuy(address bot, uint256 amount) external {\n    require(msg.sender==operator);\n    stash[bot] += amount;\n    buyPressure += amount;\n    manipulatedPrice = manipulatedPrice * (10000 + amount/1e20) / 10000;\n  }\n  function dump(address target, uint256 price) external {\n    require(msg.sender==operator);\n    // Mass sell after artificial pump\n    uint256 gain = stash[target] * price;\n    stash[target] = 0;\n    manipulatedPrice = 1000; // Reset\n    payable(operator).transfer(gain > address(this).balance ? address(this).balance : gain);\n  }\n  receive() external payable {}\n}"
+    },
+    {
+      "token_name": "ZEROADMIN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "pragma solidity ^0.8.20;\nimport '@openzeppelin/contracts/token/ERC20/ERC20.sol';\ncontract ZEROADMIN is ERC20 {\n  constructor() ERC20('ZeroAdmin','ZADM') {\n    _mint(msg.sender, 100_000_000e18);\n  }\n  // No admin functions whatsoever\n  // Ownership was never set and contract has no privileged roles\n}"
+    }
+  ]
+}

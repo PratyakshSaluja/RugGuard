@@ -1,0 +1,316 @@
+{
+  "samples": [
+    {
+      "token_name": "MOONROCKET",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: MOONROCKET | Network: BSC\nTransaction Pattern Analysis:\n- Deployer wallet (0xDead...1337) received 95% of initial supply at launch\n- 48 hours post-launch: deployer executed 3 rapid sell transactions totalling $2.1M\n- Liquidity pool dropped from $2.3M to $4,200 within 11 minutes\n- 1,847 holder addresses now hold worthless tokens\n- No lock contract or vesting schedule was ever deployed\n- Transfer volume: $4.8M in 72 hours, then zero\n- Deployer wallet linked to 4 previous rug pull events on BSC"
+    },
+    {
+      "token_name": "SAFEMOON2",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: SAFEMOON2 | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Buy transactions: 3,412 (avg $180 each)\n- Sell transactions: 7 (all from deployer wallet)\n- Regular users: 0 successful sells in 14 days\n- Failed sell attempts: 3,405 (100% failure rate for non-deployer)\n- Deployer sold $610,000 across 7 transactions over 5 days\n- Token price held artificially stable during sell phase\n- All buyer sell attempts fail silently or revert with generic error\n- Gas fees lost by trapped buyers: ~$42,000 in failed tx attempts"
+    },
+    {
+      "token_name": "CHAINLINK2",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: CHAINLINK2 | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Total holders: 18,432\n- Buy/sell ratio: 1.24 (healthy two-way market)\n- Largest wallet holds 2.1% of supply (team vesting contract)\n- Daily volume: $890,000 consistently over 3 months\n- Liquidity: $4.2M locked for 1 year via Team Finance\n- No anomalous wallet clustering or circular transactions\n- Deployer wallet holds 0% — distributed to community via fair launch\n- Price movement: ±8% daily, consistent with market conditions"
+    },
+    {
+      "token_name": "PHANTOMSWAP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: PHANTOMSWAP | Network: BSC\nTransaction Pattern Analysis:\n- Reported 24h volume: $28.4M\n- Unique wallet participants: 14 (same 14 wallets recycled)\n- Average trade size: $2.03M (unrealistic for token market cap of $800K)\n- Wallet cluster analysis: all 14 wallets funded from single CEX withdrawal\n- Circular flow: A->B->C->D->A pattern detected, 847 cycles in 24h\n- Price impact per trade: 0.0001% (impossible for stated volume)\n- Actual organic volume estimate: <$2,000\n- CoinMarketCap reported volume vs on-chain: 14,200x discrepancy"
+    },
+    {
+      "token_name": "USDGOLD",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: USDGOLD | Network: Polygon\nTransaction Pattern Analysis:\n- 45,000+ unique holders across 8 months\n- Team tokens: 15% vested linearly over 24 months via smart contract\n- Daily active addresses: 1,200 average\n- Buy/sell ratio last 30 days: 0.98 (balanced)\n- LP locked: $8.5M on Unicrypt for 2 years\n- Largest single holder (excluding LP): 0.8% of supply\n- No suspicious clustering or bot activity detected\n- Audited by Hacken — no critical issues found"
+    },
+    {
+      "token_name": "DRAINMASTER",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: DRAINMASTER | Network: BSC\nTransaction Pattern Analysis:\n- Total raised via presale: $890,000 from 2,341 participants\n- Day 3 post-launch: deployer called emergencyDrain() at 03:17 UTC\n- $884,000 transferred to Tornado Cash mixer in 12 transactions\n- LP removed: 100% within 4 minutes of drain call\n- Token price: $0.042 -> $0.00001 in 8 minutes\n- Deployer wallet: created 6 days before launch, no prior history\n- Social media accounts deleted within 1 hour of rug\n- Website offline within 2 hours"
+    },
+    {
+      "token_name": "DEFISHIELD",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: DEFISHIELD | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Launched 18 months ago, still active\n- Team wallet (6% of supply): fully vested and partially sold in small OTC blocks\n- Daily volume: $1.2M with 890 unique traders\n- Largest single sell in history: $48,000 (by early investor, not team)\n- Liquidity: $6.1M across Uniswap V3 — not locked but consistently maintained\n- No MEV bot activity detected\n- Community multisig controls treasury (5/9 signers)\n- Token featured in DeFiLlama with $12M TVL across protocols"
+    },
+    {
+      "token_name": "FOMOPUMP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: FOMOPUMP | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Launched Monday 09:00 UTC, volume spiked to $45M by 11:00 UTC\n- Forensic analysis: $44.7M volume from 3 coordinated wallet clusters\n- Cluster A (9 wallets): funded from single address, all created same block\n- Cluster B (6 wallets): exact same ETH amounts received from Binance\n- Cluster C (4 wallets): round-trip trades with microsecond timing\n- Legitimate organic volume: estimated $290,000\n- Price pumped 1,800% then dumped 95% over 6 hours\n- Pattern matches previous wash trade operation targeting retail FOMO"
+    },
+    {
+      "token_name": "ETHYIELD",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: ETHYIELD | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Organic holder growth: 200-400 new addresses daily for 6 months\n- Volume distribution: no single address >0.3% of daily volume\n- Team vesting: 3-year linear vest, 1-year cliff, on-chain verifiable\n- LP: $11M on Uniswap V3, managed by DAO governance\n- Sell tax: 1.5% to treasury, capped and immutable\n- Average holding period: 47 days (healthy long-term holder base)\n- 0 reports of failed sell transactions\n- Certik audit score: 94/100"
+    },
+    {
+      "token_name": "EXITSCAM",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: EXITSCAM | Network: BSC\nTransaction Pattern Analysis:\n- Raised $1.4M in 90-minute IDO\n- selfdestruct() called 72 hours after listing\n- Contract no longer exists on-chain\n- All investor funds irrecoverable\n- Dev team KYC was fake — provided stolen IDs\n- Telegram group: 14,000 members, now deleted\n- Pre-launch hype: paid promotions on 23 influencer channels ($180K spent)\n- Chain of custody: funds moved BSC -> Avalanche -> Tornado Cash"
+    },
+    {
+      "token_name": "SOLIDGOV",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: SOLIDGOV | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Governance token with 2-year track record\n- All major parameter changes executed via on-chain vote (3-day timelock)\n- Treasury: $22M managed by 7/12 multisig DAO\n- No admin keys — ownership fully renounced after 6 months\n- Trading: 78,000 holders, $3.4M daily volume\n- Institutional holdings: 3 registered funds hold 12% combined\n- Listed on 4 major CEXs with verifiable proof of reserves\n- No wash trading detected by Chainalysis"
+    },
+    {
+      "token_name": "VOLUMEKING",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: VOLUMEKING | Network: BSC\nTransaction Pattern Analysis:\n- Claimed volume rank #12 on CoinGecko: $67M/day\n- Nansen wallet labelling: 98% of volume from 'bot/automated' wallets\n- Gas cost analysis: operators paying $0.0001 per trade (subsidised bots)\n- Average buy-sell roundtrip: 2.3 seconds (impossible for human)\n- Network of 340 wallets, all created within 48h of token launch\n- Market depth: actual order book <$50,000 despite claimed $67M volume\n- Token price: perfectly flat for 30 days (price-pegging via wash)\n- Similar pattern linked to 8 other tokens by same deployer"
+    },
+    {
+      "token_name": "INSTARUG",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: INSTARUG | Network: BSC\nTransaction Pattern Analysis:\n- Presale: $340,000 raised\n- Time to rug: 6 hours after DEX listing\n- Deployer minted 10 billion extra tokens 3 hours post-launch\n- Immediate sell of minted tokens crashed price 99.7%\n- Liquidity pool drained: $338,000 to deployer\n- Victims: 891 wallet addresses\n- Pattern: deployer used Tornado Cash funded wallet\n- Same deployer involved in 6 prior rugs totalling $4.2M"
+    },
+    {
+      "token_name": "LOCKEDNFT",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: LOCKEDNFT | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Buy transactions: 1,203 over 10 days, $890,000 invested\n- Successful sell transactions: 0\n- Attempted sells: 1,201 (99.8% fail with 'Tokens locked for 1 year')\n- Token is 10 months old — lock period not yet expired for any buyer\n- Only deployer wallet has ever successfully sold\n- Deployer sold $887,000 worth via backdoor function not visible in UI\n- Price has been artificially maintained between $0.0082-$0.0091\n- Lock time has been extended 3 times via contract upgrade"
+    },
+    {
+      "token_name": "POLKABASE",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: POLKABASE | Network: Polygon\nTransaction Pattern Analysis:\n- Fixed supply: 500M tokens, minting permanently disabled\n- 2-year history with growing adoption\n- 92,000+ holders, top 20 wallets hold 31% (typical healthy distribution)\n- Average daily volume: $2.1M, 3,400 unique traders\n- LP: $9.3M across multiple DEXs\n- No lock required — no admin functions to exploit\n- Coingecko Trust Score: High\n- Featured in 3 major DeFi protocols as accepted collateral"
+    },
+    {
+      "token_name": "AUDITEDTOKEN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: AUDITEDTOKEN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- CertiK audit: 96/100, 0 critical issues\n- Supply growth: controlled via DAO governance votes only\n- No single wallet >1.2% of supply\n- Consistent $4.8M daily volume, 8,200 unique traders\n- 18-month track record with zero incidents\n- LP: $15M on Uniswap V3 + $8M on Curve\n- Team tokens: 4% supply, 3-year vest via VestingWallet contract\n- Chainalysis: no suspicious clustering or wash trading signals"
+    },
+    {
+      "token_name": "APPROVERUG",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: APPROVERUG | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Deployer exploited transferFrom() bypass to drain 2,341 holder wallets\n- Total stolen: $1.8M across 2,341 transactions in 4 minutes\n- Attack vector: transferFrom() allowed owner to skip approval check\n- Victims had approved the contract for token interactions (standard UX)\n- Funds routed: ETH -> Tornado Cash -> 3 fresh wallets\n- Pattern: victims never noticed until price hit zero\n- No public exploit disclosure until 11 days after attack\n- Similar exploit used in 2 other projects by same entity"
+    },
+    {
+      "token_name": "FAKESWAP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: FAKESWAP | Network: BSC\nTransaction Pattern Analysis:\n- 24h volume: $31M reported\n- Actual unique trader count: 8 wallets\n- Price oracle manipulation detected: 47 artificial price updates per hour\n- Wallet funding source: single Binance hot wallet\n- Trade timing: all trades within ±2 seconds of each other (bot coordination)\n- On-chain analysis by Chainalysis: 99.3% wash trading probability\n- Project claims: 50,000 users, real unique addresses: 31\n- Purpose: inflate CoinGecko/CMC rankings to attract retail investors"
+    },
+    {
+      "token_name": "METAVERSE2",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: METAVERSE2 | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- 1% transfer fee routes to LP — auto-compounding mechanism\n- LP has grown organically from $500K to $4.2M over 9 months\n- 28,000 holders, consistent growth of 200-500/week\n- Daily volume: $1.8M with 1,400 unique traders\n- Largest holder (LP contract): 45% of supply\n- Team wallet: 2% of supply, locked 18 months via smart contract\n- No failed sell transactions reported in history\n- Twitter community: 48,000 followers, active development"
+    },
+    {
+      "token_name": "HIDDENWALL",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: HIDDENWALL | Network: BSC\nTransaction Pattern Analysis:\n- Phase 1 (days 1-3): maxTxAmount = 100,000 tokens, 1,203 buyers\n- Phase 2 (day 4): dev set maxTxAmount to 1 token\n- All sell attempts after day 4: fail with 'Exceeds limit'\n- Dev sold $420,000 worth before imposing limit\n- Token still shows fake price on DEX aggregators\n- 1,203 buyers cannot exit their positions\n- Tokens show as transferable in wallets but all transfer attempts fail\n- Pattern identified as 'invisible wall' honeypot variant"
+    },
+    {
+      "token_name": "OPENDEFI",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: OPENDEFI | Network: Polygon\nTransaction Pattern Analysis:\n- 2% buy + 2% sell fee, hard-capped at 5% by contract\n- Fee receiver is community DAO multisig (verified on-chain)\n- 11 months of clean trading history\n- 62,000 holders, healthy distribution (top 10 = 18% combined)\n- Volume: $900K/day average, 2,100 unique wallets\n- LP: $6.4M on QuickSwap, no unusual concentration\n- No instances of fee manipulation attempted\n- DAO has voted on fee adjustments twice (both stayed at 2%/2%)"
+    },
+    {
+      "token_name": "GHOSTLIQ",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: GHOSTLIQ | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Reported TVL: $45M; actual on-chain liquidity: $84,000\n- TVL inflation method: self-reported via custom dashboard, not DefiLlama\n- Transaction count: 3.2M reported vs 1,847 actual on-chain\n- All 1,847 real transactions from same 3 wallets cycling funds\n- No third-party integration or protocol usage detected\n- Website: elaborate UI showing fake user activity\n- Attempted to list on 4 CEXs using manipulated volume as credentials\n- All CEX applications rejected after on-chain forensics"
+    },
+    {
+      "token_name": "SILENTDRAIN",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: SILENTDRAIN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Hidden fee mechanism draining 20% of every transaction to 0x1337...\n- Address 0x1337... has accumulated $3.4M over 6 months\n- 48,000 token holders unaware of hidden drain\n- On-chain: every Transfer event shows correct amount, drain not logged\n- Detection method: balance tracking showed 20% loss on every transfer\n- Users thought they were losing to 'token fees', not noticing extra drain\n- 0x1337... recently moved $3.4M to Tornado Cash\n- All funds now considered unrecoverable"
+    },
+    {
+      "token_name": "CLEARCHAIN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: CLEARCHAIN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- 1:1 ETH-backed token with transparent reserves\n- All deposits/withdrawals fully atomic and reversible\n- 14,000 unique depositors over 8 months\n- Total deposits: 4,200 ETH (~$12.6M), zero withdrawal failures\n- Reentrancy guard verified by 2 independent audits\n- Volume: $2.4M/day, 100% organic (no incentives)\n- Largest single withdrawal: 180 ETH, completed successfully\n- Reserve ratio: 100% maintained at all times (verifiable on-chain)"
+    },
+    {
+      "token_name": "SPOOKYMINT",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: SPOOKYMINT | Network: BSC\nTransaction Pattern Analysis:\n- Launched with 100M supply\n- Day 12: admin minted 900M additional tokens (900% inflation)\n- Immediate sell of 850M tokens crashed price 94%\n- $1.1M extracted to deployer\n- Mint transaction: disguised in same block as 450 regular transfers\n- Community noticed ~4 hours after mint\n- Admin wallet had already bridged $800K to Ethereum by detection time\n- Warning signs: no mint cap, no timelock on admin functions"
+    },
+    {
+      "token_name": "BLUECHIP",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: BLUECHIP | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Fixed supply (21M), no mint function\n- 3-year trading history, no incidents\n- Largest holder: 2.8% (known DeFi fund, publicly disclosed)\n- Daily volume: $3.1M, 4,200 unique traders\n- LP: $18M on Uniswap V3, steadily grown over 2 years\n- Burn: 0.5% of sell volume burned automatically\n- 0 failed sell transactions ever\n- Holder count growth: consistent +300-600 per week for 2 years"
+    },
+    {
+      "token_name": "TAXMAX",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: TAXMAX | Network: BSC\nTransaction Pattern Analysis:\n- Launch: sellTax = 0% (to attract buyers)\n- Day 7: sellTax raised to 25%\n- Day 14: sellTax raised to 75%\n- Day 21: sellTax raised to 99%\n- Buyers who waited: receive $0.01 per $100 invested after 99% tax\n- deployer wallet extracted $2.8M via the accumulated taxes\n- Pattern: 'Tax ramp' rug — legal ambiguity used to avoid fraud charges\n- 8,200 holder wallets affected, total loss $2.7M"
+    },
+    {
+      "token_name": "REBASETOKEN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: REBASETOKEN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Rebase mechanism adjusts supply based on target price\n- Transparent rebaseFactor updated via oracle (Chainlink)\n- 22,000 holders, 14-month history\n- No admin control over rebase trigger (automated by keepers)\n- Daily volume: $1.4M, 1,800 unique traders\n- Price has maintained within 5% of $1.00 target for 12 months\n- All rebase events on-chain, logged and verifiable\n- No rugable functions — rebase is mechanical, not discretionary"
+    },
+    {
+      "token_name": "SIPHON",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: SIPHON | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Hidden 20% drain active since day 1 — 6 months undetected\n- 0x1337... (drain wallet) accumulated 42,000 ETH ($126M) over 6 months\n- Drain discovered by DeFi security researcher via balance discrepancy\n- 220,000 token holders affected\n- Each holder lost 20% of every transfer silently\n- Largest single-drain rug in ETH history at time of discovery\n- Funds scattered across 140 wallets pre-detection\n- Estimated 30% of funds laundered before public disclosure"
+    },
+    {
+      "token_name": "VESTALPHA",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: VESTALPHA | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Team tokens: 20% locked in OpenZeppelin VestingWallet, 2-year total vest\n- Community tokens: 80%, distributed via LBP launch (no whale sniping)\n- Holders: 34,000 after 10 months\n- No team sells detected (vesting contract holds all team tokens)\n- Daily volume: $2.2M, 2,900 unique wallets\n- LP: $7.4M on Uniswap V3 — unmanaged, organic liquidity\n- Buy/sell ratio last 90 days: 1.18\n- Certik KYC: team identities verified"
+    },
+    {
+      "token_name": "MICROHONEY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: MICROHONEY | Network: BSC\nTransaction Pattern Analysis:\n- Minimum sell amount: initially 1 token\n- Week 2: minimum raised to 10,000 tokens\n- Week 4: minimum raised to 1,000,000 tokens (more than most holders own)\n- Week 6: minimum raised to 1e27 (effectively infinity)\n- Buy transactions: 2,890, all successful\n- Sell transactions: 0 successful (threshold always raised before users can sell)\n- Deployer sold $1.2M using admin bypass before raising threshold\n- Pattern: 'ratchet honeypot' — threshold raised incrementally to avoid detection"
+    },
+    {
+      "token_name": "COMMUNITYPOOL",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: COMMUNITYPOOL | Network: Polygon\nTransaction Pattern Analysis:\n- Max wallet cap (1%) prevents whale accumulation\n- 71,000 holders after 14 months — very wide distribution\n- Largest wallet: 0.97% (just under cap, verified as market maker)\n- Daily volume: $1.6M, 4,100 unique traders\n- LP: $5.8M on QuickSwap + SushiSwap\n- No exemptions from max wallet abused — team wallet also capped\n- 0 failed sell transactions\n- CommunityDAO voted cap could be lifted after 2 years (expires next month)"
+    },
+    {
+      "token_name": "LOOPWASH",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: LOOPWASH | Network: BSC\nTransaction Pattern Analysis:\n- Market cap reported: $12.4M\n- Real market cap (organic volume basis): $18,000\n- Self-trade detection: 4,822 self-trades from deployer wallet in 30 days\n- All Transfer events: src == dst (token moves to itself)\n- CoinMarketCap listing achieved via faked $8M/day volume\n- DEX listing shows healthy chart with zero real price discovery\n- 3 investors purchased based on CMC listing — lost $4,200 total\n- Linked to wash trading network spanning 12 BSC tokens"
+    },
+    {
+      "token_name": "TRANSFERLOCK",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: TRANSFERLOCK | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- transfersEnabled = false since contract deployment (240 days ago)\n- Purchase via DEX: 892 wallets bought tokens\n- Sell attempts: 892, all failed ('Transfers disabled')\n- enableTransfers() never called — owner holds the key but never enables\n- Deployer moves tokens freely (owner bypass)\n- $1.4M in user funds trapped in worthless tokens\n- Contract verified on Etherscan — the lock is clearly visible but ignored by buyers\n- Promoted as 'pre-launch tokens' with transfers 'coming soon'"
+    },
+    {
+      "token_name": "CLOAKRUG",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: CLOAKRUG | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Deployer used tx.origin check to obscure identity\n- Contract created via CREATE2 with random salt — deployer address not obvious\n- $3.2M raised over 5 days\n- rug() called by EOA with no prior on-chain history\n- All funds moved through 6 mixing hops before reaching final wallet\n- Investigators traced to a single hardware wallet not yet linked to identity\n- 4,200 victims\n- Telegram mods (who were bots) vanished simultaneously with rug"
+    },
+    {
+      "token_name": "FAIRLAUNCH",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: FAIRLAUNCH | Network: BSC\nTransaction Pattern Analysis:\n- 100% of supply sent to 0xdead at deployment — zero team allocation\n- No presale, no IDO, no private round\n- 100% community-owned from day 1\n- 41,000 holders after 8 months\n- Daily volume: $780,000, 2,100 unique traders\n- LP: $3.4M — organically grown, community-added\n- No admin functions in contract — fully immutable\n- Certik audit: 100% decentralized, no admin keys"
+    },
+    {
+      "token_name": "SHADOWSELL",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: SHADOWSELL | Network: BSC\nTransaction Pattern Analysis:\n- Sell function requires 'ops approval' — whitelist controlled by deployer\n- Buy transactions: 6,781 from regular users\n- Approved sellers (able to sell): 1 (deployer only)\n- Regular user sell success rate: 0%\n- Deployer approved themselves, sold $2.1M over 3 weeks\n- All 6,780 regular buyers permanently trapped\n- Price showed as stable during deployer's sell-off\n- Pattern: 'whitelist honeypot' — approval mechanism used as exit barrier"
+    },
+    {
+      "token_name": "SNAPSHOT",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: SNAPSHOT | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Snapshot used for governance voting and airdrop distribution\n- 3 snapshots taken, all announced 72h in advance\n- No manipulation of snapshot timing detected\n- 25,000 eligible voters in most recent snapshot\n- Snapshot-based airdrop: 8,000 unique recipients\n- Daily trading volume: $1.1M, 1,600 unique traders\n- No failed sell transactions\n- Ownership: Ownable2Step — any transfer requires new owner to accept"
+    },
+    {
+      "token_name": "REVERSEHONEY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: REVERSEHONEY | Network: BSC\nTransaction Pattern Analysis:\n- saleActive = false since day 8 (owner called pauseSale())\n- Pre-pause buys: 3,412 wallets purchased $1.8M total\n- Post-pause: all buys AND sells disabled for regular users\n- Owner (who was excluded) moved tokens and extracted LP: $1.78M\n- Users could see their balances but no transactions possible\n- Wallet explorers showed healthy holdings — funds appeared intact\n- 3,412 holders unable to do anything for 4 weeks\n- Contract: pauseSale() was audited but 'risk rated low' — missed"
+    },
+    {
+      "token_name": "DECENTRAL",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: DECENTRAL | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Ownership renounced in constructor — no admin after block 1\n- 1.5-year history, fully immutable\n- 55,000 holders, top 10 = 16.2% combined\n- Daily volume: $2.8M, 3,600 unique traders\n- LP: $8.9M — maintained by liquidity miners, not team\n- No governance mechanism — intentionally ungovernable\n- 0 incidents in 1.5 years\n- Trust score: maximum on all major analytics platforms"
+    },
+    {
+      "token_name": "PERMABUY",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: PERMABUY | Network: BSC\nTransaction Pattern Analysis:\n- Sell function requires matching a hard-coded router hash\n- 4,102 buy transactions, $2.4M invested\n- Sell attempts: 4,099, all fail with 'Wrong router'\n- Actual sellable router never disclosed to public\n- Only deployer knows the correct router value\n- Deployer executed 3 sells for $2.38M total\n- Hash obfuscation made the trap invisible to casual code review\n- Detected 3 weeks post-launch by security researcher"
+    },
+    {
+      "token_name": "PUMPNDUMP",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: PUMPNDUMP | Network: BSC\nTransaction Pattern Analysis:\n- Day 1: bot network executed 2,840 buy orders, price +1,800%\n- Day 2: social media influencers (paid $180K total) promoted token\n- Day 2, 18:00 UTC: operator dumped all holdings, price -94%\n- Total profit to operator: $4.1M\n- Retail investors who bought during pump: 12,400 wallets\n- Retail losses: $3.8M\n- Bot wallets: all self-destructed after dump\n- Pattern: coordinated pump-and-dump with paid influencer phase"
+    },
+    {
+      "token_name": "TRUSTPROTOCOL",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: TRUSTPROTOCOL | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Ownable2Step prevents accidental ownership transfer\n- Pause function used once (DeFi market crisis) and lifted after 8 hours\n- 38,000 holders, 16-month history\n- Daily volume: $1.9M, 2,400 unique traders\n- LP: $7.2M, maintained by DAO\n- All pause/unpause actions announced 24h in advance via governance forum\n- No suspicious wallet clustering\n- Insurance fund: $800K USDC covering smart contract exploits"
+    },
+    {
+      "token_name": "DECENTRALFI",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: DECENTRALFI | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- No admin, no owner, fully immutable from genesis\n- 2-year history, zero incidents\n- 88,000 holders (largest community in this report)\n- Daily volume: $6.2M, 8,400 unique traders\n- LP: $22M across 4 DEXs — deeply liquid\n- Integration: used as collateral in 6 major lending protocols\n- Chainalysis: 0 suspicious patterns across entire history\n- Listed on Coinbase, Binance, Kraken with full compliance KYC"
+    },
+    {
+      "token_name": "VERITOKEN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: VERITOKEN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- KYC verification system built into contract\n- Compliance wallet controlled by regulated entity (licensed MSB)\n- 8,400 verified holders in 6 months\n- All transfers: sender + receiver must be verified (anti-money laundering)\n- Daily volume: $440,000, 290 unique traders (lower due to KYC requirement)\n- No wash trading possible — identity verification deters bots\n- Regulatory filings: FinCEN registered, EU MiCA compliant\n- 0 fraud reports in 6 months of operation"
+    },
+    {
+      "token_name": "ZEROADMIN",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: ZEROADMIN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Truly permissionless token — no admin, no owner, no roles\n- 1-year track record\n- 29,000 holders, organic growth 150-250 new wallets/day\n- Daily volume: $1.7M, 2,200 unique traders\n- LP: $5.1M — provided by community liquidity miners\n- Certik audit: confirmed no privileged functions exist\n- Buy/sell ratio 90-day: 1.06 (near perfectly balanced)\n- Price follows market conditions naturally — no artificial pegging"
+    },
+    {
+      "token_name": "SELLBLOCK",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: SELLBLOCK | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Sell requires approval from admin-controlled external contract\n- Admin contract: programmed to always return false\n- Buy transactions: 2,109 for $1.3M\n- Successful sells: 0\n- All 2,109 sell attempts fail with 'Sell not approved by admin'\n- Admin wallet has approved 0 sellers in 60 days\n- Token UI shows as 'working' — users attribute failures to gas issues\n- Deployer used this time to sell their own holdings via bypass: $1.28M extracted"
+    },
+    {
+      "token_name": "HIDDENPROXY",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: HIDDENPROXY | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Upgradeable proxy contract — implementation swapped at day 14\n- New implementation: allowed unlimited minting and LP draining\n- Time between upgrade and rug: 3.5 minutes\n- $4.8M drained before anyone noticed\n- Upgrade transaction: buried between 400 bot transactions to obscure\n- Original implementation: audited clean, new implementation: unaudited\n- Users saw 'same contract' but different logic\n- 14,200 victims — one of largest proxy rug events recorded"
+    },
+    {
+      "token_name": "GHOSTMINT",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: GHOSTMINT | Network: BSC\nTransaction Pattern Analysis:\n- Presale collected $620,000 from 1,840 participants\n- Dev wallet controlled 88% of supply pre-listing\n- Listing day: dev sold 80% of holdings into liquidity in 11 minutes\n- Price: $0.031 -> $0.0002 (-99.4%) in under 15 minutes\n- $608,000 extracted via 3 rapid sell transactions\n- Remaining 8% of dev supply sold over next 3 days in small batches\n- Social channels deleted within 2 hours of main dump\n- Funds laundered via Ren Protocol to Bitcoin"
+    },
+    {
+      "token_name": "QUANTUM",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: QUANTUM | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- 24-month track record — one of the longest in dataset\n- 102,000 unique holders (highest in dataset)\n- Team allocation: 5%, linearly vested over 36 months\n- 0 team sells in first 18 months (verified by wallet tracking)\n- Daily volume: $4.8M, 6,200 unique traders\n- LP: $19.2M, grown from $400K organically over 2 years\n- 4 CEX listings with verified proof of reserves\n- Chainalysis trust score: 98/100"
+    },
+    {
+      "token_name": "CIRCUITBREAK",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: CIRCUITBREAK | Network: BSC\nTransaction Pattern Analysis:\n- CoinGecko top 200 by volume for 14 days straight\n- On-chain forensics: 99.1% of volume from 6 coordinated wallets\n- Each 'trade' moves tokens in a closed 6-hop loop\n- Wallet funding: all 6 wallets received exact 50 BNB from same CEX withdrawal\n- Trade timing: precisely 3 seconds apart (bot signature)\n- Real organic volume: estimated $1,200/day\n- Pattern designed to game aggregator ranking algorithms\n- Linked to 5 other BSC tokens using identical bot infrastructure"
+    },
+    {
+      "token_name": "AIRDROPRUG",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: AIRDROPRUG | Network: BSC\nTransaction Pattern Analysis:\n- 50,000 wallets received airdrop — appeared legitimate\n- All 50,000 airdrop wallets successfully transferred tokens (whitelisted)\n- Regular buyers (4,891 wallets): added to blacklist on purchase\n- Regular buyer sell success rate: 0%\n- Airdrop recipients sold $3.2M worth (they were whitelisted insiders)\n- Project appeared active but only insiders could exit\n- Detected after community noticed all sell fails from non-airdrop wallets\n- Pattern: 'airdrop honeypot' — whitelist hidden inside airdrop mechanism"
+    }
+  ]
+}
