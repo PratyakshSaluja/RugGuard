@@ -7,11 +7,12 @@ analysis) and emitting structured logs in the exact format required by
 the OpenEnv Round 1 evaluator.
 
 Environment variables (per Round 1 submission spec):
-    API_BASE_URL      OpenAI-compatible LLM endpoint
-                      (default: https://router.huggingface.co/v1)
+    API_BASE_URL      OpenAI-compatible LLM endpoint injected by validator
+                      (default: https://router.huggingface.co/v1 for local dev)
     MODEL_NAME        Model identifier
                       (default: Qwen/Qwen2.5-72B-Instruct)
-    HF_TOKEN          Hugging Face / API key — REQUIRED, no default
+    API_KEY           API key injected by the validator's LiteLLM proxy.
+                      Falls back to HF_TOKEN for local dev runs.
     LOCAL_IMAGE_NAME  Docker image tag to spin up via from_docker_image()
                       (optional; if unset, falls back to RUGGUARD_URL or
                       a default local image "rugguard-env:latest")
@@ -70,7 +71,8 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
-HF_TOKEN = os.getenv("HF_TOKEN")
+# Validator injects API_KEY for their LiteLLM proxy; HF_TOKEN is a local-dev fallback.
+API_KEY = os.getenv("API_KEY") or os.getenv("HF_TOKEN")
 LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME") or os.getenv("IMAGE_NAME")
 RUGGUARD_URL = os.getenv("RUGGUARD_URL")
 
@@ -291,7 +293,7 @@ def obs_to_dict(obs: Any) -> Dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 async def run() -> None:
-    openai_client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
+    openai_client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
 
     runners: Dict[str, TaskRunner] = {
         t: TaskRunner(t, MODEL_NAME) for t in TASK_ORDER
