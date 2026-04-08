@@ -6,7 +6,7 @@ The agent receives token data across three task types and must classify each tok
 as: rug_pull | honeypot | wash_trading | safe.
 
 Episode structure:
-  - 15 steps total: 5 contract_analysis, 5 transaction_analysis, 5 liquidity_analysis
+  - 45 steps total: 15 contract_analysis, 15 transaction_analysis, 15 liquidity_analysis
   - Samples drawn from bundled JSON datasets (no external API calls)
   - Rewards in [0, 1]: +0.5 correct verdict, +0.3 correct vuln type, +0.2 calibration
 
@@ -92,8 +92,9 @@ class RugGuardEnvironment(Environment):
 
     Args:
         data_dir: Override path to the data/ directory (default: auto-detected)
-        steps_per_task: Number of samples per task type per episode (default: 5)
+        steps_per_task: Number of samples per task type per episode (default: 15)
         seed: Optional fixed seed for reproducible sample ordering
+        task_filter: Restrict the episode to a single task type (optional)
     """
 
     def __init__(

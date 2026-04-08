@@ -7,15 +7,11 @@ Agents receive token data and must classify it as rug_pull, honeypot, wash_tradi
 
 from __future__ import annotations
 
-from typing import List, Literal, Optional
+from typing import Literal, Optional
 
 from pydantic import Field, field_validator
 
-# Support both in-repo and standalone imports
-try:
-    from openenv.core.env_server.types import Action, Observation, State
-except ImportError:
-    from openenv.core.env_server.types import Action, Observation, State
+from openenv.core.env_server.types import Action, Observation, State
 
 VerdictType = Literal["rug_pull", "honeypot", "wash_trading", "safe"]
 TaskType = Literal["contract_analysis", "transaction_analysis", "liquidity_analysis"]

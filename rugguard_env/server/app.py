@@ -6,10 +6,10 @@ Each client session gets its own environment instance (SUPPORTS_CONCURRENT_SESSI
 
 Usage:
     # Development
-    uvicorn server.app:app --reload --host 0.0.0.0 --port 7860
+    uvicorn server.app:app --reload --host 0.0.0.0 --port 8000
 
     # Production / HF Spaces
-    uvicorn server.app:app --host 0.0.0.0 --port 7860
+    uvicorn server.app:app --host 0.0.0.0 --port 8000
 """
 
 import os
@@ -69,7 +69,7 @@ def main() -> None:
     """Entry point for direct execution."""
     import uvicorn
 
-    port = int(os.getenv("PORT", "7860"))
+    port = int(os.getenv("PORT", "8000"))
     uvicorn.run(app, host="0.0.0.0", port=port)
 
 

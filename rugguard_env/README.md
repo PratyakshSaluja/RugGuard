@@ -43,7 +43,7 @@ is a pure function of `(verdict, confidence, ground_truth_label, vulnerability_t
 ```python
 from envs.rugguard_env import RugGuardEnv, RugGuardAction
 
-with RugGuardEnv(base_url="http://localhost:7860") as env:
+with RugGuardEnv(base_url="http://localhost:8000") as env:
     result = env.reset()
     obs = result.observation
     print(obs.task_type, obs.token_name)
@@ -87,7 +87,7 @@ RugGuardObservation(
     token_name: str,      # Token symbol
     token_data: str,      # Raw data for analysis
     step_number: int,     # Current step (1-indexed)
-    total_steps: int,     # Always 15
+    total_steps: int,     # Always 45 (15 per task × 3 tasks)
     last_reward: float,   # Reward from previous step
     echoed_message: str,  # Echo of last reasoning
     done: bool,
@@ -110,11 +110,11 @@ Maximum reward per step: **1.0**. All rewards clamped to `[0, 1]`.
 
 All samples are static JSON bundled in `data/` — no external API calls.
 
-| File | Task Type | Samples | Split |
-|------|-----------|---------|-------|
-| `data/contracts.json` | `contract_analysis` | 52 | ~50/50 scam/safe |
-| `data/transactions.json` | `transaction_analysis` | 52 | ~50/50 scam/safe |
-| `data/liquidity.json` | `liquidity_analysis` | 52 | ~50/50 scam/safe |
+| File | Task Type | Samples | Scam / Safe |
+|------|-----------|---------|-------------|
+| `data/contracts.json`    | `contract_analysis`    | 55 | 32 / 23 |
+| `data/transactions.json` | `transaction_analysis` | 52 | 30 / 22 |
+| `data/liquidity.json`    | `liquidity_analysis`   | 52 | 30 / 22 |
 
 ## Configuration
 
@@ -122,21 +122,22 @@ All samples are static JSON bundled in `data/` — no external API calls.
 |---------|---------|-------------|
 | `RUGGUARD_STEPS_PER_TASK` | `15` | Samples per task type per episode |
 | `RUGGUARD_SEED` | (random) | Fixed seed for reproducible sampling |
-| `PORT` | `7860` | HTTP server port |
+| `RUGGUARD_TASK_FILTER` | (none) | Restrict episode to one task type |
+| `PORT` | `8000` | HTTP server port |
 
 ## Running Locally
 
 ```bash
 # Install dependencies
-cd envs/rugguard_env
+cd rugguard_env
 pip install -e .
 
 # Start server
-uvicorn server.app:app --host 0.0.0.0 --port 7860
+uvicorn server.app:app --host 0.0.0.0 --port 8000
 
 # Or via Docker
-docker build -t rugguard-env -f server/Dockerfile .
-docker run -p 7860:7860 rugguard-env
+docker build -t rugguard-env:latest .
+docker run -p 8000:8000 rugguard-env:latest
 ```
 
 ## Validation
@@ -151,16 +152,17 @@ PYTHONPATH=src:envs uv run python -c \
 Run the baseline LLM agent against a deployed RugGuard server:
 
 ```bash
-export API_BASE_URL=https://router.huggingface.co/v1
+export API_BASE_URL=https://router.huggingface.co/v1    # or validator proxy
 export MODEL_NAME=Qwen/Qwen2.5-72B-Instruct
-export HF_TOKEN=<your_hf_token>
-export RUGGUARD_URL=http://localhost:8000   # or your HF Space URL
+export API_KEY=<your_api_key>                           # validator injects this
+export LOCAL_IMAGE_NAME=rugguard-env:latest             # script spins up the container
 python inference.py
 ```
 
 The script (`inference.py` in repo root) uses the **OpenAI client** as required
-by the spec, walks the full 15-step episode, and emits one `[START]/[STEP]*/[END]`
-block per task type.
+by the spec, calls `RugGuardEnv.from_docker_image(LOCAL_IMAGE_NAME)` to spin
+up its own container, walks the full 45-step episode, and emits one
+`[START]/[STEP]*/[END]` block per task type.
 
 ### Baseline Scores
 
@@ -169,22 +171,22 @@ Measured with `Qwen/Qwen2.5-72B-Instruct` via the HF Inference Router
 
 | Task | Score (0–1) | Success |
 |------|-------------|---------|
-| `contract_analysis` | **0.77** | true |
-| `transaction_analysis` | **0.78** | true |
-| `liquidity_analysis` | **0.73** | true |
+| `contract_analysis`    | **0.75** | true |
+| `transaction_analysis` | **0.83** | true |
+| `liquidity_analysis`   | **0.53** | true |
 
 Total runtime: **~4.5 minutes** for 45 steps (well under the 20-min budget).
 
 The dataset includes adversarial near-miss samples (fake CertiK audit
 comments, ownership-renounced rugs, honeypots that mimic legitimate
 transfer-tax tokens, soft rugs with time-delayed drains). Qwen2.5-72B
-hovers around 0.73–0.78 across all three tasks — a clear signal that
-frontier models still have headroom before saturating this benchmark.
+ranges from ~0.53 on the hardest task (`liquidity_analysis`) up to
+~0.83 on `transaction_analysis` — a clear signal that frontier models
+still have meaningful headroom before saturating this benchmark.
 
 ## Deploy to HF Spaces
 
 ```bash
-cd envs/rugguard_env
-openenv build
-openenv push --repo-id <your-org>/rugguard-env
+cd rugguard_env
+huggingface-cli upload <your-org>/rugguard-env . . --repo-type space
 ```

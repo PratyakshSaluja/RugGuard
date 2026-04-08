@@ -1,32 +1,29 @@
 """
 RugGuard Environment Client.
 
-Connects to a running RugGuardEnvironment server via WebSocket.
+HTTP/WebSocket client for a running RugGuardEnvironment server, built on
+the OpenEnv ``EnvClient`` base class.
 """
 
 from typing import Dict
 
-# Support both in-repo and standalone imports
-try:
-    from openenv.core.client_types import StepResult
-    from openenv.core.env_client import EnvClient
-    from openenv.core.env_server.types import State
+from openenv.core.client_types import StepResult
+from openenv.core.env_client import EnvClient
 
+# Support both in-repo and standalone imports for the sibling models module
+try:
     from .models import RugGuardAction, RugGuardObservation, RugGuardState
 except ImportError:
-    from openenv.core.client_types import StepResult
-    from openenv.core.env_client import EnvClient
-    from openenv.core.env_server.types import State
     from models import RugGuardAction, RugGuardObservation, RugGuardState
 
 
 class RugGuardEnv(EnvClient[RugGuardAction, RugGuardObservation, RugGuardState]):
     """
-    WebSocket client for the RugGuard token scam detection environment.
+    Client for the RugGuard token scam detection environment.
 
     Example::
 
-        with RugGuardEnv(base_url="http://localhost:7860") as env:
+        with RugGuardEnv(base_url="http://localhost:8000") as env:
             obs_result = env.reset()
             obs = obs_result.observation
             print(obs.task_type, obs.token_name)
