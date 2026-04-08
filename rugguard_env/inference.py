@@ -1,10 +1,10 @@
 """
 inference.py — RugGuard baseline inference runner.
 
-Runs an LLM agent against the RugGuard OpenEnv server, classifying crypto
-tokens across three tasks (contract / transaction / liquidity analysis) and
-emitting structured logs in the exact format required by the OpenEnv Round 1
-evaluator.
+Runs an LLM agent against the RugGuard OpenEnv environment, classifying
+crypto tokens across three tasks (contract / transaction / liquidity
+analysis) and emitting structured logs in the exact format required by
+the OpenEnv Round 1 evaluator.
 
 Environment variables (per Round 1 submission spec):
     API_BASE_URL      OpenAI-compatible LLM endpoint
@@ -12,29 +12,48 @@ Environment variables (per Round 1 submission spec):
     MODEL_NAME        Model identifier
                       (default: Qwen/Qwen2.5-72B-Instruct)
     HF_TOKEN          Hugging Face / API key — REQUIRED, no default
-    LOCAL_IMAGE_NAME  Optional, only used with from_docker_image()
-    RUGGUARD_URL      RugGuard env server URL
-                      (default: http://localhost:8000)
+    LOCAL_IMAGE_NAME  Docker image tag to spin up via from_docker_image()
+                      (optional; if unset, falls back to RUGGUARD_URL or
+                      a default local image "rugguard-env:latest")
+    RUGGUARD_URL      Direct base URL override for an already-running env
+                      (optional; only used when LOCAL_IMAGE_NAME is unset)
 
 STDOUT format (one line per event, exact key=value layout):
     [START] task=<task_name> env=<benchmark> model=<model_name>
     [STEP]  step=<n> action=<action_str> reward=<0.00> done=<true|false> error=<msg|null>
     [END]   success=<true|false> steps=<n> score=<0.00> rewards=<r1,r2,...,rn>
 
-The script emits ONE [START]/[END] block per task type (3 total), so each
-task is graded independently in the [0, 1] range as the spec requires.
+One [START] / [STEP]* / [END] block is emitted per task type (3 total),
+so each task is graded independently in the [0, 1] range as the spec
+requires.
 """
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import os
 import sys
 from typing import Any, Dict, List, Optional
 
-import requests
 from openai import OpenAI
+
+# Make the sibling `rugguard_env` package importable regardless of cwd
+_HERE = os.path.dirname(os.path.abspath(__file__))
+if _HERE not in sys.path:
+    sys.path.insert(0, _HERE)
+_PARENT = os.path.dirname(_HERE)
+if _PARENT not in sys.path:
+    sys.path.insert(0, _PARENT)
+
+try:
+    from rugguard_env import RugGuardAction, RugGuardEnv
+except ImportError:
+    # Running from inside rugguard_env/ itself
+    from client import RugGuardEnv  # type: ignore
+    from models import RugGuardAction  # type: ignore
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -47,24 +66,19 @@ logger = logging.getLogger(__name__)
 # Config — per Round 1 submission checklist:
 #   * Defaults are set ONLY for API_BASE_URL and MODEL_NAME
 #   * HF_TOKEN has NO default (must be supplied via env var)
-#   * LOCAL_IMAGE_NAME is optional and only used with from_docker_image()
+#   * LOCAL_IMAGE_NAME is optional and used with from_docker_image()
 # ---------------------------------------------------------------------------
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
 HF_TOKEN = os.getenv("HF_TOKEN")
-LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
-
-RUGGUARD_URL: str = os.getenv("RUGGUARD_URL", "http://localhost:8000")
+LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME") or os.getenv("IMAGE_NAME")
+RUGGUARD_URL = os.getenv("RUGGUARD_URL")
 
 BENCHMARK = "rugguard_env"
 TEMPERATURE = 0.2
 MAX_TOKENS = 512
-HTTP_TIMEOUT = 60
-
-# Per-step max reward is 1.0 → per-task max == number of steps actually taken.
-# The runner reads `total_steps` from the env reset/step responses, so this
-# script auto-scales to whatever STEPS_PER_TASK the server is configured with.
-SUCCESS_SCORE_THRESHOLD = 0.5  # task succeeds if normalized score >= 0.5
+DEFAULT_LOCAL_IMAGE = "rugguard-env:latest"
+SUCCESS_SCORE_THRESHOLD = 0.5
 
 TASK_ORDER = ["contract_analysis", "transaction_analysis", "liquidity_analysis"]
 
@@ -73,8 +87,8 @@ TASK_ORDER = ["contract_analysis", "transaction_analysis", "liquidity_analysis"]
 # Structured log helpers — exact key=value format required by evaluator
 # ---------------------------------------------------------------------------
 
-def log_start(task: str, env: str, model: str) -> None:
-    print(f"[START] task={task} env={env} model={model}", flush=True)
+def log_start(task: str, env_name: str, model: str) -> None:
+    print(f"[START] task={task} env={env_name} model={model}", flush=True)
 
 
 def log_step(
@@ -85,7 +99,6 @@ def log_step(
     error: Optional[str],
 ) -> None:
     err_str = "null" if error is None else error.replace("\n", " ").replace("\r", " ")
-    # Action must be single-line
     action_clean = action.replace("\n", " ").replace("\r", " ")
     print(
         f"[STEP] step={step} action={action_clean} reward={reward:.2f} "
@@ -106,38 +119,6 @@ def log_end(
         f"score={score:.2f} rewards={rewards_str}",
         flush=True,
     )
-
-
-# ---------------------------------------------------------------------------
-# Env HTTP helpers
-# ---------------------------------------------------------------------------
-
-def env_reset(base_url: str) -> Dict[str, Any]:
-    resp = requests.post(f"{base_url}/reset", json={}, timeout=HTTP_TIMEOUT)
-    resp.raise_for_status()
-    return resp.json()
-
-
-def env_step(base_url: str, action: Dict[str, Any]) -> Dict[str, Any]:
-    resp = requests.post(
-        f"{base_url}/step", json={"action": action}, timeout=HTTP_TIMEOUT
-    )
-    resp.raise_for_status()
-    return resp.json()
-
-
-def parse_obs(payload: Dict[str, Any]) -> Dict[str, Any]:
-    obs = payload.get("observation", payload)
-    return {
-        "task_type": obs.get("task_type", "contract_analysis"),
-        "token_name": obs.get("token_name", ""),
-        "token_data": obs.get("token_data", ""),
-        "step_number": obs.get("step_number", 1),
-        "total_steps": obs.get("total_steps", 45),
-        "last_reward": obs.get("last_reward", 0.0),
-        "done": payload.get("done", obs.get("done", False)),
-        "reward": payload.get("reward", obs.get("reward", 0.0)),
-    }
 
 
 # ---------------------------------------------------------------------------
@@ -188,7 +169,6 @@ def get_verdict(client: OpenAI, obs: Dict[str, Any]) -> Dict[str, Any]:
             stream=False,
         )
         text = (completion.choices[0].message.content or "").strip()
-        # Strip markdown fences if present
         if text.startswith("```"):
             text = "\n".join(
                 l for l in text.splitlines() if not l.startswith("```")
@@ -240,7 +220,7 @@ class TaskRunner:
             self.last_error = error
 
     def emit(self) -> Dict[str, Any]:
-        log_start(task=self.task_name, env=BENCHMARK, model=self.model_name)
+        log_start(task=self.task_name, env_name=BENCHMARK, model=self.model_name)
         for i, s in enumerate(self.steps, start=1):
             log_step(
                 step=i,
@@ -268,36 +248,80 @@ class TaskRunner:
 
 
 # ---------------------------------------------------------------------------
+# Environment lifecycle
+# ---------------------------------------------------------------------------
+
+async def create_env() -> RugGuardEnv:
+    """
+    Create and connect a RugGuardEnv client.
+
+    Preference order:
+      1. LOCAL_IMAGE_NAME / IMAGE_NAME → spin up Docker container
+      2. RUGGUARD_URL → connect to an already-running server
+      3. Fall back to DEFAULT_LOCAL_IMAGE
+    """
+    image = LOCAL_IMAGE_NAME
+    url = RUGGUARD_URL
+
+    if image:
+        logger.info(f"Starting env container from image: {image}")
+        return await RugGuardEnv.from_docker_image(image)
+
+    if url:
+        logger.info(f"Connecting to existing env at: {url}")
+        env = RugGuardEnv(base_url=url)
+        await env.connect()
+        return env
+
+    logger.info(f"No LOCAL_IMAGE_NAME/RUGGUARD_URL set; using default image: {DEFAULT_LOCAL_IMAGE}")
+    return await RugGuardEnv.from_docker_image(DEFAULT_LOCAL_IMAGE)
+
+
+def obs_to_dict(obs: Any) -> Dict[str, Any]:
+    """Convert a Pydantic observation to a plain dict for prompt building."""
+    if hasattr(obs, "model_dump"):
+        return obs.model_dump()
+    if hasattr(obs, "dict"):
+        return obs.dict()
+    return dict(obs) if obs else {}
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
-def main() -> None:
-    client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
+async def run() -> None:
+    openai_client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
 
     runners: Dict[str, TaskRunner] = {
         t: TaskRunner(t, MODEL_NAME) for t in TASK_ORDER
     }
 
     fatal_error: Optional[str] = None
+    env: Optional[RugGuardEnv] = None
 
     try:
-        reset_payload = env_reset(RUGGUARD_URL)
-        obs = parse_obs(reset_payload)
-        logger.info(f"Episode started — first token: {obs['token_name']}")
+        env = await create_env()
 
-        # Walk the full episode; route each step to its task's runner
-        max_steps = obs.get("total_steps", 45)
+        reset_result = await env.reset()
+        obs = reset_result.observation
+        logger.info(f"Episode started — first token: {getattr(obs, 'token_name', '?')}")
+
+        max_steps = int(getattr(obs, "total_steps", 45) or 45)
+        done = bool(getattr(reset_result, "done", False))
+
         for _ in range(max_steps):
-            if obs["done"]:
+            if done:
                 break
 
-            current_task = obs["task_type"]
+            obs_dict = obs_to_dict(obs)
+            current_task = obs_dict.get("task_type", "contract_analysis")
             runner = runners.get(current_task)
             if runner is None:
                 logger.warning(f"Unknown task type: {current_task}")
                 break
 
-            verdict_data = get_verdict(client, obs)
+            verdict_data = get_verdict(openai_client, obs_dict)
             action_str = (
                 f"{verdict_data['verdict']}|conf={verdict_data['confidence']:.2f}|"
                 f"{verdict_data['reasoning'][:100]}"
@@ -305,22 +329,19 @@ def main() -> None:
 
             step_error: Optional[str] = None
             try:
-                step_payload = env_step(
-                    RUGGUARD_URL,
-                    {
-                        "verdict": verdict_data["verdict"],
-                        "confidence": verdict_data["confidence"],
-                        "reasoning": verdict_data["reasoning"],
-                    },
+                action = RugGuardAction(
+                    verdict=verdict_data["verdict"],
+                    confidence=verdict_data["confidence"],
+                    reasoning=verdict_data["reasoning"],
                 )
-                reward = float(step_payload.get("reward") or 0.0)
-                done = bool(step_payload.get("done", False))
-                next_obs = parse_obs(step_payload)
+                step_result = await env.step(action)
+                reward = float(getattr(step_result, "reward", 0.0) or 0.0)
+                done = bool(getattr(step_result, "done", False))
+                obs = step_result.observation
             except Exception as exc:
                 step_error = str(exc)
                 reward = 0.0
                 done = True
-                next_obs = obs
                 logger.error(f"Step error: {exc}")
 
             runner.record_step(
@@ -329,32 +350,36 @@ def main() -> None:
                 done=done,
                 error=step_error,
             )
-
             logger.info(
-                f"{current_task} | token={obs.get('token_name','?')} | "
+                f"{current_task} | token={obs_dict.get('token_name','?')} | "
                 f"verdict={verdict_data['verdict']} | reward={reward:.4f}"
             )
-
-            obs = next_obs
 
     except Exception as exc:
         fatal_error = str(exc)
         logger.error(f"Episode error: {exc}")
 
+    finally:
+        if env is not None:
+            try:
+                await env.close()
+            except Exception as exc:
+                logger.warning(f"env.close() failed: {exc}")
+
     # Emit one [START]/[STEP]*/[END] block per task, in order
     summaries = []
     for task in TASK_ORDER:
         runner = runners[task]
-        if not runner.steps and fatal_error:
+        if not runner.steps:
             # Still emit a minimal block so the evaluator sees all 3 tasks
-            log_start(task=task, env=BENCHMARK, model=MODEL_NAME)
-            log_step(step=1, action="error", reward=0.0, done=True, error=fatal_error)
+            log_start(task=task, env_name=BENCHMARK, model=MODEL_NAME)
+            err_msg = fatal_error or "no steps recorded"
+            log_step(step=1, action="error", reward=0.0, done=True, error=err_msg)
             log_end(success=False, steps=1, score=0.0, rewards=[0.0])
             summaries.append({"task": task, "score": 0.0, "success": False})
         else:
             summaries.append(runner.emit())
 
-    # Human-readable summary on stderr (does not affect [START]/[STEP]/[END] parsing)
     logger.info("=" * 60)
     for s in summaries:
         logger.info(
@@ -362,8 +387,24 @@ def main() -> None:
         )
     logger.info("=" * 60)
 
-    if fatal_error:
-        sys.exit(1)
+
+def main() -> None:
+    try:
+        asyncio.run(run())
+    except Exception as exc:
+        # Fallback — ensure we never exit with an unhandled exception
+        logger.error(f"Fatal inference error: {exc}")
+        for task in TASK_ORDER:
+            log_start(task=task, env_name=BENCHMARK, model=MODEL_NAME)
+            log_step(
+                step=1,
+                action="fatal_error",
+                reward=0.0,
+                done=True,
+                error=str(exc),
+            )
+            log_end(success=False, steps=1, score=0.0, rewards=[0.0])
+        sys.exit(0)  # exit 0 so the evaluator still reads the logs
 
 
 if __name__ == "__main__":
