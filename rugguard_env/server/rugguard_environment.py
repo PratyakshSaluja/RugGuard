@@ -6,15 +6,17 @@ An LLM-agent environment for detecting crypto token scams.
 Episode structure:
   - 45 token classifications across 3 task types (15 each)
   - Per token: agent can investigate (up to 3 times) then must classify
-  - Investigation actions don't consume a "token step" — they add info
+  - Investigation results are pre-baked in the dataset (no runtime generation)
   - Classification submits the verdict and advances to the next token
 
-Reward function:
-  - +0.5 correct verdict
-  - +0.2 correct vulnerability type (scam tokens only)
+Reward function (5 components, max 1.0 per step):
+  - +0.50 correct verdict
+  - +0.20 correct vulnerability type (scam tokens only)
   - +0.15 confidence calibration
-  - +0.1 partial credit for nearby verdicts
+  - +0.10 partial credit for close-but-wrong
   - +0.05 investigation efficiency bonus
+
+Difficulty: samples are tagged easy/medium/hard and ordered progressively.
 
 Design note:
   Episode state is stored as instance variables, NOT in RugGuardState.
@@ -25,7 +27,6 @@ import json
 import logging
 import os
 import random
-import hashlib
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
@@ -65,8 +66,7 @@ ALL_TOOLS = [
 
 SUPPORTS_CONCURRENT_SESSIONS = False
 
-# Partial credit matrix — closer wrong answers get some reward
-# (true_label, predicted_label) -> partial credit [0, 0.1]
+# Partial credit: closer wrong answers get some reward
 PARTIAL_CREDIT = {
     ("rug_pull", "honeypot"): 0.05,
     ("rug_pull", "wash_trading"): 0.02,
@@ -74,7 +74,6 @@ PARTIAL_CREDIT = {
     ("honeypot", "wash_trading"): 0.02,
     ("wash_trading", "rug_pull"): 0.02,
     ("wash_trading", "honeypot"): 0.02,
-    # saying "safe" when it's a scam or vice versa = 0
 }
 
 
@@ -90,268 +89,23 @@ def _compute_reward(
     ground_truth_vuln: Optional[str],
     num_investigations: int,
 ) -> float:
-    """
-    Reward components (clamped to [0, 1]):
-      +0.50  correct verdict
-      +0.20  correct vulnerability type (scam tokens only)
-      +0.15  confidence calibration
-      +0.10  partial credit for close-but-wrong
-      +0.05  investigation efficiency
-    """
     reward = 0.0
     correct = verdict == ground_truth_label
 
-    # Correct verdict
     if correct:
         reward += 0.50
-
-    # Correct vulnerability type
     if ground_truth_vuln is not None and correct:
         reward += 0.20
-
-    # Confidence calibration
     if correct:
         reward += 0.15 * confidence
     else:
         reward += 0.15 * (1.0 - confidence)
-
-    # Partial credit for nearby wrong answers
     if not correct:
         reward += PARTIAL_CREDIT.get((ground_truth_label, verdict), 0.0)
-
-    # Investigation efficiency: reward for using fewer investigations
-    # 0 investigations = full bonus, 3 = no bonus
-    investigation_bonus = 0.05 * (1.0 - num_investigations / MAX_INVESTIGATIONS_PER_TOKEN)
     if correct:
-        reward += investigation_bonus
+        reward += 0.05 * (1.0 - num_investigations / MAX_INVESTIGATIONS_PER_TOKEN)
 
     return round(min(1.0, max(0.0, reward)), 4)
-
-
-def _generate_investigation_result(
-    tool: str,
-    sample: dict,
-    label: str,
-    rng: random.Random,
-) -> str:
-    """Generate investigation results that provide useful but not definitive clues."""
-    token_name = sample["token_name"]
-
-    if tool == "holder_distribution":
-        if label == "rug_pull":
-            return (
-                f"Holder Analysis for {token_name}:\n"
-                f"- Top wallet holds {rng.randint(60,92)}% of supply\n"
-                f"- Top 5 wallets hold {rng.randint(85,98)}% of supply\n"
-                f"- {rng.randint(50,500)} total holders\n"
-                f"- Gini coefficient: {rng.uniform(0.85,0.98):.2f} (highly concentrated)\n"
-                f"- Top wallet funded via bridge/mixer {rng.randint(1,7)} days before token creation"
-            )
-        elif label == "honeypot":
-            return (
-                f"Holder Analysis for {token_name}:\n"
-                f"- {rng.randint(500,5000)} holders (growing — buy-only pressure)\n"
-                f"- Top wallet: {rng.randint(15,40)}% (deployer/whitelisted)\n"
-                f"- Median wallet balance: ${rng.randint(50,500)}\n"
-                f"- No wallets have successfully reduced their position\n"
-                f"- Holder count only increases — zero exits in {rng.randint(5,30)} days"
-            )
-        elif label == "wash_trading":
-            return (
-                f"Holder Analysis for {token_name}:\n"
-                f"- {rng.randint(10,30)} total holders\n"
-                f"- Top {rng.randint(5,15)} wallets created within same {rng.randint(1,24)}h window\n"
-                f"- All active trading wallets funded from {rng.randint(1,3)} source address(es)\n"
-                f"- Wallet age average: {rng.randint(1,14)} days\n"
-                f"- No wallets have any other token holdings"
-            )
-        else:  # safe
-            return (
-                f"Holder Analysis for {token_name}:\n"
-                f"- {rng.randint(5000,100000)} holders\n"
-                f"- Top wallet: {rng.uniform(1.5,4):.1f}% (protocol treasury, multisig)\n"
-                f"- Top 10: {rng.uniform(15,30):.0f}% (includes DEX pairs and protocols)\n"
-                f"- Gini: {rng.uniform(0.4,0.65):.2f} (well distributed)\n"
-                f"- Organic growth: +{rng.uniform(2,8):.0f}% holders/month"
-            )
-
-    elif tool == "contract_functions":
-        if label == "rug_pull":
-            funcs = rng.sample([
-                "migrateV2(address)", "emergencyWithdraw()", "recoverTokens(address,uint256)",
-                "setRouter(address)", "clearStuckBalance()", "withdrawETH()",
-            ], k=rng.randint(2, 4))
-            return (
-                f"Contract Function Analysis for {token_name}:\n"
-                f"- Owner-only functions: {', '.join(funcs)}\n"
-                f"- Ownership renounced: No\n"
-                f"- Functions that move ETH/tokens to owner: {rng.randint(2,4)}\n"
-                f"- No timelock on admin functions\n"
-                f"- Contract is {'not ' if rng.random()>0.4 else ''}verified on block explorer"
-            )
-        elif label == "honeypot":
-            return (
-                f"Contract Function Analysis for {token_name}:\n"
-                f"- updateFees(uint256,uint256) — no upper bound validation\n"
-                f"- Current sell tax: {rng.randint(80,99)}% (set via updateFees)\n"
-                f"- authorize(address[],bool) — whitelist for fee exemption\n"
-                f"- {rng.randint(1,3)} whitelisted addresses found\n"
-                f"- Transfer function has conditional logic based on sender/pair address"
-            )
-        elif label == "wash_trading":
-            return (
-                f"Contract Function Analysis for {token_name}:\n"
-                f"- batchDistribute(address[],uint256[]) — bulk token transfers\n"
-                f"- batchCollect(address[],uint256[]) — reclaim tokens from addresses\n"
-                f"- {rng.randint(5,20)} addresses registered as 'market makers'\n"
-                f"- rebalanceAllocations() called {rng.randint(50,500)} times in 24h\n"
-                f"- Circular transfer pattern visible in internal transactions"
-            )
-        else:
-            return (
-                f"Contract Function Analysis for {token_name}:\n"
-                f"- Standard ERC20 functions + {'governance voting' if rng.random()>0.5 else 'staking'}\n"
-                f"- Ownership: {'renounced' if rng.random()>0.4 else 'multisig (3/5)'}\n"
-                f"- No functions that transfer tokens/ETH to specific addresses\n"
-                f"- All admin functions have appropriate access control\n"
-                f"- Audited by {rng.choice(['Certik', 'OpenZeppelin', 'Trail of Bits'])}"
-            )
-
-    elif tool == "deployer_history":
-        if label in ("rug_pull", "honeypot"):
-            return (
-                f"Deployer History for {token_name}:\n"
-                f"- Deployer address age: {rng.randint(1,30)} days\n"
-                f"- Previous contracts deployed: {rng.randint(2,8)}\n"
-                f"- {rng.randint(1,5)} previous contracts flagged as scam\n"
-                f"- Funded via {rng.choice(['Tornado Cash', 'cross-chain bridge', 'new CEX withdrawal'])}\n"
-                f"- No ENS name or social verification"
-            )
-        elif label == "wash_trading":
-            return (
-                f"Deployer History for {token_name}:\n"
-                f"- Deployer created {rng.randint(3,12)} contracts in past {rng.randint(30,90)} days\n"
-                f"- {rng.randint(2,6)} contracts have similar bytecode patterns\n"
-                f"- All contracts have batch transfer/collect functions\n"
-                f"- Deployer also operates the market maker wallets\n"
-                f"- No public identity or team information"
-            )
-        else:
-            return (
-                f"Deployer History for {token_name}:\n"
-                f"- Deployer address age: {rng.randint(365,1800)} days\n"
-                f"- Known entity: {rng.choice(['Yes (verified team)', 'Multisig with known signers', 'DAO governance'])}\n"
-                f"- Previous contracts: {rng.randint(3,15)} (all active, no scam flags)\n"
-                f"- ENS: {token_name.lower()}.eth\n"
-                f"- Funded via {rng.choice(['Coinbase', 'known treasury multisig', 'protocol revenue'])}"
-            )
-
-    elif tool == "social_signals":
-        if label == "rug_pull":
-            return (
-                f"Social Analysis for {token_name}:\n"
-                f"- Twitter: {rng.choice(['deleted', 'inactive since rug', 'fake followers detected'])} ({rng.randint(1000,50000)} followers)\n"
-                f"- Telegram: {rng.choice(['deleted', 'admin left', 'muted all members'])}\n"
-                f"- Website: {rng.choice(['domain expired', 'CloudFlare error', 'template site'])}\n"
-                f"- Paid promotions detected from {rng.randint(2,10)} influencers\n"
-                f"- No doxxed team members"
-            )
-        elif label == "honeypot":
-            return (
-                f"Social Analysis for {token_name}:\n"
-                f"- Twitter: active, {rng.randint(5000,30000)} followers (some bought)\n"
-                f"- Telegram: {rng.randint(500,5000)} members, many complaints about selling issues\n"
-                f"- Common user complaint: 'cannot sell', 'transaction reverts', 'stuck'\n"
-                f"- Team response: 'working on DEX integration' / 'slippage issue being fixed'\n"
-                f"- Website: professional-looking, no team information"
-            )
-        elif label == "wash_trading":
-            return (
-                f"Social Analysis for {token_name}:\n"
-                f"- Promoted as 'highest volume token on {rng.choice(['BSC', 'Arbitrum'])}'\n"
-                f"- Twitter: {rng.randint(500,5000)} followers, mostly bots\n"
-                f"- Marketing focused entirely on volume/ranking metrics\n"
-                f"- Listed on CMC/CoinGecko with inflated volume stats\n"
-                f"- No organic community discussion about utility or development"
-            )
-        else:
-            return (
-                f"Social Analysis for {token_name}:\n"
-                f"- Twitter: {rng.randint(10000,200000)} followers, organic engagement\n"
-                f"- Discord: {rng.randint(5000,50000)} members, active development discussion\n"
-                f"- GitHub: {rng.randint(50,500)} stars, {rng.randint(10,100)} contributors, regular commits\n"
-                f"- Team: {'fully doxxed' if rng.random()>0.3 else 'pseudonymous but long-standing reputation'}\n"
-                f"- Media coverage: {rng.choice(['CoinDesk', 'The Block', 'Bankless'])} features"
-            )
-
-    elif tool == "similar_contracts":
-        if label in ("rug_pull", "honeypot"):
-            return (
-                f"Similar Contract Analysis for {token_name}:\n"
-                f"- Bytecode similarity: {rng.randint(85,99)}% match with {rng.randint(3,15)} known scam contracts\n"
-                f"- Common patterns: {rng.choice(['hidden owner functions', 'dynamic fee modification', 'blacklist mechanism'])}\n"
-                f"- Matched scam contracts caused total losses of ${rng.randint(500000,10000000):,}\n"
-                f"- Contract template appears to be from known scam toolkit\n"
-                f"- TokenSniffer score: {rng.randint(5,30)}/100"
-            )
-        elif label == "wash_trading":
-            return (
-                f"Similar Contract Analysis for {token_name}:\n"
-                f"- Contract contains batch transfer functions seen in {rng.randint(5,20)} other tokens\n"
-                f"- Similar contracts all have 'market maker' registration system\n"
-                f"- {rng.randint(3,8)} contracts deployed by same entity with identical structure\n"
-                f"- All similar tokens show volume anomalies on DEX aggregators\n"
-                f"- TokenSniffer score: {rng.randint(30,50)}/100"
-            )
-        else:
-            return (
-                f"Similar Contract Analysis for {token_name}:\n"
-                f"- Contract uses standard OpenZeppelin patterns\n"
-                f"- No similarity to known scam contract templates\n"
-                f"- Similar architecture to {rng.choice(['Aave', 'Compound', 'Uniswap'])} contracts\n"
-                f"- TokenSniffer score: {rng.randint(80,100)}/100\n"
-                f"- GoPlus Security: no issues detected"
-            )
-
-    elif tool == "price_history":
-        if label == "rug_pull":
-            return (
-                f"Price History for {token_name}:\n"
-                f"- Launch price: ${rng.uniform(0.001, 0.1):.4f}\n"
-                f"- ATH: ${rng.uniform(0.5, 10):.2f} (day {rng.randint(1,7)})\n"
-                f"- Crash: -{rng.randint(90,99)}% in {rng.randint(5,60)} minutes\n"
-                f"- Current: ${rng.uniform(0.00001, 0.001):.6f}\n"
-                f"- Pattern: pump-and-dump with single sharp decline event"
-            )
-        elif label == "honeypot":
-            return (
-                f"Price History for {token_name}:\n"
-                f"- Launch price: ${rng.uniform(0.01, 0.5):.4f}\n"
-                f"- Current: ${rng.uniform(0.5, 20):.2f}\n"
-                f"- Trend: monotonically increasing (no corrections)\n"
-                f"- Volatility: {rng.uniform(1,5):.1f}% daily (abnormally low)\n"
-                f"- Pattern: one-way price movement, no organic sell pressure"
-            )
-        elif label == "wash_trading":
-            return (
-                f"Price History for {token_name}:\n"
-                f"- Price range: ${rng.uniform(0.1, 1):.2f} - ${rng.uniform(1, 2):.2f}\n"
-                f"- Volatility: {rng.uniform(0.1,1):.1f}% daily (suspiciously stable)\n"
-                f"- Volume bars: uniform height (no natural variation)\n"
-                f"- Price moves in exact {rng.uniform(0.01,0.1):.2f}% increments\n"
-                f"- Pattern: algorithmically controlled, no organic market dynamics"
-            )
-        else:
-            return (
-                f"Price History for {token_name}:\n"
-                f"- Token age: {rng.randint(90,730)} days\n"
-                f"- ATH: ${rng.uniform(5, 100):.2f} | ATL: ${rng.uniform(0.1, 2):.2f}\n"
-                f"- 30d change: {rng.uniform(-20,30):+.1f}%\n"
-                f"- Volatility: {rng.uniform(5,15):.0f}% daily (normal for market cap tier)\n"
-                f"- Pattern: organic price discovery with healthy corrections"
-            )
-
-    return f"No data available for tool '{tool}'"
 
 
 class RugGuardEnvironment(Environment):
@@ -359,15 +113,11 @@ class RugGuardEnvironment(Environment):
     Crypto token scam detection environment with multi-step investigation.
 
     Each token in the episode:
-      1. Agent receives base observation
-      2. Agent can investigate (up to 3 times) to gather more data
+      1. Agent receives base observation with difficulty tier
+      2. Agent can investigate (up to 3 times) using pre-baked data
       3. Agent must classify (submit verdict)
 
-    Args:
-        data_dir: Override path to data/ directory
-        steps_per_task: Samples per task type per episode
-        seed: Fixed seed for reproducibility
-        task_filter: Restrict to single task type
+    Samples are ordered by difficulty within each task (easy → medium → hard).
     """
 
     def __init__(
@@ -385,7 +135,6 @@ class RugGuardEnvironment(Environment):
         self._total_steps = steps_per_task * len(active_tasks)
         self._seed = seed
 
-        # Load datasets
         self._datasets: Dict[str, List[dict]] = {}
         for task in TASK_ORDER:
             path = os.path.join(self._data_dir, DATA_FILES[task])
@@ -393,7 +142,6 @@ class RugGuardEnvironment(Environment):
                 self._datasets[task] = json.load(fh)["samples"]
             logger.info(f"Loaded {len(self._datasets[task])} samples for {task}")
 
-        # Episode state
         self._task_queue: List[dict] = []
         self._ep_step: int = 0
         self._ep_done: bool = False
@@ -401,8 +149,6 @@ class RugGuardEnvironment(Environment):
         self._last_reward: float = 0.0
         self._last_reasoning: str = ""
         self._episode_id: str = str(uuid4())
-
-        # Per-token investigation state
         self._current_investigations: Dict[str, str] = {}
         self._investigations_used: int = 0
 
@@ -416,6 +162,9 @@ class RugGuardEnvironment(Environment):
         for task in self._active_tasks:
             pool = self._datasets[task]
             chosen = rng.sample(pool, min(self._steps_per_task, len(pool)))
+            # Sort by difficulty within task
+            diff_order = {"easy": 0, "medium": 1, "hard": 2}
+            chosen.sort(key=lambda s: diff_order.get(s.get("difficulty", "medium"), 1))
             for sample in chosen:
                 queue.append({
                     "task_type": task,
@@ -423,6 +172,8 @@ class RugGuardEnvironment(Environment):
                     "token_data": sample["token_data"],
                     "label": sample["label"],
                     "vuln": sample.get("vulnerability_type"),
+                    "difficulty": sample.get("difficulty", "medium"),
+                    "investigations": sample.get("investigations", {}),
                 })
         return queue
 
@@ -449,7 +200,6 @@ class RugGuardEnvironment(Environment):
 
     def _current_obs(self, reward: float = 0.0, done: bool = False,
                      echoed: str = "") -> RugGuardObservation:
-        """Build observation for current token."""
         if done or self._ep_step >= len(self._task_queue):
             return RugGuardObservation(
                 task_type=self._task_queue[-1]["task_type"] if self._task_queue else "contract_analysis",
@@ -525,12 +275,9 @@ class RugGuardEnvironment(Environment):
                     echoed=f"Invalid tool or already used: {tool}"
                 )
 
-            # Generate investigation result based on label
-            seed_val = hash(f"{self._episode_id}_{self._ep_step}_{tool}")
-            rng = random.Random(seed_val)
-            result = _generate_investigation_result(
-                tool, current, current["label"], rng
-            )
+            # Look up pre-baked investigation result from dataset
+            investigations = current.get("investigations", {})
+            result = investigations.get(tool, f"No data available for {tool}")
             self._current_investigations[tool] = result
             self._investigations_used += 1
             self._state.step_count += 1
