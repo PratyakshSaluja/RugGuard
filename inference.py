@@ -333,10 +333,21 @@ async def create_env() -> RugGuardEnv:
         return await RugGuardEnv.from_docker_image(image)
 
     if url:
-        logger.info(f"Connecting to existing env at: {url}")
-        env = RugGuardEnv(base_url=url)
-        await env.connect()
-        return env
+        # HF Spaces can cold-start in 30-60s. Retry a few times so we don't
+        # fail the whole submission because the Space was asleep.
+        for attempt in range(5):
+            try:
+                logger.info(f"Connecting to env at {url} (attempt {attempt + 1}/5)")
+                env = RugGuardEnv(base_url=url)
+                await env.connect()
+                return env
+            except Exception as exc:
+                if attempt < 4:
+                    wait = 10 * (attempt + 1)
+                    logger.warning(f"Connection failed: {exc}. Retrying in {wait}s...")
+                    await asyncio.sleep(wait)
+                else:
+                    raise
 
     logger.info(f"No LOCAL_IMAGE_NAME/RUGGUARD_URL set; using default image: {DEFAULT_LOCAL_IMAGE}")
     return await RugGuardEnv.from_docker_image(DEFAULT_LOCAL_IMAGE)
