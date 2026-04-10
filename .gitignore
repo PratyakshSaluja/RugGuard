@@ -26,3 +26,4 @@ env/
 # Logs / temp
 *.log
 /tmp/
+.env

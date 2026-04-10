@@ -28,6 +28,9 @@ import os
 import sys
 from typing import Any, Dict, List, Optional
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from openai import OpenAI
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
