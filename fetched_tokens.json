@@ -1,0 +1,292 @@
+{
+  "chain_id": 1,
+  "fetched": 13,
+  "tokens": [
+    {
+      "token_name": "USDT",
+      "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+      "chain_id": 1,
+      "label": "safe",
+      "vulnerability_type": null,
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for USDT (on-chain):\n- Total holders: 13849987\n- Creator balance %: 0.000000\n- Owner balance %: 0.000001\n- LP holders: 128\n- Top holders:\n  0xf977814e... — 18.6%\n  0x47ac0fb4... — 9.4%\n  0x835678a6... — 5.8%\n  0x6c96de32... — 4.3%\n  0x5a52e96b... — 3.7%",
+        "contract_functions": "Contract Function Analysis for USDT (on-chain):\n- Is proxy contract: NO\n- Mintable: YES\n- Can reclaim ownership: NO\n- Owner can change balances: YES\n- Hidden owner: NO\n- Has selfdestruct: NO\n- Makes external calls: YES\n- Open source: YES",
+        "deployer_history": "Deployer History for USDT (on-chain):\n- Creator address: 0x36928500bc1dcd7af6a2b4008875cc336b927d57\n- Owner address: 0xc6cde7c39eb2f0f0095f41570af89efc2c1ea828\n- Creator balance: 2339.810635\n- Owner balance: 108983.767\n- On trust list: YES",
+        "social_signals": "Social Analysis for USDT (on-chain):\n- Token name: Tether USD\n- Token symbol: USDT\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for USDT (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 3/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for USDT (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV3: $37,691,415\n  UniswapV3: $16,060,428\n  UniswapV4: $11,698,187\n  UniswapV4: $10,238,808\n  UniswapV4: $9,583,357\n\nMarket Data (CoinGecko):\n- Current price: $1.0\n- Market cap: $184,177,517,326\n- 24h volume: $63,201,554,867\n- ATH: $1.32\n- From ATH: -24.39233%\n"
+      },
+      "goplus_risk_score": 1,
+      "token_data": "{\n  \"token_name\": \"Tether USD\",\n  \"token_symbol\": \"USDT\",\n  \"holder_count\": \"13849987\",\n  \"total_supply\": \"96083352472.229802\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"1\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"owner_address\": \"0xc6cde7c39eb2f0f0095f41570af89efc2c1ea828\",\n  \"creator_address\": \"0x36928500bc1dcd7af6a2b4008875cc336b927d57\",\n  \"is_blacklisted\": \"1\"\n}",
+      "difficulty": "medium"
+    },
+    {
+      "token_name": "USDC",
+      "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+      "chain_id": 1,
+      "label": "safe",
+      "vulnerability_type": null,
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for USDC (on-chain):\n- Total holders: 6808948\n- Creator balance %: 0.000000\n- Owner balance %: ?\n- LP holders: 138\n- Top holders:\n  0x37305b1c... — 7.8%\n  0x38aaef37... — 5.7%\n  0x2d4d2a02... — 4.0%\n  0xe1940f57... — 3.1%\n  0xad354cfb... — 2.5%",
+        "contract_functions": "Contract Function Analysis for USDC (on-chain):\n- Is proxy contract: YES\n- Mintable: ?\n- Can reclaim ownership: ?\n- Owner can change balances: ?\n- Hidden owner: ?\n- Has selfdestruct: ?\n- Makes external calls: ?\n- Open source: YES",
+        "deployer_history": "Deployer History for USDC (on-chain):\n- Creator address: 0x95ba4cf87d6723ad9c0db21737d862be80e93911\n- Owner address: ?\n- Creator balance: 2495.454092\n- Owner balance: ?\n- On trust list: YES",
+        "social_signals": "Social Analysis for USDC (on-chain):\n- Token name: USD Coin\n- Token symbol: USDC\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for USDC (on-chain):\n- Open source: YES\n- Is proxy: YES\n- Risk flags triggered: 0/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for USDC (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV3: $22,037,143\n  UniswapV4: $19,685,213\n  UniswapV3: $13,174,372\n  UniswapV2: $9,593,476\n  UniswapV4: $4,452,607\n\nMarket Data (CoinGecko):\n- Current price: $0.999826\n- Market cap: $78,436,271,258\n- 24h volume: $13,492,576,668\n- ATH: $1.043\n- From ATH: -4.18292%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"USD Coin\",\n  \"token_symbol\": \"USDC\",\n  \"holder_count\": \"6808948\",\n  \"total_supply\": \"55481688658.207557\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"1\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"creator_address\": \"0x95ba4cf87d6723ad9c0db21737d862be80e93911\"\n}",
+      "difficulty": "easy"
+    },
+    {
+      "token_name": "DAI",
+      "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+      "chain_id": 1,
+      "label": "safe",
+      "vulnerability_type": null,
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for DAI (on-chain):\n- Total holders: 662991\n- Creator balance %: 0.000000\n- Owner balance %: 0\n- LP holders: 2188\n- Top holders:\n  0x40ec5b33... — 20.8%\n  0xf6e72db5... — 8.8%\n  0x4dedf261... — 1.9%\n  0xbebc4478... — 1.5%\n  0x837c20d5... — 0.8%",
+        "contract_functions": "Contract Function Analysis for DAI (on-chain):\n- Is proxy contract: NO\n- Mintable: YES\n- Can reclaim ownership: NO\n- Owner can change balances: NO\n- Hidden owner: NO\n- Has selfdestruct: NO\n- Makes external calls: NO\n- Open source: YES",
+        "deployer_history": "Deployer History for DAI (on-chain):\n- Creator address: 0xb5b06a16621616875a6c2637948bf98ea57c58fa\n- Owner address: ?\n- Creator balance: 0\n- Owner balance: 0\n- On trust list: YES",
+        "social_signals": "Social Analysis for DAI (on-chain):\n- Token name: Dai Stablecoin\n- Token symbol: DAI\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for DAI (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 0/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for DAI (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV2: $4,383,336\n  UniswapV3: $1,556,495\n  UniswapV3: $1,171,852\n  UniswapV2: $543,711\n  UniswapV3: $430,559\n\nMarket Data (CoinGecko):\n- Current price: $0.997722\n- Market cap: $4,403,087,442\n- 24h volume: $28,080,076\n- ATH: $1.22\n- From ATH: -18.16014%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"Dai Stablecoin\",\n  \"token_symbol\": \"DAI\",\n  \"holder_count\": \"662991\",\n  \"total_supply\": \"4409832248.431665316634316952\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"1\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"creator_address\": \"0xb5b06a16621616875a6c2637948bf98ea57c58fa\",\n  \"is_blacklisted\": \"0\"\n}",
+      "difficulty": "easy"
+    },
+    {
+      "token_name": "UNI",
+      "address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+      "chain_id": 1,
+      "label": "safe",
+      "vulnerability_type": null,
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for UNI (on-chain):\n- Total holders: 382873\n- Creator balance %: 0.000000\n- Owner balance %: 0.259635\n- LP holders: 157\n- Top holders:\n  0x1a9c8182... — 26.0%\n  0x00000000... — 10.3% (locked)\n  0xf977814e... — 5.0%\n  0x61cb39be... — 2.3%\n  0x611f7bf8... — 1.6%",
+        "contract_functions": "Contract Function Analysis for UNI (on-chain):\n- Is proxy contract: NO\n- Mintable: NO\n- Can reclaim ownership: NO\n- Owner can change balances: NO\n- Hidden owner: NO\n- Has selfdestruct: NO\n- Makes external calls: NO\n- Open source: YES",
+        "deployer_history": "Deployer History for UNI (on-chain):\n- Creator address: 0x41653c7d61609d856f29355e404f310ec4142cfb\n- Owner address: 0x1a9c8182c09f50c8318d769245bea52c32be35bc\n- Creator balance: 0.002858162612694493\n- Owner balance: 259634857.2901\n- On trust list: YES",
+        "social_signals": "Social Analysis for UNI (on-chain):\n- Token name: Uniswap\n- Token symbol: UNI\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for UNI (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 0/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for UNI (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV3: $2,143,784\n  UniswapV2: $1,234,069\n  UniswapV4: $298,780\n  SushiSwapV2: $76,101\n  UniswapV4: $18,747\n\nMarket Data (CoinGecko):\n- Current price: $3.18\n- Market cap: $2,014,213,912\n- 24h volume: $152,496,809\n- ATH: $44.92\n- From ATH: -92.92255%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"Uniswap\",\n  \"token_symbol\": \"UNI\",\n  \"holder_count\": \"382873\",\n  \"total_supply\": \"1000000000\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"0\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"owner_address\": \"0x1a9c8182c09f50c8318d769245bea52c32be35bc\",\n  \"creator_address\": \"0x41653c7d61609d856f29355e404f310ec4142cfb\",\n  \"is_blacklisted\": \"0\"\n}",
+      "difficulty": "easy"
+    },
+    {
+      "token_name": "AAVE",
+      "address": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+      "chain_id": 1,
+      "label": "safe",
+      "vulnerability_type": null,
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for AAVE (on-chain):\n- Total holders: 193457\n- Creator balance %: 0.000000\n- Owner balance %: ?\n- LP holders: 19\n- Top holders:\n  0x4da27a54... — 18.8%\n  0xf977814e... — 6.0%\n  0x494aa25f... — 4.9%\n  0xa700b4eb... — 4.6%\n  0x47ac0fb4... — 2.5%",
+        "contract_functions": "Contract Function Analysis for AAVE (on-chain):\n- Is proxy contract: YES\n- Mintable: ?\n- Can reclaim ownership: ?\n- Owner can change balances: ?\n- Hidden owner: ?\n- Has selfdestruct: ?\n- Makes external calls: ?\n- Open source: YES",
+        "deployer_history": "Deployer History for AAVE (on-chain):\n- Creator address: 0x51f22ac850d29c879367a77d241734acb276b815\n- Owner address: ?\n- Creator balance: 0\n- Owner balance: ?\n- On trust list: ?",
+        "social_signals": "Social Analysis for AAVE (on-chain):\n- Token name: Aave Token\n- Token symbol: AAVE\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for AAVE (on-chain):\n- Open source: YES\n- Is proxy: YES\n- Risk flags triggered: 0/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for AAVE (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV4: $475,595\n  UniswapV3: $317,465\n  UniswapV4: $127,917\n  UniswapV3: $106,122\n  UniswapV4: $68,508\n\nMarket Data (CoinGecko):\n- Current price: $94.01\n- Market cap: $1,425,706,428\n- 24h volume: $282,667,331\n- ATH: $661.69\n- From ATH: -85.79126%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"Aave Token\",\n  \"token_symbol\": \"AAVE\",\n  \"holder_count\": \"193457\",\n  \"total_supply\": \"16000000\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"1\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"creator_address\": \"0x51f22ac850d29c879367a77d241734acb276b815\"\n}",
+      "difficulty": "easy"
+    },
+    {
+      "token_name": "LINK",
+      "address": "0x514910771af9ca656af840dff83e8264ecf986ca",
+      "chain_id": 1,
+      "label": "safe",
+      "vulnerability_type": null,
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for LINK (on-chain):\n- Total holders: 873271\n- Creator balance %: 0.000000\n- Owner balance %: 0\n- LP holders: 187\n- Top holders:\n  0xf977814e... — 6.8%\n  0xbc10f2e8... — 4.1%\n  0xe0b66bfc... — 3.0%\n  0x9bbb4663... — 3.0%\n  0x8652fb67... — 3.0%",
+        "contract_functions": "Contract Function Analysis for LINK (on-chain):\n- Is proxy contract: NO\n- Mintable: NO\n- Can reclaim ownership: NO\n- Owner can change balances: NO\n- Hidden owner: NO\n- Has selfdestruct: NO\n- Makes external calls: NO\n- Open source: YES",
+        "deployer_history": "Deployer History for LINK (on-chain):\n- Creator address: 0xf55037738604fddfc4043d12f25124e94d7d1780\n- Owner address: ?\n- Creator balance: 12.76681886885309716\n- Owner balance: 0\n- On trust list: YES",
+        "social_signals": "Social Analysis for LINK (on-chain):\n- Token name: ChainLink Token\n- Token symbol: LINK\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for LINK (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 0/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for LINK (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV3: $5,129,332\n  UniswapV4: $725,739\n  UniswapV2: $585,180\n  UniswapV4: $388,967\n  UniswapV3: $282,182\n\nMarket Data (CoinGecko):\n- Current price: $9.12\n- Market cap: $6,634,285,348\n- 24h volume: $306,977,283\n- ATH: $52.7\n- From ATH: -82.69449%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"ChainLink Token\",\n  \"token_symbol\": \"LINK\",\n  \"holder_count\": \"873271\",\n  \"total_supply\": \"1000000000\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"0\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"creator_address\": \"0xf55037738604fddfc4043d12f25124e94d7d1780\",\n  \"is_blacklisted\": \"0\"\n}",
+      "difficulty": "easy"
+    },
+    {
+      "token_name": "WBTC",
+      "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+      "chain_id": 1,
+      "label": "safe",
+      "vulnerability_type": null,
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for WBTC (on-chain):\n- Total holders: 179461\n- Creator balance %: 0.000000\n- Owner balance %: 0.0\n- LP holders: 183\n- Top holders:\n  0x5ee5bf7a... — 33.4%\n  0xa3a7b6f8... — 6.6%\n  0xbbbbbbbb... — 4.2%\n  0xc3d688b6... — 3.5%\n  0x3ee18b22... — 2.8%",
+        "contract_functions": "Contract Function Analysis for WBTC (on-chain):\n- Is proxy contract: NO\n- Mintable: YES\n- Can reclaim ownership: NO\n- Owner can change balances: NO\n- Hidden owner: NO\n- Has selfdestruct: NO\n- Makes external calls: NO\n- Open source: YES",
+        "deployer_history": "Deployer History for WBTC (on-chain):\n- Creator address: 0x8b41783ad99fcbeb8d575fa7a7b5a04fa0b8d80b\n- Owner address: 0xca06411bd7a7296d7dbdd0050dfc846e95febeb7\n- Creator balance: 0.000001\n- Owner balance: 0\n- On trust list: YES",
+        "social_signals": "Social Analysis for WBTC (on-chain):\n- Token name: Wrapped BTC\n- Token symbol: WBTC\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for WBTC (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 1/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for WBTC (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV3: $40,137,649\n  UniswapV3: $24,791,217\n  UniswapV3: $14,292,133\n  UniswapV3: $13,479,489\n  UniswapV4: $6,788,529\n\nMarket Data (CoinGecko):\n- Current price: $72856\n- Market cap: $8,680,298,291\n- 24h volume: $174,070,711\n- ATH: $125932\n- From ATH: -42.15993%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"Wrapped BTC\",\n  \"token_symbol\": \"WBTC\",\n  \"holder_count\": \"179461\",\n  \"total_supply\": \"119127.65562622\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"1\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"owner_address\": \"0xca06411bd7a7296d7dbdd0050dfc846e95febeb7\",\n  \"creator_address\": \"0x8b41783ad99fcbeb8d575fa7a7b5a04fa0b8d80b\",\n  \"is_blacklisted\": \"0\"\n}",
+      "difficulty": "easy"
+    },
+    {
+      "token_name": "MKR",
+      "address": "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2",
+      "chain_id": 1,
+      "label": "safe",
+      "vulnerability_type": null,
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for MKR (on-chain):\n- Total holders: 75766\n- Creator balance %: 0.000000\n- Owner balance %: 0.000245\n- LP holders: 111\n- Top holders:\n  0x2cba7663... — 43.8%\n  0x7d6149ad... — 30.8%\n  0x04b68872... — 26.5%\n  0x098f18a4... — 17.3%\n  0x1ad88451... — 13.1%",
+        "contract_functions": "Contract Function Analysis for MKR (on-chain):\n- Is proxy contract: NO\n- Mintable: YES\n- Can reclaim ownership: NO\n- Owner can change balances: NO\n- Hidden owner: YES\n- Has selfdestruct: NO\n- Makes external calls: NO\n- Open source: YES",
+        "deployer_history": "Deployer History for MKR (on-chain):\n- Creator address: 0x731c6f8c754fa404cfcc2ed8035ef79262f65702\n- Owner address: 0x0000000000000000000000000000000000000000\n- Creator balance: 0\n- Owner balance: 22.4141902967178\n- On trust list: YES",
+        "social_signals": "Social Analysis for MKR (on-chain):\n- Token name: \n- Token symbol: \n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for MKR (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 1/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for MKR (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV2: $707,657\n  UniswapV3: $170,297\n  UniswapV4: $8,621\n  UniswapV3: $1,259\n  UniswapV3: $1,123\n\nMarket Data (CoinGecko):\n- Current price: $1822.88\n- Market cap: $0\n- 24h volume: $142,998\n- ATH: $6292.31\n- From ATH: -71.11635%\n"
+      },
+      "goplus_risk_score": 1,
+      "token_data": "{\n  \"token_name\": \"\",\n  \"token_symbol\": \"\",\n  \"holder_count\": \"75766\",\n  \"total_supply\": \"91450.701464466373097803\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"1\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"owner_address\": \"0x0000000000000000000000000000000000000000\",\n  \"creator_address\": \"0x731c6f8c754fa404cfcc2ed8035ef79262f65702\",\n  \"is_blacklisted\": \"0\"\n}",
+      "difficulty": "medium"
+    },
+    {
+      "token_name": "RING Financial",
+      "address": "0x9469d013805bffb7d3debe5e7839237e535ec483",
+      "chain_id": 1,
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for RING Financial (on-chain):\n- Total holders: 8241\n- Creator balance %: 0.000139\n- Owner balance %: 0.0\n- LP holders: 11\n- Top holders:\n  0xa3a7b6f8... — 28.3%\n  0xa3252337... — 9.6%\n  0x649fdf6e... — 9.5%\n  0x0d070796... — 5.8%\n  0x0079bf68... — 5.2%",
+        "contract_functions": "Contract Function Analysis for RING Financial (on-chain):\n- Is proxy contract: NO\n- Mintable: NO\n- Can reclaim ownership: NO\n- Owner can change balances: NO\n- Hidden owner: NO\n- Has selfdestruct: NO\n- Makes external calls: YES\n- Open source: YES",
+        "deployer_history": "Deployer History for RING Financial (on-chain):\n- Creator address: 0x52386be2397e8eac26298f733b390684203fb580\n- Owner address: 0x4710573b853fdd3561cb4f60ec9394f0155d5105\n- Creator balance: 109000\n- Owner balance: 0\n- On trust list: ?",
+        "social_signals": "Social Analysis for RING Financial (on-chain):\n- Token name: Darwinia Network Native Token\n- Token symbol: \n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for RING Financial (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 2/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for RING Financial (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV2: $37,062\n  UniswapV4: $150\n  UniswapV4: $100\n  UniswapV4: $20\n  UniswapV2: $0\n\nMarket Data (CoinGecko):\n- Current price: $0.00048797\n- Market cap: $833,531\n- 24h volume: $9,753\n- ATH: $0.30361\n- From ATH: -99.83927%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"Darwinia Network Native Token\",\n  \"token_symbol\": \"\",\n  \"holder_count\": \"8241\",\n  \"total_supply\": \"781616085.296292465436945918\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"0\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"owner_address\": \"0x4710573b853fdd3561cb4f60ec9394f0155d5105\",\n  \"creator_address\": \"0x52386be2397e8eac26298f733b390684203fb580\",\n  \"is_blacklisted\": \"1\"\n}",
+      "difficulty": "hard"
+    },
+    {
+      "token_name": "KISHU",
+      "address": "0xa2b4c0af19cc16a6cfacce81f192b024d625817d",
+      "chain_id": 1,
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for KISHU (on-chain):\n- Total holders: 272022\n- Creator balance %: 0.000000\n- Owner balance %: 0.0\n- LP holders: 156\n- Top holders:\n  0xf82d8ec1... — 7.9%\n  0x91d40e48... — 7.3%\n  0x9642b23e... — 6.6%\n  0x00000000... — 3.5% (locked)\n  0xd0b829fa... — 1.6%",
+        "contract_functions": "Contract Function Analysis for KISHU (on-chain):\n- Is proxy contract: NO\n- Mintable: NO\n- Can reclaim ownership: NO\n- Owner can change balances: NO\n- Hidden owner: NO\n- Has selfdestruct: NO\n- Makes external calls: NO\n- Open source: YES",
+        "deployer_history": "Deployer History for KISHU (on-chain):\n- Creator address: 0x90ead86fca54ee9a1fe1c55c0ace5896f4319802\n- Owner address: 0x0db80dd6316f994c62e117c504f605b2cbf7520d\n- Creator balance: 52.575183004\n- Owner balance: 0\n- On trust list: ?",
+        "social_signals": "Social Analysis for KISHU (on-chain):\n- Token name: Kishu Inu\n- Token symbol: KISHU\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for KISHU (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 0/8\n- Anti-whale: YES",
+        "price_history": "Price/Liquidity for KISHU (on-chain):\n- Buy tax: 0.02\n- Sell tax: 0.0168\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV2: $253,000\n  SushiSwapV2: $7\n  UniswapV2: $6\n  UniswapV3: $0\n\nMarket Data (CoinGecko):\n- Current price: $3.2491e-11\n- Market cap: $3,135,960\n- 24h volume: $65,384\n- ATH: $1.7547e-08\n- From ATH: -99.81566%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"Kishu Inu\",\n  \"token_symbol\": \"KISHU\",\n  \"holder_count\": \"272022\",\n  \"total_supply\": \"100000000000000000\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"0\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0.02\",\n  \"sell_tax\": \"0.0168\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"owner_address\": \"0x0db80dd6316f994c62e117c504f605b2cbf7520d\",\n  \"creator_address\": \"0x90ead86fca54ee9a1fe1c55c0ace5896f4319802\",\n  \"is_blacklisted\": \"0\"\n}",
+      "difficulty": "hard"
+    },
+    {
+      "token_name": "SHIB",
+      "address": "0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce",
+      "chain_id": 1,
+      "label": "safe",
+      "vulnerability_type": null,
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for SHIB (on-chain):\n- Total holders: 1564801\n- Creator balance %: 0.000000\n- Owner balance %: 0\n- LP holders: 233\n- Top holders:\n  0xdead0000... — 41.0% (locked)\n  0x02e22015... — 6.0%\n  0x40b38765... — 3.9%\n  0xf977814e... — 3.3%\n  0xa023f08c... — 2.8%",
+        "contract_functions": "Contract Function Analysis for SHIB (on-chain):\n- Is proxy contract: NO\n- Mintable: NO\n- Can reclaim ownership: NO\n- Owner can change balances: NO\n- Hidden owner: NO\n- Has selfdestruct: NO\n- Makes external calls: NO\n- Open source: YES",
+        "deployer_history": "Deployer History for SHIB (on-chain):\n- Creator address: 0xb8f226ddb7bc672e27dffb67e4adabfa8c0dfa08\n- Owner address: ?\n- Creator balance: 50503747.734\n- Owner balance: 0\n- On trust list: YES",
+        "social_signals": "Social Analysis for SHIB (on-chain):\n- Token name: SHIBA INU\n- Token symbol: SHIB\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for SHIB (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 0/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for SHIB (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV2: $291,676\n  UniswapV3: $22,900\n  UniswapV3: $19,701\n  UniswapV3: $19,447\n  UniswapV4: $15,292\n\nMarket Data (CoinGecko):\n- Current price: $6.03e-06\n- Market cap: $3,551,723,804\n- 24h volume: $134,371,109\n- ATH: $8.616e-05\n- From ATH: -93.00456%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"SHIBA INU\",\n  \"token_symbol\": \"SHIB\",\n  \"holder_count\": \"1564801\",\n  \"total_supply\": \"999982335599865.894561898023485383\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"0\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"creator_address\": \"0xb8f226ddb7bc672e27dffb67e4adabfa8c0dfa08\",\n  \"is_blacklisted\": \"0\"\n}",
+      "difficulty": "easy"
+    },
+    {
+      "token_name": "Dejitaru Tsuka",
+      "address": "0xc5fb36dd2fb59d3b98deff88425a3f425ee469ed",
+      "chain_id": 1,
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for Dejitaru Tsuka (on-chain):\n- Total holders: 14145\n- Creator balance %: 0.000000\n- Owner balance %: 0.0\n- LP holders: 6\n- Top holders:\n  0x67cea36e... — 15.6%\n  0x9642b23e... — 3.4%\n  0xcc9b0ebd... — 2.1%\n  0x3cc936b7... — 2.1%\n  0x65c96984... — 1.6%",
+        "contract_functions": "Contract Function Analysis for Dejitaru Tsuka (on-chain):\n- Is proxy contract: NO\n- Mintable: NO\n- Can reclaim ownership: NO\n- Owner can change balances: NO\n- Hidden owner: NO\n- Has selfdestruct: NO\n- Makes external calls: NO\n- Open source: YES",
+        "deployer_history": "Deployer History for Dejitaru Tsuka (on-chain):\n- Creator address: 0x8242e56a759aa0b069b9c983fe3f582020cd1ec9\n- Owner address: 0x0000000000000000000000000000000000000000\n- Creator balance: 0.666666\n- Owner balance: 0\n- On trust list: ?",
+        "social_signals": "Social Analysis for Dejitaru Tsuka (on-chain):\n- Token name: Dejitaru Tsuka\n- Token symbol: TSUKA\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for Dejitaru Tsuka (on-chain):\n- Open source: YES\n- Is proxy: NO\n- Risk flags triggered: 3/8\n- Anti-whale: YES",
+        "price_history": "Price/Liquidity for Dejitaru Tsuka (on-chain):\n- Buy tax: 0\n- Sell tax: 0\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV2: $185,252\n  UniswapV4: $210\n  UniswapV4: $22\n  UniswapV4: $22\n  UniswapV2: $5\n\nMarket Data (CoinGecko):\n- Current price: $0.00120444\n- Market cap: $1,204,439\n- 24h volume: $54,202\n- ATH: $0.15717\n- From ATH: -99.23367%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"Dejitaru Tsuka\",\n  \"token_symbol\": \"TSUKA\",\n  \"holder_count\": \"14145\",\n  \"total_supply\": \"1000000000\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"0\",\n  \"is_mintable\": \"0\",\n  \"is_honeypot\": \"0\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"owner_address\": \"0x0000000000000000000000000000000000000000\",\n  \"creator_address\": \"0x8242e56a759aa0b069b9c983fe3f582020cd1ec9\",\n  \"is_blacklisted\": \"1\"\n}",
+      "difficulty": "hard"
+    },
+    {
+      "token_name": "EthereumMax",
+      "address": "0x15874d65e649880c2614e7a480cb7c9a55787ff6",
+      "chain_id": 1,
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "sources": [
+        "goplus",
+        "coingecko"
+      ],
+      "investigations": {
+        "holder_distribution": "Holder Analysis for EthereumMax (on-chain):\n- Total holders: 109406\n- Creator balance %: 0.000007\n- Owner balance %: ?\n- LP holders: 97\n- Top holders:\n  0x00000000... — 60.9% (locked)\n  0x2470ff67... — 56.4%\n  0xb6ca52c7... — 17.6%\n  0x5ea06a2b... — 1.8%\n  0x9ee482b1... — 1.7%",
+        "contract_functions": "Contract Function Analysis for EthereumMax (on-chain):\n- Is proxy contract: YES\n- Mintable: ?\n- Can reclaim ownership: ?\n- Owner can change balances: ?\n- Hidden owner: ?\n- Has selfdestruct: ?\n- Makes external calls: ?\n- Open source: YES",
+        "deployer_history": "Deployer History for EthereumMax (on-chain):\n- Creator address: 0xa13ed2142dffc5b38a80b2b178bab608d069d202\n- Owner address: ?\n- Creator balance: 6618819955.152170320230103515\n- Owner balance: ?\n- On trust list: ?",
+        "social_signals": "Social Analysis for EthereumMax (on-chain):\n- Token name: EthereumMax\n- Token symbol: eMax\n- Verified/true token: unknown\n- Note: Limited social data from on-chain analysis",
+        "similar_contracts": "Similar Contract Analysis for EthereumMax (on-chain):\n- Open source: YES\n- Is proxy: YES\n- Risk flags triggered: 0/8\n- Anti-whale: NO",
+        "price_history": "Price/Liquidity for EthereumMax (on-chain):\n- Buy tax: 0\n- Sell tax: 0.06\n- Cannot buy: NO\n- Cannot sell all: NO\n- Is honeypot: NO\n- DEX liquidity:\n  UniswapV2: $31,265\n  SushiSwapV2: $22\n\nMarket Data (CoinGecko):\n- Current price: $1.85185e-10\n- Market cap: $0\n- 24h volume: $1\n- ATH: $5.97636e-07\n- From ATH: -99.96901%\n"
+      },
+      "goplus_risk_score": 0,
+      "token_data": "{\n  \"token_name\": \"EthereumMax\",\n  \"token_symbol\": \"eMax\",\n  \"holder_count\": \"109406\",\n  \"total_supply\": \"899105200454669.305724690106835717\",\n  \"is_open_source\": \"1\",\n  \"is_proxy\": \"1\",\n  \"buy_tax\": \"0\",\n  \"sell_tax\": \"0.06\",\n  \"cannot_buy\": \"0\",\n  \"cannot_sell_all\": \"0\",\n  \"creator_address\": \"0xa13ed2142dffc5b38a80b2b178bab608d069d202\"\n}",
+      "difficulty": "hard"
+    }
+  ]
+}

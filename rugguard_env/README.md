@@ -10,91 +10,110 @@ pinned: false
 
 # RugGuard Environment
 
-Crypto token scam detection environment for LLM agents with **multi-step
-investigation**. Agents gather evidence using investigation tools, then classify
-tokens as `rug_pull`, `honeypot`, `wash_trading`, or `safe`.
+A benchmark environment for evaluating how well LLM agents can detect crypto token scams. Built on the OpenEnv framework.
 
-## Motivation
+The idea is simple: agents look at smart contracts, transaction histories, and liquidity pool data — the same stuff a real blockchain security analyst would review — and decide whether a token is a scam or not.
 
-Crypto rug pulls, honeypots, and wash-trading scams drain billions of dollars
-from retail users every year. RugGuard turns scam triage into a proper agent
-benchmark: the agent must reason about Solidity source code, on-chain
-transaction histories, and liquidity pool dynamics — three concrete sub-skills
-a real security analyst uses every day.
+## Why this exists
 
-**Data sources:** Patterns derived from 2,391 validated real-world rug pull
-incidents and real smart contract vulnerability patterns.
+Rug pulls, honeypots, and wash trading schemes drain billions from crypto users every year. Most detection tools are rule-based and easy to bypass. We wanted to see if LLM agents could do better by actually reasoning about the code and data, not just pattern matching.
 
-## Tasks
+The dataset is built from patterns found in 2,391 real-world rug pull incidents and actual smart contract vulnerabilities. It's not toy data.
 
-| # | Task | Difficulty | What the agent sees |
-|---|------|-----------|---------------------|
-| 1 | `contract_analysis` | Easy | Solidity source with subtle backdoors |
-| 2 | `transaction_analysis` | Medium | On-chain tx patterns |
-| 3 | `liquidity_analysis` | Hard | LP pool metrics and anomalies |
+## How it works
 
-Each task: 15 samples per episode (45 total). 120 samples per dataset (30/label).
+Each episode has 45 tokens across 3 task types (15 each). For every token, the agent can:
 
-## Action Space
+1. **Investigate** (optional, up to 3 times) — pick from 6 tools to gather more info
+2. **Classify** (required) — submit a verdict: `rug_pull`, `honeypot`, `wash_trading`, or `safe`
 
-Two-phase per token:
+Tokens are ordered easy-to-hard within each task, so the agent gets warmed up before hitting the tricky ones.
 
-### Phase 1: Investigate (optional, up to 3 per token)
+### The 3 tasks
+
+| Task | What the agent sees | Difficulty |
+|------|-------------------|------------|
+| `contract_analysis` | Solidity source code with subtle backdoors (hidden migration functions, owner-only drains, fee manipulation) | Easier — the scam logic is in the code |
+| `transaction_analysis` | On-chain transaction patterns, wallet histories, transfer flows | Medium — need to spot wash trading loops and suspicious wallet clusters |
+| `liquidity_analysis` | LP pool metrics, price data, lock status, DEX liquidity | Harder — need to understand DeFi mechanics to spot exit scam setups |
+
+### Investigation tools
+
+Before classifying, agents can use up to 3 of these to gather evidence:
+
+- `holder_distribution` — wallet concentration, top holders, funding sources
+- `contract_functions` — owner permissions, dangerous functions, timelocks
+- `deployer_history` — deployer wallet age, past contracts, scam associations
+- `social_signals` — social media presence, community health, paid promotions
+- `similar_contracts` — bytecode similarity to known scams, security scores
+- `price_history` — price action, volume patterns, liquidity depth
+
+All investigation results are pre-baked into the dataset (no runtime generation), so there's no label leakage and results are deterministic.
+
+## Reward design
+
+Each classification gets scored on 5 components (max 1.0 per token):
+
+| Component | Points | How it works |
+|-----------|--------|-------------|
+| Correct verdict | +0.50 | Did you get the right answer? |
+| Vulnerability type | +0.20 | For scam tokens: bonus for correct classification |
+| Confidence calibration | +0.15 | High confidence when right, low confidence when wrong |
+| Partial credit | +0.02-0.05 | Close answers get some credit (e.g. calling a rug pull a honeypot) |
+| Investigation efficiency | +0.05 | Bonus for using fewer investigations when you're right |
+
+The reward signal is dense — you get useful feedback every single step, not just at the end. Good for RL training.
+
+## Dataset stats
+
+- 120 samples per task (360 total across all 3 datasets)
+- 30 per label (balanced: rug_pull, honeypot, wash_trading, safe)
+- Each sample has all 6 investigation tool results pre-computed
+- 3 difficulty tiers: 40 easy / 40 medium / 40 hard per dataset
+- Patterns sourced from real incidents, not made up
+
+## Action space
+
+### Investigate
 
 ```python
 RugGuardAction(
     action_type="investigate",
-    tool="holder_distribution",  # one of 6 tools
+    tool="holder_distribution",
 )
 ```
 
-**Available tools:** `holder_distribution`, `contract_functions`,
-`deployer_history`, `social_signals`, `similar_contracts`, `price_history`
-
-### Phase 2: Classify (required)
+### Classify
 
 ```python
 RugGuardAction(
     action_type="classify",
-    verdict="rug_pull",      # rug_pull | honeypot | wash_trading | safe
-    confidence=0.85,         # [0.0, 1.0]
-    reasoning="Evidence...", # free-text
+    verdict="rug_pull",
+    confidence=0.85,
+    reasoning="migrateV2 lets owner drain all ETH, deployer linked to 3 prior scams",
 )
 ```
 
-## Observation Space
+## Observation space
 
 ```python
 RugGuardObservation(
-    task_type: str,                        # current analysis task
-    token_name: str,                       # token symbol
-    token_data: str,                       # base data for analysis
-    investigation_results: Dict[str, str], # results from prior investigations
-    available_tools: List[str],            # tools still available
-    investigations_remaining: int,         # investigations left (max 3)
-    step_number: int,                      # 1-indexed
-    total_steps: int,                      # 45
-    last_reward: float,
-    echoed_message: str,
-    done: bool,
-    reward: float,
+    task_type="contract_analysis",
+    token_name="ZephyrLend",
+    token_data="// SPDX-License-Identifier...",
+    investigation_results={"holder_distribution": "Top wallet holds 88%..."},
+    available_tools=["contract_functions", "deployer_history", ...],
+    investigations_remaining=2,
+    step_number=3,
+    total_steps=45,
+    last_reward=0.85,
+    echoed_message="",
+    done=False,
+    reward=0.0,
 )
 ```
 
-## Reward Design
-
-| Component | Points | Condition |
-|-----------|--------|-----------|
-| Correct verdict | +0.50 | `verdict == ground_truth_label` |
-| Correct vulnerability type | +0.20 | Correct verdict on scam token |
-| Confidence calibration | +0.15 x conf | When correct |
-| Confidence calibration | +0.15 x (1-conf) | When wrong |
-| Partial credit | +0.02-0.05 | Close-but-wrong answers |
-| Investigation efficiency | +0.05 x (1-inv/3) | Fewer investigations when correct |
-
-Max per step: **1.0**. Dense, multi-component signal for RL training.
-
-## Quick Start
+## Quick start
 
 ```python
 from rugguard_env import RugGuardEnv, RugGuardAction
@@ -103,7 +122,7 @@ with RugGuardEnv(base_url="http://localhost:8000") as env:
     result = env.reset()
     obs = result.observation
 
-    # Investigate
+    # gather some evidence first
     result = env.step(RugGuardAction(
         action_type="investigate",
         tool="holder_distribution",
@@ -111,40 +130,50 @@ with RugGuardEnv(base_url="http://localhost:8000") as env:
     obs = result.observation
     print(obs.investigation_results)
 
-    # Classify
+    # make your call
     result = env.step(RugGuardAction(
         action_type="classify",
         verdict="rug_pull",
         confidence=0.9,
-        reasoning="High holder concentration + deployer flagged in prior scams",
+        reasoning="top wallet holds 88% of supply, funded via Tornado Cash",
     ))
-    print(result.reward, result.done)
+    print(f"reward: {result.reward}, done: {result.done}")
 ```
 
-## Configuration
-
-| Env Var | Default | Description |
-|---------|---------|-------------|
-| `RUGGUARD_STEPS_PER_TASK` | `15` | Samples per task per episode |
-| `RUGGUARD_SEED` | (random) | Fixed seed for reproducibility |
-| `RUGGUARD_TASK_FILTER` | (none) | Restrict to one task type |
-| `PORT` | `8000` | HTTP server port |
-
-## Running Locally
+## Running it
 
 ```bash
+# local
 cd rugguard_env
 pip install -e .
 uvicorn server.app:app --host 0.0.0.0 --port 8000
 
-# Or Docker
+# docker
 docker build -t rugguard-env:latest .
 docker run -p 8000:8000 rugguard-env:latest
 ```
 
-## Deploy to HF Spaces
+## Config
+
+| Env var | Default | What it does |
+|---------|---------|-------------|
+| `RUGGUARD_STEPS_PER_TASK` | `15` | Samples per task per episode |
+| `RUGGUARD_SEED` | random | Fixed seed for reproducible episodes |
+| `RUGGUARD_TASK_FILTER` | all | Restrict to one task type |
+| `PORT` | `8000` | Server port |
+
+## Tests
 
 ```bash
 cd rugguard_env
-huggingface-cli upload <your-org>/rugguard-env . . --repo-type space
+python -m pytest tests/ -v
+```
+
+48 tests covering reset, investigate, classify, rewards, full episodes, difficulty ordering, dataset integrity, and edge cases.
+
+## Deploying to HF Spaces
+
+```bash
+cd rugguard_env
+hf upload <your-org>/rugguard-env . . --repo-type space
 ```

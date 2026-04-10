@@ -1,22 +1,30 @@
 """
 inference.py — RugGuard baseline inference runner.
 
-Runs an LLM agent against the RugGuard OpenEnv environment. The agent uses
-a two-phase approach per token:
-  1. Investigate: request 1-2 investigation tools for additional context
-  2. Classify: submit verdict with confidence and reasoning
+This is the main entry point that the hackathon validator calls. It spins up
+the RugGuard environment (via Docker or a remote URL), then loops through all
+45 tokens in an episode using an LLM to classify each one.
 
-Environment variables (per Round 1 submission spec):
-    API_BASE_URL      OpenAI-compatible LLM endpoint
-    MODEL_NAME        Model identifier
-    API_KEY           API key (validator injects for LiteLLM proxy)
-    LOCAL_IMAGE_NAME  Docker image tag for from_docker_image()
-    RUGGUARD_URL      Direct base URL for already-running env
+For each token the agent does two things:
+  1. Investigate — picks the most useful tool for the current task type
+     (e.g. contract_functions for contract_analysis) to get extra context
+  2. Classify — sends the token data + investigation results to the LLM
+     and asks it to return a verdict (rug_pull/honeypot/wash_trading/safe)
 
-STDOUT format (one line per event, exact key=value layout):
-    [START] task=<task_name> env=<benchmark> model=<model_name>
-    [STEP]  step=<n> action=<action_str> reward=<0.00> done=<true|false> error=<msg|null>
-    [END]   success=<true|false> steps=<n> score=<0.00> rewards=<r1,r2,...,rn>
+The LLM prompt gives clear definitions of each scam type and asks for
+structured JSON output with verdict, confidence, and reasoning.
+
+Environment variables the validator injects:
+    API_BASE_URL      OpenAI-compatible LLM endpoint (we default to HF router)
+    MODEL_NAME        Which model to use (default: Qwen2.5-72B-Instruct)
+    API_KEY           API key for the LLM endpoint
+    LOCAL_IMAGE_NAME  Docker image tag — set this to run the env in a container
+    RUGGUARD_URL      Or set this to point at an already-running env server
+
+Structured logging on STDOUT (validator parses these):
+    [START] task=<name> env=rugguard_env model=<model>
+    [STEP]  step=<n> action=<verdict|conf=X|...> reward=<0.00> done=<bool> error=<msg|null>
+    [END]   success=<true|false> steps=<n> score=<0.00> rewards=<comma-separated>
 """
 
 from __future__ import annotations
@@ -54,7 +62,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# Config
+# Config — mostly from env vars, with sensible defaults for local testing
 # ---------------------------------------------------------------------------
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
@@ -63,17 +71,20 @@ LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME") or os.getenv("IMAGE_NAME")
 RUGGUARD_URL = os.getenv("RUGGUARD_URL")
 
 BENCHMARK = "rugguard_env"
-TEMPERATURE = 0.2
-MAX_TOKENS = 512
+TEMPERATURE = 0.2       # low temp for consistent classifications
+MAX_TOKENS = 512        # enough for JSON verdict + reasoning
 DEFAULT_LOCAL_IMAGE = "rugguard-env:latest"
-SUCCESS_SCORE_THRESHOLD = 0.5
+SUCCESS_SCORE_THRESHOLD = 0.5  # score >= 0.5 counts as success
 
 TASK_ORDER = ["contract_analysis", "transaction_analysis", "liquidity_analysis"]
 
-# How many investigations to do per token (1 or 2 is optimal for speed)
+# We only do 1 investigation per token to keep things fast. The reward function
+# actually gives a bonus for fewer investigations when you're correct, so being
+# selective pays off more than being thorough.
 INVESTIGATIONS_PER_TOKEN = 1
 
-# Which tools to prefer per task type
+# For each task type, these are the tools most likely to give useful signal.
+# Ordered by relevance — we pick the first one that's still available.
 PREFERRED_TOOLS = {
     "contract_analysis": ["contract_functions", "similar_contracts", "deployer_history"],
     "transaction_analysis": ["holder_distribution", "deployer_history", "price_history"],
@@ -109,7 +120,8 @@ def log_end(success: bool, steps: int, score: float, rewards: List[float]) -> No
 
 
 # ---------------------------------------------------------------------------
-# LLM call
+# LLM prompting — this is where the actual "agent logic" lives.
+# We give the model a security analyst persona and ask for structured JSON.
 # ---------------------------------------------------------------------------
 
 SYSTEM_PROMPT = (
@@ -196,7 +208,8 @@ def get_verdict(client: OpenAI, obs: Dict[str, Any]) -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Per-task log buffer
+# Per-task log buffer — accumulates steps, then emits the [START]/[STEP]/[END]
+# block for each task at the end. The validator parses these to compute scores.
 # ---------------------------------------------------------------------------
 
 class TaskRunner:
@@ -235,7 +248,8 @@ class TaskRunner:
 
 
 # ---------------------------------------------------------------------------
-# Environment lifecycle
+# Environment lifecycle — figures out how to connect to the env server.
+# Priority: LOCAL_IMAGE_NAME (docker) > RUGGUARD_URL (remote) > default docker
 # ---------------------------------------------------------------------------
 
 async def create_env() -> RugGuardEnv:
@@ -265,7 +279,13 @@ def obs_to_dict(obs: Any) -> Dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# Main
+# Main loop — the core agent logic.
+#
+# For each of the 45 tokens in an episode:
+#   1. Pick the best investigation tool for this task type and use it
+#   2. Send token data + investigation results to the LLM
+#   3. Parse the LLM's JSON response and submit it as a classification
+#   4. Record the reward and move on
 # ---------------------------------------------------------------------------
 
 async def run() -> None:
@@ -293,7 +313,7 @@ async def run() -> None:
             if runner is None:
                 break
 
-            # Phase 1: Investigate (1 tool per token for speed)
+            # Phase 1: grab extra context with the most relevant tool for this task
             available = obs_dict.get("available_tools", [])
             remaining = obs_dict.get("investigations_remaining", 0)
             preferred = PREFERRED_TOOLS.get(current_task, [])
@@ -325,7 +345,7 @@ async def run() -> None:
                     logger.warning(f"Investigation failed: {exc}")
                     break
 
-            # Phase 2: Classify
+            # Phase 2: ask the LLM to classify based on everything we've gathered
             verdict_data = get_verdict(openai_client, obs_dict)
             action_str = (
                 f"{verdict_data['verdict']}|conf={verdict_data['confidence']:.2f}|"
