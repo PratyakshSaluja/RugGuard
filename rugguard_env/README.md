@@ -10,73 +10,55 @@ pinned: false
 
 # RugGuard Environment
 
-Crypto token scam detection environment for LLM agents. Agents analyse token data across
-three task types and classify each token as `rug_pull`, `honeypot`, `wash_trading`, or `safe`.
+Crypto token scam detection environment for LLM agents with **multi-step
+investigation**. Agents gather evidence using investigation tools, then classify
+tokens as `rug_pull`, `honeypot`, `wash_trading`, or `safe`.
 
 ## Motivation
 
-Crypto rug pulls, honeypots, and wash-trading scams drain billions of dollars from
-retail users every year. Today, scam triage is done manually by security researchers
-or by brittle rule-based scanners that miss novel attack patterns. RugGuard turns this
-into a proper RL/agent benchmark: the agent must reason about Solidity source code,
-on-chain transaction histories, and liquidity pool dynamics — three concrete sub-skills
-a real security analyst uses every day. A model that scores well here is genuinely
-useful for protecting users from on-chain fraud.
+Crypto rug pulls, honeypots, and wash-trading scams drain billions of dollars
+from retail users every year. RugGuard turns scam triage into a proper agent
+benchmark: the agent must reason about Solidity source code, on-chain
+transaction histories, and liquidity pool dynamics — three concrete sub-skills
+a real security analyst uses every day.
+
+**Data sources:** Patterns derived from 2,391 validated real-world rug pull
+incidents and real smart contract vulnerability patterns.
 
 ## Tasks
 
-The environment defines **3 grader-backed tasks**, each with a deterministic
-score in `[0, 1]`. Difficulty progresses from surface-level pattern matching to
-deeper multi-signal reasoning.
+| # | Task | Difficulty | What the agent sees |
+|---|------|-----------|---------------------|
+| 1 | `contract_analysis` | Easy | Solidity source with subtle backdoors |
+| 2 | `transaction_analysis` | Medium | On-chain tx patterns |
+| 3 | `liquidity_analysis` | Hard | LP pool metrics and anomalies |
 
-| # | Task | Difficulty | What the agent sees | What it must classify |
-|---|------|-----------|---------------------|-----------------------|
-| 1 | `contract_analysis` | **Easy** | Solidity source snippet | Hidden mint, owner-only drain, transfer blocks, etc. |
-| 2 | `transaction_analysis` | **Medium** | On-chain tx pattern (holder distribution, sell/buy ratios, dev wallet activity) | Wash trading, slow rug, sandwich victims |
-| 3 | `liquidity_analysis` | **Hard** | LP pool metrics (lock status, depth, removal events, paired token) | Imminent exit liquidity, fake locks, soft rugs |
-
-Each task runs for 15 samples per episode (45 total). The grader (`_compute_reward`)
-is a pure function of `(verdict, confidence, ground_truth_label, vulnerability_type)`
-— deterministic and reproducible.
-
-## Quick Start
-
-```python
-from envs.rugguard_env import RugGuardEnv, RugGuardAction
-
-with RugGuardEnv(base_url="http://localhost:8000") as env:
-    result = env.reset()
-    obs = result.observation
-    print(obs.task_type, obs.token_name)
-    print(obs.token_data)
-
-    result = env.step(RugGuardAction(
-        verdict="rug_pull",
-        confidence=0.9,
-        reasoning="Owner holds 95% of supply with no lock and a rugPull() function.",
-    ))
-    print(result.reward, result.done)
-```
-
-## Episode Structure
-
-| Parameter | Value |
-|-----------|-------|
-| Steps per episode | 45 |
-| Steps per task type | 15 |
-| Task types | `contract_analysis`, `transaction_analysis`, `liquidity_analysis` |
-| Terminal condition | All 45 samples classified |
-
-15 samples per task gives statistically meaningful per-task scores
-(~6.7% per-sample resolution) without exceeding the 20-min runtime budget.
+Each task: 15 samples per episode (45 total). 120 samples per dataset (30/label).
 
 ## Action Space
 
+Two-phase per token:
+
+### Phase 1: Investigate (optional, up to 3 per token)
+
 ```python
 RugGuardAction(
-    verdict: Literal["rug_pull", "honeypot", "wash_trading", "safe"],
-    confidence: float,   # [0.0, 1.0]
-    reasoning: str,      # free-text explanation
+    action_type="investigate",
+    tool="holder_distribution",  # one of 6 tools
+)
+```
+
+**Available tools:** `holder_distribution`, `contract_functions`,
+`deployer_history`, `social_signals`, `similar_contracts`, `price_history`
+
+### Phase 2: Classify (required)
+
+```python
+RugGuardAction(
+    action_type="classify",
+    verdict="rug_pull",      # rug_pull | honeypot | wash_trading | safe
+    confidence=0.85,         # [0.0, 1.0]
+    reasoning="Evidence...", # free-text
 )
 ```
 
@@ -84,13 +66,16 @@ RugGuardAction(
 
 ```python
 RugGuardObservation(
-    task_type: str,       # "contract_analysis" | "transaction_analysis" | "liquidity_analysis"
-    token_name: str,      # Token symbol
-    token_data: str,      # Raw data for analysis
-    step_number: int,     # Current step (1-indexed)
-    total_steps: int,     # Always 45 (15 per task × 3 tasks)
-    last_reward: float,   # Reward from previous step
-    echoed_message: str,  # Echo of last reasoning
+    task_type: str,                        # current analysis task
+    token_name: str,                       # token symbol
+    token_data: str,                       # base data for analysis
+    investigation_results: Dict[str, str], # results from prior investigations
+    available_tools: List[str],            # tools still available
+    investigations_remaining: int,         # investigations left (max 3)
+    step_number: int,                      # 1-indexed
+    total_steps: int,                      # 45
+    last_reward: float,
+    echoed_message: str,
     done: bool,
     reward: float,
 )
@@ -100,90 +85,62 @@ RugGuardObservation(
 
 | Component | Points | Condition |
 |-----------|--------|-----------|
-| Correct verdict | +0.5 | `verdict == ground_truth_label` |
-| Correct vulnerability type | +0.3 | Correct verdict on scam token |
-| Confidence calibration | +0.2×confidence | When correct |
-| Confidence calibration | +0.2×(1-confidence) | When wrong |
+| Correct verdict | +0.50 | `verdict == ground_truth_label` |
+| Correct vulnerability type | +0.20 | Correct verdict on scam token |
+| Confidence calibration | +0.15 x conf | When correct |
+| Confidence calibration | +0.15 x (1-conf) | When wrong |
+| Partial credit | +0.02-0.05 | Close-but-wrong answers |
+| Investigation efficiency | +0.05 x (1-inv/3) | Fewer investigations when correct |
 
-Maximum reward per step: **1.0**. All rewards clamped to `[0, 1]`.
+Max per step: **1.0**. Dense, multi-component signal for RL training.
 
-## Data
+## Quick Start
 
-All samples are static JSON bundled in `data/` — no external API calls.
+```python
+from rugguard_env import RugGuardEnv, RugGuardAction
 
-| File | Task Type | Samples | Scam / Safe |
-|------|-----------|---------|-------------|
-| `data/contracts.json`    | `contract_analysis`    | 55 | 32 / 23 |
-| `data/transactions.json` | `transaction_analysis` | 52 | 30 / 22 |
-| `data/liquidity.json`    | `liquidity_analysis`   | 52 | 30 / 22 |
+with RugGuardEnv(base_url="http://localhost:8000") as env:
+    result = env.reset()
+    obs = result.observation
+
+    # Investigate
+    result = env.step(RugGuardAction(
+        action_type="investigate",
+        tool="holder_distribution",
+    ))
+    obs = result.observation
+    print(obs.investigation_results)
+
+    # Classify
+    result = env.step(RugGuardAction(
+        action_type="classify",
+        verdict="rug_pull",
+        confidence=0.9,
+        reasoning="High holder concentration + deployer flagged in prior scams",
+    ))
+    print(result.reward, result.done)
+```
 
 ## Configuration
 
 | Env Var | Default | Description |
 |---------|---------|-------------|
-| `RUGGUARD_STEPS_PER_TASK` | `15` | Samples per task type per episode |
-| `RUGGUARD_SEED` | (random) | Fixed seed for reproducible sampling |
-| `RUGGUARD_TASK_FILTER` | (none) | Restrict episode to one task type |
+| `RUGGUARD_STEPS_PER_TASK` | `15` | Samples per task per episode |
+| `RUGGUARD_SEED` | (random) | Fixed seed for reproducibility |
+| `RUGGUARD_TASK_FILTER` | (none) | Restrict to one task type |
 | `PORT` | `8000` | HTTP server port |
 
 ## Running Locally
 
 ```bash
-# Install dependencies
 cd rugguard_env
 pip install -e .
-
-# Start server
 uvicorn server.app:app --host 0.0.0.0 --port 8000
 
-# Or via Docker
+# Or Docker
 docker build -t rugguard-env:latest .
 docker run -p 8000:8000 rugguard-env:latest
 ```
-
-## Validation
-
-```bash
-PYTHONPATH=src:envs uv run python -c \
-  "from envs.rugguard_env.server.rugguard_environment import RugGuardEnvironment; e = RugGuardEnvironment(); print(e.reset())"
-```
-
-## Baseline Inference
-
-Run the baseline LLM agent against a deployed RugGuard server:
-
-```bash
-export API_BASE_URL=https://router.huggingface.co/v1    # or validator proxy
-export MODEL_NAME=Qwen/Qwen2.5-72B-Instruct
-export API_KEY=<your_api_key>                           # validator injects this
-export LOCAL_IMAGE_NAME=rugguard-env:latest             # script spins up the container
-python inference.py
-```
-
-The script (`inference.py` in repo root) uses the **OpenAI client** as required
-by the spec, calls `RugGuardEnv.from_docker_image(LOCAL_IMAGE_NAME)` to spin
-up its own container, walks the full 45-step episode, and emits one
-`[START]/[STEP]*/[END]` block per task type.
-
-### Baseline Scores
-
-Measured with `Qwen/Qwen2.5-72B-Instruct` via the HF Inference Router
-(15 samples per task, single seed):
-
-| Task | Score (0–1) | Success |
-|------|-------------|---------|
-| `contract_analysis`    | **0.75** | true |
-| `transaction_analysis` | **0.83** | true |
-| `liquidity_analysis`   | **0.53** | true |
-
-Total runtime: **~4.5 minutes** for 45 steps (well under the 20-min budget).
-
-The dataset includes adversarial near-miss samples (fake CertiK audit
-comments, ownership-renounced rugs, honeypots that mimic legitimate
-transfer-tax tokens, soft rugs with time-delayed drains). Qwen2.5-72B
-ranges from ~0.53 on the hardest task (`liquidity_analysis`) up to
-~0.83 on `transaction_analysis` — a clear signal that frontier models
-still have meaningful headroom before saturating this benchmark.
 
 ## Deploy to HF Spaces
 

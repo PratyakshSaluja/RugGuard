@@ -1,316 +1,724 @@
 {
   "samples": [
     {
-      "token_name": "MOONROCKET",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: MOONROCKET/WBNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Initial LP: $2,340,000 (100% provided by deployer)\n- LP tokens: NOT locked — held directly in deployer wallet\n- Deployer LP share: 100% (no community LP providers)\n- LP removal: all tokens removed in single tx, block #28441923\n- Time to rug from listing: 72 hours\n- Pool depth post-rug: $420 (dust)\n- Price impact of removing LP: -99.8% immediate price drop\n- Token/WBNB ratio manipulation: ratio changed 3x in 24h before rug"
-    },
-    {
-      "token_name": "SAFEMOON2",
+      "token_name": "PegasusYield",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: SAFEMOON2/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $1,840,000 — LP is locked via Unicrypt for 1 year\n- LP lock appears legitimate to deter suspicion\n- Buy tax: 5% | Sell tax: 5% (appears normal)\n- Hidden mechanism: buyers added to blacklist after first purchase\n- LP lock is real but irrelevant — trapped buyers cannot sell regardless\n- Pool shows healthy depth on DEX screener ($1.8M)\n- Price: artificially stable due to no sell pressure (everyone trapped)\n- Slippage tolerance required: 6% (slightly above normal)"
+      "token_data": "Token: PegasusYield/WBNB Pool (Uniswap V2) | Contract: 0xd496edc778b211ecd30d261395c9adb79b81fb11\nLiquidity Pool Analysis:\n- Pool TVL: $4,347,511 \u2014 appears healthy on surface\n- LP locked: Yes, via Unicrypt for 21 months\n- Buy slippage required: 10% (slightly elevated but functional)\n- Sell slippage required: >57% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 8488\n- Successful swap attempts (sell): 12 (deployer wallets only)\n- Failed swap attempts (sell): 4329\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +154% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 7% | sell 80% (hidden, not shown in contract read functions)"
     },
     {
-      "token_name": "DEFISHIELD",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: DEFISHIELD/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $6,100,000 (community-provided LP, 340 LP providers)\n- Concentrated liquidity: 80% of LP in ±20% price range\n- Largest LP provider: 8.2% of pool (institutional market maker)\n- 18-month pool history, consistent TVL growth\n- No LP lock required — distributed among community\n- Price impact for $100K trade: 0.8% (deep and liquid)\n- Fee tier: 0.3%, accrued $2.1M in fees since inception\n- APY for LP providers: 12.4% (organic fee generation)"
-    },
-    {
-      "token_name": "PHANTOMSWAP",
+      "token_name": "NebulaBridge",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: PHANTOMSWAP/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Reported TVL: $18,400,000\n- Actual verifiable TVL: $92,000 (per on-chain token balances)\n- Discrepancy source: TVL dashboard reads manipulated price oracle\n- Price oracle: single-block TWAP easily manipulated by deployer\n- Real-time pool reserves: 45,000 PHANTOM + 180 BNB ($92K)\n- Fake TVL calculation: uses manipulated spot price * inflated supply\n- LP providers: 2 addresses (both controlled by operator)\n- Volume vs TVL ratio: 308x (physically impossible for real AMM)"
+      "token_data": "Token: NebulaBridge/BUSD Pool (PancakeSwap V2) | Contract: 0xc57fc2c9fd3130933bd29f01ff940dc52bc4115b\nPool Anomaly Report:\n- Listed on: CoinGecko (top 127 by volume)\n- Reported metrics: Volume $55,451,006 | TVL $45,475,920\n- Actual on-chain reserves: $162,414\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 5 wallets executing 376 trades/day\n- Trade size distribution: uniform $43590-$78062 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0040% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 1 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 2/10"
     },
     {
-      "token_name": "CHAINLINK2",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: CHAINLINK2/ETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $4,200,000 across 3 fee tiers\n- LP locked: $2.1M on Team Finance, 1-year lockup (6 months remaining)\n- Free-float LP: $2.1M from 220 community providers\n- Price impact $50K trade: 0.4% (excellent depth)\n- 6-month TWAP price: within 3% of spot (stable)\n- No single LP provider >12% of pool\n- LP fee revenue: $890,000 distributed in 6 months\n- Pool manipulation risk: very low (deep, distributed)"
-    },
-    {
-      "token_name": "DRAINMASTER",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: DRAINMASTER/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL at peak: $890,000\n- LP lock status: NONE — all LP held by deployer\n- emergencyDrain() called: Day 3, 03:17 UTC\n- LP removal method: single removeAllLiquidity() call\n- Time from LP creation to removal: 71.5 hours\n- Pool TVL after rug: $0.00\n- Deployer address: 6-day-old wallet, no prior DeFi history\n- Post-rug token price: -99.9%, still showing on PancakeSwap (ghost pool)"
-    },
-    {
-      "token_name": "USDGOLD",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: USDGOLD/USDC Pool (QuickSwap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $8,500,000 locked on Unicrypt for 2 years (14 months remaining)\n- Lock transaction: verifiable on Unicrypt dashboard\n- LP distribution: 65% locked (team), 35% community\n- Price range: $0.0094-$0.0108 (±7% range, stable)\n- Price impact $100K trade: 0.6%\n- 8-month track record, LP grew from $1.2M to $8.5M organically\n- Audited by Hacken — LP mechanism: no issues found\n- Anti-rug: lock contract cannot be bypassed by deployer"
-    },
-    {
-      "token_name": "LOOPWASH",
+      "token_name": "CosmicLend",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: LOOPWASH/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $18,000\n- Self-reported market cap on CMC: $12,400,000\n- Self-reported daily volume: $8,100,000\n- Actual daily DEX volume: $420 (3 real trades)\n- LP providers: 1 (deployer only)\n- Price is stable because deployer controls both sides of pool\n- Price impact: even $5,000 trade would move price 22% (paper-thin liquidity)\n- Token listed on CMC using faked API volume endpoint"
+      "token_data": "Token: CosmicLend/DAI Pool (PancakeSwap V2) | Contract: 0xb551605ab0aac7df6b278b20560ec698ea395191\nLiquidity & Volume Analysis:\n- Reported TVL: $20,990,800\n- On-chain verified TVL (reserve0 * price + reserve1): $104,954\n- TVL discrepancy: 200x \u2014 price oracle manipulation\n- Pool reserves: 314,467 COSM + 180.6 DAI\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $87,876,094\n- Volume/TVL ratio: 423x (healthy: 0.1-2x)\n- LP providers: 2 addresses (all same entity)\n- Swap events: 7944 in 24h from 5 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 4 hops\n- MEV bot activity: 1 bots, unusual absence of arbitrage\n- Real organic users estimate: <16"
     },
     {
-      "token_name": "ETHYIELD",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: ETHYIELD/WETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $11,200,000 across full range + concentrated positions\n- No lock required — 180 independent LP providers\n- Largest LP: 6.8% of pool (institutional MM)\n- 6-month TWAP: within 4% of spot continuously\n- Volume/TVL ratio: 0.18 (healthy, not wash-traded)\n- Daily fee revenue to LPs: $9,800 average\n- Price impact $200K trade: 0.9%\n- No flash loan attacks or price oracle manipulation in history"
-    },
-    {
-      "token_name": "EXITSCAM",
+      "token_name": "HorizonDAO",
       "label": "rug_pull",
       "vulnerability_type": "rug_pull",
-      "token_data": "Token: EXITSCAM/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Presale raised: $1,400,000\n- DEX listing LP: $700,000 (50% of raise — standard red flag, rest to team)\n- LP lock: NONE\n- Time to selfdestruct: 72 hours post-listing\n- Pool destruction: selfdestruct() deleted contract, pool became inaccessible\n- $700,000 LP + $700,000 team allocation: all gone\n- No LP lock contract deployed despite promises in whitepaper\n- Whitepaper stated '80% of funds to LP, locked 2 years' — false"
+      "token_data": "Token: HorizonDAO/WBNB Pool (Uniswap V3) | Contract: 0xc034cf94f7ced9c968cc75210d1b5ddaccacfbf4\nLiquidity Pool Analysis:\n- Initial LP: $3,856,912 (100% provided by deployer)\n- LP token distribution: 1 address holds 95.2% of LP tokens\n- LP lock status: Locked via Unicrypt \u2014 but lock contract has admin override\n- Current pool TVL: $1313 (was $3,856,912)\n- LP removal events: 3 transactions removing 99.3% of liquidity\n- Time from listing to LP removal: 300 hours\n- Price impact of LP removal: -99.3%\n- Remaining pool depth: $155 (dust)\n- Impermanent loss for non-deployer LPs: 96%\n- Deployer received 177 WBNB from LP removal\n- Post-removal: zero buy/sell activity"
     },
     {
-      "token_name": "FOMOPUMP",
+      "token_name": "KryptonDAO",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: KryptonDAO/WBNB Pool (Orca) | Contract: 0x1767856bc75cf070de5e6ba3d0c718440f008c66\nLiquidity Pool Analysis:\n- Initial LP: $8,883,147 (100% provided by deployer)\n- LP token distribution: 1 address holds 99.5% of LP tokens\n- LP lock status: Locked via Team Finance \u2014 but lock contract has admin override\n- Current pool TVL: $1192 (was $8,883,147)\n- LP removal events: 5 transactions removing 93.5% of liquidity\n- Time from listing to LP removal: 76 hours\n- Price impact of LP removal: -97.1%\n- Remaining pool depth: $826 (dust)\n- Impermanent loss for non-deployer LPs: 92%\n- Deployer received 107 WBNB from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "StellarBridge",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: StellarBridge/BUSD Pool (Trader Joe) | Contract: 0x86f2b0105ea819e11546713207405473c186cb91\nLiquidity Pool Analysis:\n- Initial LP: $8,051,164 (100% provided by deployer)\n- LP token distribution: 1 address holds 99.8% of LP tokens\n- LP lock status: Not locked\n- Current pool TVL: $588 (was $8,051,164)\n- LP removal events: 3 transactions removing 93.6% of liquidity\n- Time from listing to LP removal: 166 hours\n- Price impact of LP removal: -96.4%\n- Remaining pool depth: $345 (dust)\n- Impermanent loss for non-deployer LPs: 98%\n- Deployer received 332 BUSD from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "HaloFi",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: FOMOPUMP/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,800,000\n- 24h volume: $44,700,000 (claimed)\n- Volume/TVL ratio: 15.96 (extreme — legitimate tokens average 0.1-0.5)\n- Price movement in 24h: +1,800% then -94%\n- LP provider: 1 address (deployer)\n- All high-volume trades originate from 3 coordinated wallets\n- LP removed at market peak: $4.2M extracted (LP grew from wash volume)\n- Wash trading purpose: attract retail FOMO at the peak before dump"
+      "token_data": "Token: HaloFi/DAI Pool (Camelot) | Contract: 0x1a2b4b423351af28f472c846ba4e384dde2ba0b3\nLiquidity & Volume Analysis:\n- Reported TVL: $30,167,123\n- On-chain verified TVL (reserve0 * price + reserve1): $139,019\n- TVL discrepancy: 217x \u2014 price oracle manipulation\n- Pool reserves: 90,739 HALO + 425.4 DAI\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $19,181,508\n- Volume/TVL ratio: 461x (healthy: 0.1-2x)\n- LP providers: 3 addresses (all same entity)\n- Swap events: 28831 in 24h from 17 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 9 hops\n- MEV bot activity: 4 bots, unusual absence of arbitrage\n- Real organic users estimate: <42"
     },
     {
-      "token_name": "SOLIDGOV",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: SOLIDGOV/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $7,800,000 across 3 price ranges\n- LP controlled by DAO treasury (4/7 multisig)\n- 340 independent LP providers\n- Volume/TVL ratio: 0.28 (healthy)\n- Price stable within 12% band for 2 years\n- TWAP oracle used by 3 lending protocols as price feed\n- No oracle manipulation attempts detected\n- LP removal requires DAO governance vote (3-day timelock)"
+      "token_name": "EclipseSwap",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: EclipseSwap/DAI Pool (Raydium) | Contract: 0x0719caf8fa58d56b9f5e658757a5554aa0f9fb8b\nPool Health Indicators:\n- TVL: $5,080,903 | Daily volume: $58,488\n- Volume composition: 97% buys, 2% sells\n- Liquidity depth for $10K buy: 1.7% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 1 addresses\n- Pool age: 36 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b119% daily swings\n- Contract _maxSellAmount or equivalent: set to 52 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
     },
     {
-      "token_name": "VOLUMEKING",
+      "token_name": "RelayBridge",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: RelayBridge/USDT Pool (Uniswap V3) | Contract: 0xa8f5e53cf3a6122b390712d5f72fe5b10e03aab2\nLiquidity Pool Analysis:\n- Pool TVL: $1,289,485 \u2014 appears healthy on surface\n- LP locked: Yes, via Team Finance for 16 months\n- Buy slippage required: 7% (slightly elevated but functional)\n- Sell slippage required: >68% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 3322\n- Successful swap attempts (sell): 3 (deployer wallets only)\n- Failed swap attempts (sell): 3294\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +206% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 5% | sell 82% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "AlphaVault",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: VOLUMEKING/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $340,000 (deployer-controlled)\n- Claimed 24h volume: $67,000,000\n- Volume/TVL ratio: 197x (physically impossible for AMM mechanics)\n- Impact: if $67M actually traded through a $340K pool, pool would be depleted in first trade\n- Explanation: volume numbers generated off-chain and submitted to API\n- Actual on-chain swap count in 24h: 14\n- Price: perfectly flat for 30 days (deployer controls both sides)\n- LP lock: none"
+      "token_data": "Token: AlphaVault/DAI Pool (Raydium) | Contract: 0xec3da6eb53e214bdae147cc58bf2c401105d5a1c\nLiquidity & Volume Analysis:\n- Reported TVL: $11,868,480\n- On-chain verified TVL (reserve0 * price + reserve1): $98,904\n- TVL discrepancy: 120x \u2014 price oracle manipulation\n- Pool reserves: 176,298 ALPH + 379.3 DAI\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $58,733,308\n- Volume/TVL ratio: 86x (healthy: 0.1-2x)\n- LP providers: 4 addresses (all same entity)\n- Swap events: 37362 in 24h from 6 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 8 hops\n- MEV bot activity: 2 bots, unusual absence of arbitrage\n- Real organic users estimate: <39"
     },
     {
-      "token_name": "INSTARUG",
+      "token_name": "ValorFi",
       "label": "rug_pull",
       "vulnerability_type": "rug_pull",
-      "token_data": "Token: INSTARUG/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- LP at listing: $340,000\n- LP lock: NOT locked — held in deployer wallet\n- Unlocked LP: deployer could remove at any time\n- Extra minting: 10 billion tokens minted 3 hours post-launch\n- Minted tokens sold into pool: price -82% in 15 minutes\n- LP removed: remaining $284,000 in single transaction\n- Combined haul: $624,000 (LP + token sales)\n- Pool now: empty, token worthless"
+      "token_data": "Token: ValorFi/DAI Pool (PancakeSwap V2) | Contract: 0x19447e4100734eef2af7f52ad175a449027ee1b2\nLiquidity Pool Analysis:\n- Initial LP: $7,234,419 (100% provided by deployer)\n- LP token distribution: 1 address holds 95.8% of LP tokens\n- LP lock status: Not locked\n- Current pool TVL: $2570 (was $7,234,419)\n- LP removal events: 5 transactions removing 98.2% of liquidity\n- Time from listing to LP removal: 380 hours\n- Price impact of LP removal: -99.3%\n- Remaining pool depth: $605 (dust)\n- Impermanent loss for non-deployer LPs: 99%\n- Deployer received 388 DAI from LP removal\n- Post-removal: zero buy/sell activity"
     },
     {
-      "token_name": "LOCKEDNFT",
+      "token_name": "ZenithToken",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: LOCKEDNFT/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $1,240,000 — LP locked for 365 days on Unicrypt\n- Lock is legitimate — this is NOT a liquidity rug\n- Trap mechanism: buyers cannot sell (contract lock, not LP issue)\n- Pool shows healthy depth and locked LP — appears safe\n- Buy tax: 2% (reasonable)\n- Sell tax: 2% (reasonable — but irrelevant since sells impossible)\n- Volume: $890,000 in buys, $0 in sells from non-deployer wallets\n- LP lock used as credibility signal while internal honeypot traps buyers"
+      "token_data": "Token: ZenithToken/WETH Pool (Camelot) | Contract: 0x7d7b9eea9e93e4b23deeda883d14c6d195c0222d\nLiquidity Pool Analysis:\n- Pool TVL: $1,998,851 \u2014 appears healthy on surface\n- LP locked: Yes, via PinkSale for 24 months\n- Buy slippage required: 5% (slightly elevated but functional)\n- Sell slippage required: >57% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 9994\n- Successful swap attempts (sell): 7 (deployer wallets only)\n- Failed swap attempts (sell): 3840\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +267% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 7% | sell 99% (hidden, not shown in contract read functions)"
     },
     {
-      "token_name": "POLKABASE",
+      "token_name": "VaultFi",
       "label": "safe",
       "vulnerability_type": null,
-      "token_data": "Token: POLKABASE/MATIC Pool (QuickSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $9,300,000 — no lock (fixed supply, no mint function)\n- No lock needed: no admin can drain contract or mint new tokens\n- 180 independent LP providers\n- Largest single LP: 4.1% of pool\n- 2-year pool history, TVL grown from $400K\n- Daily volume: $2.1M, volume/TVL: 0.23 (healthy)\n- Price impact $100K trade: 0.5%\n- Pool has survived 4 major market downturns without LP exodus"
+      "token_data": "Token: VaultFi/BUSD Pool (Trader Joe) | Contract: 0x857e41d210924e98a5b1e876b52b0104cace312d\nLiquidity Pool Analysis:\n- Pool TVL: $41,568,501\n- LP providers: 178 unique addresses\n- Largest LP provider: 7.2% of pool (institutional market maker)\n- LP lock: Protocol-owned liquidity via Olympus-style bonding\n- Pool age: 228 days\n- Historical TVL: stable/growing over 8 months\n- Price impact for $100K trade: 1.2%\n- Daily volume: $8,450,226\n- Volume/TVL ratio: 0.05x (healthy)\n- Fee tier: 0.05% | Accumulated fees: $1,603,454\n- LP APY: 8.0% (organic fee generation)\n- Multiple DEX pairs exist (2 pools across 1 chains)\n- No admin functions that can affect pool operation"
     },
     {
-      "token_name": "AUDITEDTOKEN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: AUDITEDTOKEN/USDC Pool (Uniswap V3 + Curve)\nLiquidity Pool Analysis:\n- Uniswap V3 TVL: $8,200,000\n- Curve pool TVL: $6,800,000 (stable swap)\n- Total liquidity: $15,000,000\n- LP providers: 890 addresses\n- Volume/TVL: 0.32 (healthy)\n- TWAP oracle used by Aave and Compound as price feed\n- Curve integration: generates 4.2% base APY for stablecoin holders\n- No LP concentration risk — distributed community liquidity"
-    },
-    {
-      "token_name": "APPROVERUG",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: APPROVERUG/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL at attack: $3,400,000\n- LP locked on Unicrypt — LP itself was NOT the attack vector\n- Attack vector: transferFrom() allowed owner to drain user wallets directly\n- LP remains locked and worthless after attack\n- Users lost funds from their wallets, not from pool\n- $1,800,000 drained from 2,341 user wallets via transferFrom exploit\n- LP lock created false sense of security\n- Lesson: LP lock does not protect against contract-level exploits"
-    },
-    {
-      "token_name": "FAKESWAP",
+      "token_name": "QuasarDEX",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: FAKESWAP/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $480,000\n- Claimed volume: $31,000,000/day\n- Volume/TVL ratio: 64.6x (wash trading signal)\n- All 'volume' is circular: same 8 wallets trading back and forth\n- Price oracle: spot price manipulated once per minute by operator\n- PancakeSwap TWAP is unusable for this pool (oracle manipulation)\n- LP providers: 2 (both operator-controlled)\n- Purpose: achieve top-10 volume ranking on aggregators"
+      "token_data": "Token: QuasarDEX/DAI Pool (Raydium) | Contract: 0x55e45d8480064be09dbbf34c686e672ed1df027b\nLiquidity & Volume Analysis:\n- Reported TVL: $26,656,680\n- On-chain verified TVL (reserve0 * price + reserve1): $104,536\n- TVL discrepancy: 255x \u2014 price oracle manipulation\n- Pool reserves: 313,126 QUAS + 78.2 DAI\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $31,777,331\n- Volume/TVL ratio: 163x (healthy: 0.1-2x)\n- LP providers: 5 addresses (all same entity)\n- Swap events: 41325 in 24h from 11 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 6 hops\n- MEV bot activity: 2 bots, unusual absence of arbitrage\n- Real organic users estimate: <15"
     },
     {
-      "token_name": "METAVERSE2",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: METAVERSE2/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $4,200,000 (auto-growing via 1% fee mechanism)\n- LP compounds automatically — TVL grown from $500K to $4.2M in 9 months\n- LP providers: 280 addresses\n- Volume/TVL: 0.43 (healthy, fee mechanism drives usage)\n- Price impact $50K trade: 0.6%\n- No LP lock needed — fee mechanism aligns incentives long-term\n- Team LP (2% of supply locked): adds $340K to pool\n- Daily fee to LPs: $7,800 average"
-    },
-    {
-      "token_name": "HIDDENWALL",
+      "token_name": "PrismStake",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: HIDDENWALL/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,100,000 — LP locked for 6 months on PinkLock\n- LP lock: legitimate — creates false sense of security\n- maxTxAmount mechanism: set to 1 token on day 4, blocking all sells\n- Pool appears liquid on DEX screener but is inaccessible to sellers\n- Buy volume day 1-3: $2.1M\n- Sell volume day 4 onwards: $0 (for non-deployer)\n- Price chart: steady increase day 1-3, flat after (no sell pressure)\n- LP lock is red herring — the trap is in maxTxAmount, not LP"
+      "token_data": "Token: PrismStake/DAI Pool (PancakeSwap V2) | Contract: 0xe1d1dc4d645af1b4fd2b2b47c4b70d5b2d53e298\nLiquidity Pool Analysis:\n- Pool TVL: $3,775,010 \u2014 appears healthy on surface\n- LP locked: Yes, via PinkSale for 11 months\n- Buy slippage required: 11% (slightly elevated but functional)\n- Sell slippage required: >70% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 6237\n- Successful swap attempts (sell): 4 (deployer wallets only)\n- Failed swap attempts (sell): 4583\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +138% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 3% | sell 84% (hidden, not shown in contract read functions)"
     },
     {
-      "token_name": "OPENDEFI",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: OPENDEFI/MATIC Pool (QuickSwap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $6,400,000\n- 2% buy/sell fee: 1% to LP, 1% to DAO treasury\n- LP has grown from $800K via fee compounding over 11 months\n- Fee cap of 5% enforced in contract — cannot be raised above this\n- 390 independent LP providers\n- Volume/TVL: 0.14 (healthy)\n- Price impact $100K trade: 0.7%\n- DAO treasury: $1.2M USDC accumulated from fees (auditable)"
-    },
-    {
-      "token_name": "SPOOKYMINT",
+      "token_name": "BetaSwap",
       "label": "rug_pull",
       "vulnerability_type": "rug_pull",
-      "token_data": "Token: SPOOKYMINT/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL before mint: $2,800,000\n- LP lock: NONE\n- Day 12 event: 900M tokens minted (900% supply inflation)\n- Token/BNB reserve ratio shifted dramatically — token price crashed\n- Deployer sold minted tokens into pool: $1,100,000 extracted\n- LP then removed: additional $1,700,000 extracted\n- Total rug: $2,800,000\n- Pool now: empty"
+      "token_data": "Token: BetaSwap/USDT Pool (Raydium) | Contract: 0x2832b29fe5c579ee684c15facbcde8aefda792cd\nLiquidity Pool Analysis:\n- Initial LP: $4,956,444 (100% provided by deployer)\n- LP token distribution: 1 address holds 96.4% of LP tokens\n- LP lock status: Locked via Team Finance \u2014 but lock contract has admin override\n- Current pool TVL: $2129 (was $4,956,444)\n- LP removal events: 5 transactions removing 91.5% of liquidity\n- Time from listing to LP removal: 547 hours\n- Price impact of LP removal: -95.9%\n- Remaining pool depth: $625 (dust)\n- Impermanent loss for non-deployer LPs: 98%\n- Deployer received 492 USDT from LP removal\n- Post-removal: zero buy/sell activity"
     },
     {
-      "token_name": "BLUECHIP",
+      "token_name": "ZephyrLend",
       "label": "safe",
       "vulnerability_type": null,
-      "token_data": "Token: BLUECHIP/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $18,000,000 — deepest liquidity in this dataset\n- LP distribution: 1,200 independent providers\n- Largest LP: 3.2% of pool (verified market maker firm)\n- 3-year pool history — survived multiple bear markets\n- Volume/TVL: 0.17 (conservative, long-term holder base)\n- 0.5% burn on sell reduces supply over time\n- Price impact $500K trade: 1.1% (extremely deep)\n- Annual fee revenue to LPs: $3.8M"
+      "token_data": "Token: ZephyrLend/BUSD Pool (SushiSwap) | Contract: 0x38088bf5f1fd04f1a50bb2b36bd48ee05352d110\nPool Health Assessment:\n- TVL: $20,852,474 | Rank: #286 on SushiSwap\n- Liquidity distribution: Full-range (52 active positions)\n- Largest position: 4.8% of TVL\n- Pool utilization rate: 78% (active trading range)\n- Impermanent loss (30d): -2.8% (normal range)\n- Fee revenue (30d): $452,669\n- Buy/sell volume ratio: 1.08 (balanced)\n- Unique traders (30d): 7194\n- MEV activity: 2% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 27s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Spearbit"
     },
     {
-      "token_name": "GHOSTLIQ",
+      "token_name": "UnityDAO",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: GHOSTLIQ/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Self-reported TVL (project dashboard): $45,000,000\n- DefiLlama tracked TVL: $84,000\n- On-chain pool reserves: 420,000 GHOSTLIQ + 24 ETH ($72K)\n- TVL inflation: project dashboard uses manipulated token price\n- Price oracle: self-hosted, not Chainlink or Uniswap TWAP\n- Volume/actual TVL: 0 (no organic trades in 30 days)\n- LP provider: 1 address (deployer)\n- Attempted CEX listing: rejected by 4 major exchanges after forensics"
+      "token_data": "Token: UnityDAO/DAI Pool (PancakeSwap V2) | Contract: 0x6fee1491b58bd6c927e631580dba6d3dbfd46c7a\nLiquidity & Volume Analysis:\n- Reported TVL: $29,326,455\n- On-chain verified TVL (reserve0 * price + reserve1): $120,685\n- TVL discrepancy: 243x \u2014 price oracle manipulation\n- Pool reserves: 230,230 UNIT + 462.0 DAI\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $13,311,653\n- Volume/TVL ratio: 325x (healthy: 0.1-2x)\n- LP providers: 2 addresses (all same entity)\n- Swap events: 7452 in 24h from 7 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 9 hops\n- MEV bot activity: 2 bots, unusual absence of arbitrage\n- Real organic users estimate: <48"
     },
     {
-      "token_name": "SILENTDRAIN",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: SILENTDRAIN/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $6,200,000 at peak\n- LP: distributed among 340 community providers\n- Hidden drain: 20% of every transfer to 0x1337..., including LP interactions\n- Every time LP was added/removed, 20% drained silently\n- Over 6 months: $3,400,000 drained from LP fee accounting\n- LP providers received only 80% of their expected fee revenue\n- Pool appeared normal on DEX aggregators\n- Detection: researcher noticed fee revenue 20% below theoretical"
-    },
-    {
-      "token_name": "CLEARCHAIN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: CLEARCHAIN/ETH Wrapped Pool\nLiquidity Pool Analysis:\n- Direct ETH backing: 4,200 ETH held in contract ($12.6M)\n- 100% collateralization ratio — verifiable on-chain\n- Not an AMM pool — direct mint/redeem against ETH\n- 14,000 depositors\n- Largest depositor: 180 ETH (4.3% of pool)\n- No LP concentration risk\n- Reentrancy guard prevents flash loan attacks\n- Two independent audits confirm: no manipulation vectors\n- Redemption: always 1:1 ETH, zero slippage"
-    },
-    {
-      "token_name": "REBASETOKEN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: REBASETOKEN/USDC Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,800,000\n- Rebase adjusts token balance automatically to target $1.00\n- LP providers: token side of pool rebases — special LP math applies\n- 14-month track record, price within ±5% of target\n- Volume/TVL: 0.37 (healthy)\n- LP providers: 180 addresses\n- Rebase trigger: automated keeper, not manual (admin cannot control timing)\n- Oracle: Chainlink ETH/USD + USDC/USD\n- No LP lock needed — no admin can drain reserves"
-    },
-    {
-      "token_name": "TAXMAX",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: TAXMAX/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,400,000 at peak (day 7)\n- LP: NOT locked\n- Tax-ramping mechanism: sell tax raised from 0% to 99% over 21 days\n- As sell tax rose, sell volume dropped, LP grew from buy fees\n- Day 21: deployer removed LP: $3,200,000 extracted\n- Tax accumulation: $400,000 from accumulated taxes (paid to dev address)\n- Total extracted: $3,600,000 across 21 days\n- Legal grey area: sell tax was technically disclosed in contract (but not UI)"
-    },
-    {
-      "token_name": "VESTALPHA",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: VESTALPHA/ETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $7,400,000 — organically grown\n- Team allocation: locked in VestingWallet, cannot be added to pool until vested\n- Community LP providers: 410 addresses\n- Largest LP: 5.8% of pool\n- 10-month track record\n- Volume/TVL: 0.30 (healthy)\n- Price impact $100K trade: 0.8%\n- LP Bootstrapped via LBP — no whale sniping at launch\n- Anti-rug: team tokens in vesting contract cannot touch LP"
-    },
-    {
-      "token_name": "MICROHONEY",
+      "token_name": "MeridianDAO",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: MICROHONEY/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,800,000 — LP locked on PinkLock for 1 year\n- Appears safe: locked LP, reasonable tax, clean chart\n- Trap: minimum sell threshold continuously raised\n- Pool depth is irrelevant — users cannot sell due to min threshold\n- Buy pressure: $2.8M in (1,890 wallets)\n- Sell pressure: $0 out (threshold blocks all sells)\n- Deployer's sell bypass: sold $1,200,000 ignoring threshold\n- LP lock: legitimate but serves as credibility cover for the threshold trap"
+      "token_data": "Token: MeridianDAO/USDT Pool (Uniswap V2) | Contract: 0x2fd9911b0e6c21decd55f3efad27b16e16ce7efb\nPool Health Indicators:\n- TVL: $774,094 | Daily volume: $349,991\n- Volume composition: 100% buys, 1% sells\n- Liquidity depth for $10K buy: 2.0% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 2 addresses\n- Pool age: 44 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b117% daily swings\n- Contract _maxSellAmount or equivalent: set to 6 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
     },
     {
-      "token_name": "COMMUNITYPOOL",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: COMMUNITYPOOL/MATIC Pool (QuickSwap V3 + SushiSwap)\nLiquidity Pool Analysis:\n- QuickSwap TVL: $3,400,000\n- SushiSwap TVL: $2,400,000\n- Total: $5,800,000 across 2 DEXs\n- LP providers: 620 addresses (well distributed)\n- Max wallet cap prevents single-wallet LP concentration\n- Volume/TVL: 0.28 across both pools\n- DAO can migrate LP between DEXs via governance (3-day timelock)\n- No LP lock — 620 providers create decentralized custody\n- 14-month history, LP grew from $290K organically"
-    },
-    {
-      "token_name": "SIPHON",
+      "token_name": "NimbusFi",
       "label": "rug_pull",
       "vulnerability_type": "rug_pull",
-      "token_data": "Token: SIPHON/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL at peak: $28,000,000 (community-provided LP over 6 months)\n- LP: distributed among 890 providers\n- Hidden drain: 20% of every pool interaction drained to 0x1337...\n- Each LP add: only 80% actually entered the pool\n- Each LP remove: only 80% returned to provider\n- Accumulated drain from LP interactions alone: $4,200,000\n- Total drained across all transfer types: $126,000,000 (including holder transfers)\n- Pool TVL appeared normal — drain was invisible in standard analytics"
+      "token_data": "Token: NimbusFi/BUSD Pool (Orca) | Contract: 0x566faf60b96b55b0eb77a5197aa880babb983163\nLP Risk Assessment:\n- Pool created: 26 days ago\n- Initial liquidity: $2,240,306\n- LP providers: 3 unique addresses (all linked to deployer)\n- LP token lock: None\n- Liquidity concentration: 98.4% in single address\n- Unusual pattern: deployer added and removed liquidity 9 times in 29 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $1,184,882\n- Current TVL trend: declining 9% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
     },
     {
-      "token_name": "TRUSTPROTOCOL",
+      "token_name": "IonSwap",
       "label": "safe",
       "vulnerability_type": null,
-      "token_data": "Token: TRUSTPROTOCOL/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $7,200,000 managed by DAO\n- DAO controls LP via 4/7 multisig\n- LP strategy: actively managed with 3-day governance delay on changes\n- Single pause incident (8 hours): caused by external DeFi market cascade\n- Pool recovered to pre-pause TVL within 2 weeks\n- Volume/TVL: 0.26\n- Insurance fund: $800K covers smart contract exploits\n- Annual LP fee revenue: $1.4M distributed to 280 providers"
+      "token_data": "Token: IonSwap/BUSD Pool (PancakeSwap V2) | Contract: 0x4c78378ec43484aa1f388c58974bc5014081ed3b\nPool Health Assessment:\n- TVL: $27,543,319 | Rank: #253 on PancakeSwap V2\n- Liquidity distribution: Concentrated (60 active positions)\n- Largest position: 2.9% of TVL\n- Pool utilization rate: 45% (active trading range)\n- Impermanent loss (30d): -4.0% (normal range)\n- Fee revenue (30d): $414,966\n- Buy/sell volume ratio: 1.14 (balanced)\n- Unique traders (30d): 1053\n- MEV activity: 4% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 60s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by OpenZeppelin"
     },
     {
-      "token_name": "CLOAKRUG",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: CLOAKRUG/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,200,000 (all from deployer)\n- LP lock: NONE — 100% held by deployer\n- rug() function: extracted all ETH from pool via tx.origin bypass\n- LP removal speed: complete in 1 block (~12 seconds)\n- Obfuscation: deployer used CREATE2 with random salt, pool address not traceable\n- Funds moved: Uniswap pool -> EOA -> 6-hop mixing -> final wallet\n- Pool chart: straight up for 5 days, then vertical drop to zero\n- 4,200 victims lost $3.2M combined"
-    },
-    {
-      "token_name": "FAIRLAUNCH",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: FAIRLAUNCH/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,400,000 — 100% community-provided\n- Zero team LP (team has no tokens at all)\n- 280 independent LP providers\n- LP grew organically from $0 (no team seed)\n- Volume/TVL: 0.23 (healthy)\n- Price impact $50K trade: 0.8%\n- No LP lock needed — no team tokens to dump\n- 8-month track record\n- Largest LP provider: 6.2% (community whale, wallet publicly known)"
-    },
-    {
-      "token_name": "HIDDENPROXY",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: HIDDENPROXY/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL at attack: $4,800,000\n- LP locked on Unicrypt — appeared safe to investors\n- Attack via proxy upgrade (not LP removal):\n  1. Upgrade implementation to malicious contract\n  2. Malicious contract: minted 10T tokens in same tx\n  3. Dumped tokens into pool — price -99.9%\n  4. Extracted LP (now worth more due to token price crash mechanics)\n- LP lock bypassed: lock protects LP tokens, not the token price\n- $4,800,000 extracted in 3.5 minutes\n- LP lock was irrelevant — upgrade attack drained value through price crash"
-    },
-    {
-      "token_name": "DECENTRAL",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: DECENTRAL/ETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $8,900,000 (1.5-year track record)\n- LP: 520 independent providers\n- Largest LP: 4.9% of pool\n- No admin: no possibility of LP-affecting governance attack\n- Volume/TVL: 0.31 (healthy)\n- Price impact $200K trade: 1.3%\n- Pool survived 2 major market downturns without LP exodus\n- Annual fee revenue: $2.8M distributed to LP providers\n- Zero oracle manipulation attempts in 1.5-year history"
-    },
-    {
-      "token_name": "PERMABUY",
+      "token_name": "CatalystFi",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: PERMABUY/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,900,000 — LP locked on PinkLock for 1 year\n- Appears legitimate: locked LP, clean chart, active volume\n- Sell function requires matching internal router hash — impossible for users\n- Pool depth is healthy but inaccessible to sellers\n- Buy volume: $2.4M from 4,102 wallets\n- Sell volume from public wallets: $0\n- Deployer used admin bypass: sold $2.38M through LP directly\n- LP lock created credibility — 4,102 buyers trusted the lock signal"
+      "token_data": "Token: CatalystFi/USDT Pool (PancakeSwap V2) | Contract: 0x741f1923974464efd0aa70e77800ba5d9ed18902\nLiquidity Pool Analysis:\n- Pool TVL: $1,720,658 \u2014 appears healthy on surface\n- LP locked: Yes, via PinkSale for 12 months\n- Buy slippage required: 10% (slightly elevated but functional)\n- Sell slippage required: >86% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 2256\n- Successful swap attempts (sell): 11 (deployer wallets only)\n- Failed swap attempts (sell): 7342\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +214% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 3% | sell 91% (hidden, not shown in contract read functions)"
     },
     {
-      "token_name": "PUMPNDUMP",
+      "token_name": "FluxDAO",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: FluxDAO/DAI Pool (Camelot) | Contract: 0x31D9BB2d2e971f0F2832B32f942828E1F5d82Bf9\nLP Risk Assessment:\n- Pool created: 14 days ago\n- Initial liquidity: $2,341,630\n- LP providers: 2 unique addresses (all linked to deployer)\n- LP token lock: None\n- Liquidity concentration: 97.7% in single address\n- Unusual pattern: deployer added and removed liquidity 4 times in 30 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $1,575,647\n- Current TVL trend: declining 9% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "ArcticDEX",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: PUMPNDUMP/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL at peak: $6,800,000 (inflated by wash trading)\n- Initial LP: $120,000 (deployer)\n- Bot activity inflated price 1,800%: LP value grew to $6.8M on paper\n- Volume/TVL at peak: 6.6x (wash trading signature)\n- LP dump: operator removed all LP at peak — extracted $6.8M\n- Retail investors who added LP during pump: lost $4.1M\n- Total victim losses: $4.1M from retail LP + retail token buyers\n- Post-dump pool: $0 TVL, ghost pool remains on PancakeSwap"
+      "token_data": "Token: ArcticDEX/USDC Pool (Trader Joe) | Contract: 0xc58d71ade18dfe9de3ec89ab2692903ff66680a3\nPool Anomaly Report:\n- Listed on: DexScreener (top 277 by volume)\n- Reported metrics: Volume $164,838,154 | TVL $24,501,000\n- Actual on-chain reserves: $122,505\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 6 wallets executing 108 trades/day\n- Trade size distribution: uniform $33697-$88569 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0052% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 1 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 3/10"
     },
     {
-      "token_name": "SNAPSHOT",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: SNAPSHOT/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $4,800,000\n- LP providers: 310 addresses\n- Snapshot mechanism cannot affect LP (read-only)\n- No admin LP control — only DAO can propose changes (3-day timelock)\n- Volume/TVL: 0.23\n- Price impact $100K trade: 0.9%\n- No flash loan vulnerabilities (snapshot uses historical blocks)\n- 2-year track record\n- Annual fee revenue: $1.1M"
-    },
-    {
-      "token_name": "TRANSFERLOCK",
-      "label": "honeypot",
-      "vulnerability_type": "honeypot",
-      "token_data": "Token: TRANSFERLOCK/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $1,800,000 — LP locked on Unicrypt for 1 year\n- LP lock: genuine\n- transfersEnabled = false: makes LP inaccessible to regular users\n- Buying: possible (deployer executes buy via admin bypass)\n- Selling: impossible (requires transfersEnabled = true)\n- $1.4M in buy-side funds trapped by token transfer lock\n- LP lock is visible and marketed as 'proof of legitimacy'\n- Trap: locked LP is also inaccessible — even the 'locked' funds are stuck\n- Promoted as 'stealth launch' with 'transfers enabling soon'"
-    },
-    {
-      "token_name": "DECENTRALFI",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: DECENTRALFI/ETH Pool (Uniswap V3 + Curve)\nLiquidity Pool Analysis:\n- Uniswap V3 TVL: $14,000,000\n- Curve TVL: $8,000,000\n- Total: $22,000,000 (deepest in portfolio)\n- 940 independent LP providers\n- Volume/TVL: 0.28\n- Price impact $500K trade: 1.0%\n- Used as collateral in 6 lending protocols (AAVE, Compound, etc.)\n- 2-year zero-incident track record\n- No admin of any kind — fully immutable protocol"
-    },
-    {
-      "token_name": "VERITOKEN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: VERITOKEN/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $2,100,000\n- Access-restricted: only KYC-verified addresses can trade\n- LP providers: 89 verified institutional addresses\n- Volume: $440,000/day (lower due to KYC requirement)\n- Volume/TVL: 0.21 (healthy for restricted token)\n- No wash trading possible — KYC prevents anonymous bot wallets\n- Price impact $50K trade: 1.4% (less deep due to restricted LP base)\n- Compliance: all LP providers are KYC-verified MSBs or institutions"
-    },
-    {
-      "token_name": "ZEROADMIN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: ZEROADMIN/ETH Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $5,100,000\n- LP providers: 380 addresses\n- No admin: no possible governance attack on LP\n- Volume/TVL: 0.33 (healthy)\n- Price impact $100K trade: 1.1%\n- 1-year track record, LP grew from $200K\n- No concentration risk — largest LP: 5.1% of pool\n- Annual fee revenue: $1.4M distributed to 380 providers\n- Zero oracle manipulation attempts"
-    },
-    {
-      "token_name": "REVERSEHONEY",
-      "label": "honeypot",
-      "vulnerability_type": "honeypot",
-      "token_data": "Token: REVERSEHONEY/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $2,200,000 — LP locked via DXSale for 6 months\n- LP lock provides false security signal\n- pauseSale() called day 8: disabled all buys AND sells for regular users\n- Deployer excluded from pause: sold $1.78M via admin exclusion\n- Pool TVL remains $2.2M but is inaccessible to all non-deployer addresses\n- 3,412 holders own worthless tokens they cannot sell\n- Chart: normal activity for 8 days, then complete flatline\n- LP lock expires in 4 months — at that point remaining LP drainable by anyone"
-    },
-    {
-      "token_name": "SHADOWSELL",
-      "label": "honeypot",
-      "vulnerability_type": "honeypot",
-      "token_data": "Token: SHADOWSELL/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $3,100,000 — LP locked via Team Finance for 1 year\n- LP lock: genuine and verifiable\n- Whitelist mechanism: only ops-approved addresses can sell\n- Pool has $3.1M in liquidity but is accessible only to 1 address\n- Buy volume from public: $2.1M (6,781 wallets)\n- Sell volume from public: $0\n- Deployer sold $2.1M using their approved status\n- LP lock creates confidence signal; whitelist creates exit barrier"
-    },
-    {
-      "token_name": "SELLBLOCK",
-      "label": "honeypot",
-      "vulnerability_type": "honeypot",
-      "token_data": "Token: SELLBLOCK/ETH Pool (Uniswap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $1,600,000 — LP locked on Unicrypt for 6 months\n- LP depth appears fine: $1.6M in pool\n- Sell function calls admin contract which always returns false\n- Pool is accessible in principle but sell approval always denied\n- Buy volume: $1.3M from 2,109 wallets\n- Sell volume: $0 from regular wallets\n- Admin approval contract: programmed to return false for all callers\n- Deployer sold $1.28M via internal bypass that skips approval check"
-    },
-    {
-      "token_name": "GHOSTMINT",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: GHOSTMINT/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Initial LP: $310,000 (50% of presale, rest to dev)\n- LP lock: NONE — held in deployer wallet\n- Day 1: dev dumped 80% of holdings, pool drained to $4,200\n- LP then removed: $4,200 extracted (rest already worthless)\n- Total loss: $620,000 (presale funds + LP)\n- Post-rug: pool shows as active on PancakeSwap (ghost listing)\n- Red flag pre-launch: no lock contract deployed despite promises\n- Dev wallet: 0 prior on-chain history, funded via mixer"
-    },
-    {
-      "token_name": "QUANTUM",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: QUANTUM/USDC Pool (Uniswap V3)\nLiquidity Pool Analysis:\n- Pool TVL: $19,200,000 — largest pool in this dataset\n- LP providers: 1,400 independent addresses\n- Largest single LP: 2.8% of pool (verified market maker)\n- 24-month track record — zero LP manipulation events\n- Volume/TVL: 0.25 (healthy)\n- Price impact $1M trade: 1.8%\n- Used as Aave V3 collateral: $42M borrowed against QUANTUM\n- Annual LP fee revenue: $7.4M distributed to 1,400 providers"
-    },
-    {
-      "token_name": "CIRCUITBREAK",
+      "token_name": "KineticDEX",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: CIRCUITBREAK/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $210,000 (deployer-controlled)\n- Claimed volume: $48,000,000/day (CoinGecko ranking: #54)\n- Volume/TVL ratio: 228x — physically impossible\n- Analysis: 6-wallet closed loop, each trade $8M, completing 6-hop cycle in 18 seconds\n- All 'volume' reverts to same starting wallet\n- Net pool reserve change after 1 day: $0 (circular, no real pressure)\n- LP provider: 1 (deployer only)\n- Purpose: achieve CoinGecko top 100 by volume to attract retail listings"
+      "token_data": "Token: KineticDEX/BUSD Pool (SushiSwap) | Contract: 0x448fcea60482c0ea5d02fa44648c3749c46c4a29\nLiquidity & Volume Analysis:\n- Reported TVL: $5,529,724\n- On-chain verified TVL (reserve0 * price + reserve1): $37,363\n- TVL discrepancy: 148x \u2014 price oracle manipulation\n- Pool reserves: 158,695 KINE + 304.9 BUSD\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $75,767,956\n- Volume/TVL ratio: 148x (healthy: 0.1-2x)\n- LP providers: 4 addresses (all same entity)\n- Swap events: 44839 in 24h from 7 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 8 hops\n- MEV bot activity: 5 bots, unusual absence of arbitrage\n- Real organic users estimate: <37"
     },
     {
-      "token_name": "AIRDROPRUG",
+      "token_name": "XenonSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: XenonSwap/BUSD Pool (PancakeSwap V2) | Contract: 0xcd52c19d8ae767f4b030c76a24586ec9fb303068\nLP Risk Assessment:\n- Pool created: 60 days ago\n- Initial liquidity: $5,243,048\n- LP providers: 1 unique addresses (all linked to deployer)\n- LP token lock: None\n- Liquidity concentration: 96.6% in single address\n- Unusual pattern: deployer added and removed liquidity 9 times in 12 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $2,477,793\n- Current TVL trend: declining 12% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "JetDAO",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: JetDAO/USDC Pool (Trader Joe) | Contract: 0x502a2ace84be95cb3cd12bcfa15be43a3a468c0a\nLiquidity Pool Analysis:\n- Pool TVL: $31,431,457\n- LP providers: 372 unique addresses\n- Largest LP provider: 9.6% of pool (institutional market maker)\n- LP lock: Protocol-owned liquidity via Olympus-style bonding\n- Pool age: 412 days\n- Historical TVL: stable/growing over 4 months\n- Price impact for $100K trade: 1.0%\n- Daily volume: $9,245,909\n- Volume/TVL ratio: 0.19x (healthy)\n- Fee tier: 1% | Accumulated fees: $398,937\n- LP APY: 24.0% (organic fee generation)\n- Multiple DEX pairs exist (2 pools across 1 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "DeltaLend",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: AIRDROPRUG/BNB Pool (PancakeSwap V2)\nLiquidity Pool Analysis:\n- Pool TVL: $4,100,000 — LP locked via Team Finance for 1 year\n- LP lock appears legitimate and credible\n- Pool depth: appears healthy at $4.1M\n- Buy volume: $3.2M from regular buyers (all trapped, blacklisted)\n- Sell volume from public: $0 (blacklisted on purchase)\n- Insider sells (whitelisted airdrop recipients): $3.2M successfully sold\n- Pool TVL grew from insider buys used as liquidity seed\n- Pattern: locked LP used to signal legitimacy; insider whitelist enables exit"
+      "token_data": "Token: DeltaLend/DAI Pool (Raydium) | Contract: 0x2604fa406be957e542beb89e6754fcde6815e83f\nLiquidity Pool Analysis:\n- Pool TVL: $721,013 \u2014 appears healthy on surface\n- LP locked: Yes, via PinkSale for 19 months\n- Buy slippage required: 10% (slightly elevated but functional)\n- Sell slippage required: >53% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 7745\n- Successful swap attempts (sell): 3 (deployer wallets only)\n- Failed swap attempts (sell): 6429\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +57% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 6% | sell 99% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "HelixDAO",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: HelixDAO/DAI Pool (Uniswap V3) | Contract: 0xa1da4dd5c4b0d5040022c4fed4b89882aab30d10\nLiquidity Pool Analysis:\n- Pool TVL: $17,176,355\n- LP providers: 277 unique addresses\n- Largest LP provider: 9.6% of pool (institutional market maker)\n- LP lock: Community-distributed \u2014 no single entity can drain\n- Pool age: 450 days\n- Historical TVL: stable/growing over 5 months\n- Price impact for $100K trade: 1.9%\n- Daily volume: $8,622,764\n- Volume/TVL ratio: 0.32x (healthy)\n- Fee tier: 0.05% | Accumulated fees: $3,613,570\n- LP APY: 9.6% (organic fee generation)\n- Multiple DEX pairs exist (3 pools across 3 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "LithiumFi",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: LithiumFi/DAI Pool (Orca) | Contract: 0xda8a938fa494348aeefcc57a4b1927ebfc9c91f9\nPool Anomaly Report:\n- Listed on: CoinMarketCap (top 492 by volume)\n- Reported metrics: Volume $235,978,965 | TVL $18,177,182\n- Actual on-chain reserves: $102,119\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 6 wallets executing 873 trades/day\n- Trade size distribution: uniform $10213-$129269 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0081% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 3 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 3/10"
+    },
+    {
+      "token_name": "OasisLend",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: OasisLend/DAI Pool (Uniswap V2) | Contract: 0xe96ea3e2eb0195517cddf190c3580b7b4cba11c1\nLP Risk Assessment:\n- Pool created: 32 days ago\n- Initial liquidity: $9,643,584\n- LP providers: 2 unique addresses (all linked to deployer)\n- LP token lock: Self-custodied (not in lock contract)\n- Liquidity concentration: 96.8% in single address\n- Unusual pattern: deployer added and removed liquidity 3 times in 18 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $7,185,416\n- Current TVL trend: declining 7% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "PulseDAO",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: PulseDAO/WBNB Pool (Uniswap V3) | Contract: 0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e\nLiquidity & Volume Analysis:\n- Reported TVL: $42,841,722\n- On-chain verified TVL (reserve0 * price + reserve1): $151,921\n- TVL discrepancy: 282x \u2014 price oracle manipulation\n- Pool reserves: 377,248 PULS + 314.8 WBNB\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $45,979,918\n- Volume/TVL ratio: 434x (healthy: 0.1-2x)\n- LP providers: 3 addresses (all same entity)\n- Swap events: 16156 in 24h from 15 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 3 hops\n- MEV bot activity: 1 bots, unusual absence of arbitrage\n- Real organic users estimate: <21"
+    },
+    {
+      "token_name": "XenonSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: XenonSwap/WETH Pool (Uniswap V2) | Contract: 0x1b1c2147700b1665de9d946620a75604ab546ba8\nPool Health Assessment:\n- TVL: $24,820,803 | Rank: #353 on Uniswap V2\n- Liquidity distribution: Full-range (166 active positions)\n- Largest position: 4.3% of TVL\n- Pool utilization rate: 52% (active trading range)\n- Impermanent loss (30d): -2.7% (normal range)\n- Fee revenue (30d): $318,323\n- Buy/sell volume ratio: 0.94 (balanced)\n- Unique traders (30d): 2087\n- MEV activity: 3% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (18 decimals, 31s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Trail of Bits"
+    },
+    {
+      "token_name": "QuantumSwap",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: QuantumSwap/USDT Pool (PancakeSwap V2) | Contract: 0x8142ca548ad503b5325d0ea6523abfcaa578625d\nPool Anomaly Report:\n- Listed on: DexScreener (top 155 by volume)\n- Reported metrics: Volume $157,061,765 | TVL $16,946,884\n- Actual on-chain reserves: $77,738\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 15 wallets executing 795 trades/day\n- Trade size distribution: uniform $36711-$167773 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0099% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 3 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 1/10"
+    },
+    {
+      "token_name": "ZealotFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: ZealotFi/DAI Pool (Raydium) | Contract: 0xe7d8e9db3b56e7764effea6b7c84ea55d03dfa1c\nLiquidity Pool Analysis:\n- Pool TVL: $7,848,223 \u2014 appears healthy on surface\n- LP locked: Yes, via Team Finance for 23 months\n- Buy slippage required: 9% (slightly elevated but functional)\n- Sell slippage required: >86% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 6111\n- Successful swap attempts (sell): 6 (deployer wallets only)\n- Failed swap attempts (sell): 6811\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +136% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 6% | sell 85% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "JadeProtocol",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: JadeProtocol/BUSD Pool (Uniswap V2) | Contract: 0xe6525abe600faa4ee0a3e32c04cb2c6403c761de\nLiquidity Pool Analysis:\n- Pool TVL: $47,809,634\n- LP providers: 106 unique addresses\n- Largest LP provider: 8.2% of pool (institutional market maker)\n- LP lock: Community-distributed \u2014 no single entity can drain\n- Pool age: 123 days\n- Historical TVL: stable/growing over 13 months\n- Price impact for $100K trade: 1.0%\n- Daily volume: $3,864,020\n- Volume/TVL ratio: 0.20x (healthy)\n- Fee tier: 0.3% | Accumulated fees: $1,268,437\n- LP APY: 9.1% (organic fee generation)\n- Multiple DEX pairs exist (4 pools across 3 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "SynapseProtocol",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: SynapseProtocol/WBNB Pool (Camelot) | Contract: 0x891e3f84f172b55bfb7f0abfbdcc9ea9ae0196fd\nPool Health Indicators:\n- TVL: $4,991,405 | Daily volume: $384,698\n- Volume composition: 100% buys, 4% sells\n- Liquidity depth for $10K buy: 0.7% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 5 addresses\n- Pool age: 12 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b18% daily swings\n- Contract _maxSellAmount or equivalent: set to 18 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "AtlasProtocol",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: AtlasProtocol/USDT Pool (PancakeSwap V2) | Contract: 0xa7e2ee3fe835e08655ac4bfa3b022b6c016ada01\nLP Risk Assessment:\n- Pool created: 3 days ago\n- Initial liquidity: $8,644,273\n- LP providers: 3 unique addresses (all linked to deployer)\n- LP token lock: Self-custodied (not in lock contract)\n- Liquidity concentration: 97.5% in single address\n- Unusual pattern: deployer added and removed liquidity 7 times in 16 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $6,277,795\n- Current TVL trend: declining 8% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "WaveDAO",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: WaveDAO/WBNB Pool (Camelot) | Contract: 0x038e20839aebfe12b7956adcbc2511f6f7085164\nLiquidity Pool Analysis:\n- Pool TVL: $1,278,271 \u2014 appears healthy on surface\n- LP locked: Yes, via Unicrypt for 21 months\n- Buy slippage required: 10% (slightly elevated but functional)\n- Sell slippage required: >63% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 5201\n- Successful swap attempts (sell): 3 (deployer wallets only)\n- Failed swap attempts (sell): 5022\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +31% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 6% | sell 82% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "YugenDAO",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: YugenDAO/WBNB Pool (Trader Joe) | Contract: 0x99dab0ae4f82fb792c780515c7e9036240e8e627\nLiquidity & Volume Analysis:\n- Reported TVL: $46,934,736\n- On-chain verified TVL (reserve0 * price + reserve1): $198,876\n- TVL discrepancy: 236x \u2014 price oracle manipulation\n- Pool reserves: 487,620 YUGE + 366.9 WBNB\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $75,887,697\n- Volume/TVL ratio: 273x (healthy: 0.1-2x)\n- LP providers: 3 addresses (all same entity)\n- Swap events: 42379 in 24h from 20 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 10 hops\n- MEV bot activity: 2 bots, unusual absence of arbitrage\n- Real organic users estimate: <32"
+    },
+    {
+      "token_name": "OracleSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: OracleSwap/WBNB Pool (PancakeSwap V2) | Contract: 0x59434a7b9aeebe94045d3715aa020f6a1d7875ad\nLP Risk Assessment:\n- Pool created: 27 days ago\n- Initial liquidity: $2,595,209\n- LP providers: 2 unique addresses (all linked to deployer)\n- LP token lock: Locked but deployer is lock contract owner\n- Liquidity concentration: 96.5% in single address\n- Unusual pattern: deployer added and removed liquidity 6 times in 14 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $1,214,788\n- Current TVL trend: declining 10% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "NodeFi",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: NodeFi/DAI Pool (Uniswap V3) | Contract: 0x1f2fd1ea01e2c8c8ca20e92b09f5fb20789ed841\nLiquidity & Volume Analysis:\n- Reported TVL: $7,822,044\n- On-chain verified TVL (reserve0 * price + reserve1): $90,954\n- TVL discrepancy: 86x \u2014 price oracle manipulation\n- Pool reserves: 394,330 NODE + 106.4 DAI\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $83,547,547\n- Volume/TVL ratio: 463x (healthy: 0.1-2x)\n- LP providers: 4 addresses (all same entity)\n- Swap events: 19343 in 24h from 6 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 9 hops\n- MEV bot activity: 2 bots, unusual absence of arbitrage\n- Real organic users estimate: <25"
+    },
+    {
+      "token_name": "UmbraDAO",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: UmbraDAO/USDT Pool (PancakeSwap V2) | Contract: 0x3c1d22c5ce437c5a476fe73b9457ae8252d43e81\nLiquidity & Volume Analysis:\n- Reported TVL: $11,542,560\n- On-chain verified TVL (reserve0 * price + reserve1): $48,094\n- TVL discrepancy: 240x \u2014 price oracle manipulation\n- Pool reserves: 67,776 UMBR + 127.9 USDT\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $66,853,813\n- Volume/TVL ratio: 134x (healthy: 0.1-2x)\n- LP providers: 2 addresses (all same entity)\n- Swap events: 36210 in 24h from 19 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 7 hops\n- MEV bot activity: 2 bots, unusual absence of arbitrage\n- Real organic users estimate: <17"
+    },
+    {
+      "token_name": "KaizenSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: KaizenSwap/WETH Pool (Uniswap V2) | Contract: 0x96fb28a0e016616959a50007f5d8969d7bcf6d2f\nLP Risk Assessment:\n- Pool created: 33 days ago\n- Initial liquidity: $7,327,688\n- LP providers: 2 unique addresses (all linked to deployer)\n- LP token lock: Self-custodied (not in lock contract)\n- Liquidity concentration: 96.5% in single address\n- Unusual pattern: deployer added and removed liquidity 9 times in 12 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $4,163,692\n- Current TVL trend: declining 8% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "ForgeProtocol",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: ForgeProtocol/USDC Pool (Orca) | Contract: 0x93c564d4cc593867daae181eb3b494a2362b1ec5\nLiquidity & Volume Analysis:\n- Reported TVL: $8,770,125\n- On-chain verified TVL (reserve0 * price + reserve1): $116,935\n- TVL discrepancy: 75x \u2014 price oracle manipulation\n- Pool reserves: 35,760 FORG + 327.8 USDC\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $61,718,851\n- Volume/TVL ratio: 137x (healthy: 0.1-2x)\n- LP providers: 3 addresses (all same entity)\n- Swap events: 31390 in 24h from 10 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 6 hops\n- MEV bot activity: 4 bots, unusual absence of arbitrage\n- Real organic users estimate: <48"
+    },
+    {
+      "token_name": "InfinityVault",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: InfinityVault/WBNB Pool (PancakeSwap V2) | Contract: 0xd4c435f5b09f855c3317c8524cb1f586e42795fa\nPool Health Indicators:\n- TVL: $7,771,868 | Daily volume: $190,294\n- Volume composition: 96% buys, 1% sells\n- Liquidity depth for $10K buy: 0.6% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 5 addresses\n- Pool age: 23 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b119% daily swings\n- Contract _maxSellAmount or equivalent: set to 95 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "SolaceDAO",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: SolaceDAO/WBNB Pool (Orca) | Contract: 0x981b91d3222b8e14bdfc61c76559853b5a1c1ba7\nLiquidity Pool Analysis:\n- Pool TVL: $19,153,511\n- LP providers: 420 unique addresses\n- Largest LP provider: 3.4% of pool (institutional market maker)\n- LP lock: Protocol-owned liquidity via Olympus-style bonding\n- Pool age: 320 days\n- Historical TVL: stable/growing over 14 months\n- Price impact for $100K trade: 1.0%\n- Daily volume: $5,590,515\n- Volume/TVL ratio: 0.40x (healthy)\n- Fee tier: 0.3% | Accumulated fees: $279,879\n- LP APY: 23.6% (organic fee generation)\n- Multiple DEX pairs exist (2 pools across 1 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "VelodromeV3",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: VelodromeV3/BUSD Pool (Raydium) | Contract: 0xf6ec8d867a227ff5f84761407da1f85826c17797\nPool Anomaly Report:\n- Listed on: CoinGecko (top 134 by volume)\n- Reported metrics: Volume $460,609,440 | TVL $3,426,582\n- Actual on-chain reserves: $36,453\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 15 wallets executing 595 trades/day\n- Trade size distribution: uniform $25675-$173667 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0065% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 1 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 3/10"
+    },
+    {
+      "token_name": "KaizenSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: KaizenSwap/USDT Pool (Camelot) | Contract: 0x77d31afa61c487db2d7b8e31ba964cd1a022a9d3\nPool Health Assessment:\n- TVL: $49,867,792 | Rank: #359 on Camelot\n- Liquidity distribution: Concentrated (55 active positions)\n- Largest position: 6.8% of TVL\n- Pool utilization rate: 35% (active trading range)\n- Impermanent loss (30d): -1.8% (normal range)\n- Fee revenue (30d): $488,270\n- Buy/sell volume ratio: 0.98 (balanced)\n- Unique traders (30d): 9558\n- MEV activity: 2% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 43s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Trail of Bits"
+    },
+    {
+      "token_name": "BetaSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: BetaSwap/USDT Pool (SushiSwap) | Contract: 0x5380c66ce44cb2ec4e873783e19c64c98d144716\nLiquidity Pool Analysis:\n- Pool TVL: $2,155,113\n- LP providers: 304 unique addresses\n- Largest LP provider: 9.5% of pool (institutional market maker)\n- LP lock: Protocol-owned liquidity via Olympus-style bonding\n- Pool age: 200 days\n- Historical TVL: stable/growing over 17 months\n- Price impact for $100K trade: 0.7%\n- Daily volume: $917,616\n- Volume/TVL ratio: 0.23x (healthy)\n- Fee tier: 0.3% | Accumulated fees: $3,850,423\n- LP APY: 12.4% (organic fee generation)\n- Multiple DEX pairs exist (2 pools across 3 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "BlazeDEX",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: BlazeDEX/USDT Pool (Uniswap V3) | Contract: 0x8b498ff7d5ce50f7ce5bc3c4ea8c20c42b930ec8\nLiquidity & Volume Analysis:\n- Reported TVL: $13,167,189\n- On-chain verified TVL (reserve0 * price + reserve1): $64,863\n- TVL discrepancy: 203x \u2014 price oracle manipulation\n- Pool reserves: 181,376 BLAZ + 299.7 USDT\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $36,732,012\n- Volume/TVL ratio: 309x (healthy: 0.1-2x)\n- LP providers: 4 addresses (all same entity)\n- Swap events: 6168 in 24h from 5 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 9 hops\n- MEV bot activity: 2 bots, unusual absence of arbitrage\n- Real organic users estimate: <18"
+    },
+    {
+      "token_name": "MatrixLend",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: MatrixLend/USDC Pool (Uniswap V3) | Contract: 0x920a7cbD0b5aeD31827385783E7Af245331cA9eE\nPool Anomaly Report:\n- Listed on: CoinGecko (top 138 by volume)\n- Reported metrics: Volume $151,587,426 | TVL $14,360,577\n- Actual on-chain reserves: $134,211\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 10 wallets executing 804 trades/day\n- Trade size distribution: uniform $41157-$149498 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0034% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 1 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 1/10"
+    },
+    {
+      "token_name": "GlacierFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: GlacierFi/WETH Pool (Uniswap V3) | Contract: 0x4e73b32ed6c35f570686b89848e5f39f20ecc106\nLiquidity Pool Analysis:\n- Pool TVL: $2,012,242 \u2014 appears healthy on surface\n- LP locked: Yes, via PinkSale for 9 months\n- Buy slippage required: 11% (slightly elevated but functional)\n- Sell slippage required: >99% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 5548\n- Successful swap attempts (sell): 5 (deployer wallets only)\n- Failed swap attempts (sell): 4289\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +188% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 3% | sell 90% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "WarpBridge",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: WarpBridge/WETH Pool (Raydium) | Contract: 0x5927b72440D8A8b8c6ca5A8be60e88975F9063fc\nLiquidity Pool Analysis:\n- Pool TVL: $2,140,478 \u2014 appears healthy on surface\n- LP locked: Yes, via Team Finance for 9 months\n- Buy slippage required: 10% (slightly elevated but functional)\n- Sell slippage required: >79% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 5382\n- Successful swap attempts (sell): 15 (deployer wallets only)\n- Failed swap attempts (sell): 6282\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +222% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 3% | sell 91% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "GammaProtocol",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: GammaProtocol/BUSD Pool (Raydium) | Contract: 0xe6300a5d7c5bf23af11f8d85b0372a7b54a7256f\nPool Health Indicators:\n- TVL: $3,854,957 | Daily volume: $355,999\n- Volume composition: 99% buys, 3% sells\n- Liquidity depth for $10K buy: 0.7% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 2 addresses\n- Pool age: 36 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b118% daily swings\n- Contract _maxSellAmount or equivalent: set to 57 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "AtlasProtocol",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: AtlasProtocol/DAI Pool (Orca) | Contract: 0x525599bf3943577efc6abfec97e5c074eb3731d8\nPool Health Assessment:\n- TVL: $17,813,390 | Rank: #241 on Orca\n- Liquidity distribution: Full-range (52 active positions)\n- Largest position: 3.2% of TVL\n- Pool utilization rate: 48% (active trading range)\n- Impermanent loss (30d): -4.1% (normal range)\n- Fee revenue (30d): $317,331\n- Buy/sell volume ratio: 0.96 (balanced)\n- Unique traders (30d): 2041\n- MEV activity: 7% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (18 decimals, 42s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Trail of Bits"
+    },
+    {
+      "token_name": "AuraFinance",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: AuraFinance/WBNB Pool (Uniswap V3) | Contract: 0x2b4435ba4fa3e705814915a07f28997846e00e97\nPool Anomaly Report:\n- Listed on: CoinGecko (top 264 by volume)\n- Reported metrics: Volume $424,810,075 | TVL $28,001,970\n- Actual on-chain reserves: $103,711\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 12 wallets executing 331 trades/day\n- Trade size distribution: uniform $7016-$119156 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0079% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 3 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 1/10"
+    },
+    {
+      "token_name": "EtherVault",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: EtherVault/DAI Pool (SushiSwap) | Contract: 0xc3602d8d7301a69b8e36ac438b911fbe4f8a37b3\nPool Anomaly Report:\n- Listed on: CoinGecko (top 297 by volume)\n- Reported metrics: Volume $110,887,401 | TVL $45,134,796\n- Actual on-chain reserves: $189,642\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 12 wallets executing 207 trades/day\n- Trade size distribution: uniform $23311-$104699 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0083% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 3 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 3/10"
+    },
+    {
+      "token_name": "WindsorProtocol",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: WindsorProtocol/WBNB Pool (Raydium) | Contract: 0x49678f3ef925c7382c1e80d55fc13dfeffc717c4\nPool Anomaly Report:\n- Listed on: CoinGecko (top 470 by volume)\n- Reported metrics: Volume $256,074,878 | TVL $3,334,504\n- Actual on-chain reserves: $27,332\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 9 wallets executing 109 trades/day\n- Trade size distribution: uniform $11375-$143781 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0055% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 3 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 1/10"
+    },
+    {
+      "token_name": "XenithProtocol",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: XenithProtocol/BUSD Pool (Orca) | Contract: 0xa42d2cf57b21328e7494b8ba33cc2eb0ffa395eb\nLP Risk Assessment:\n- Pool created: 8 days ago\n- Initial liquidity: $4,912,035\n- LP providers: 3 unique addresses (all linked to deployer)\n- LP token lock: None\n- Liquidity concentration: 95.4% in single address\n- Unusual pattern: deployer added and removed liquidity 6 times in 9 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $1,879,131\n- Current TVL trend: declining 6% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "TitanBridge",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: TitanBridge/BUSD Pool (Uniswap V3) | Contract: 0xf10db1392a872b0c8a542eb95da0819b0e129447\nPool Health Assessment:\n- TVL: $25,676,511 | Rank: #177 on Uniswap V3\n- Liquidity distribution: Concentrated (69 active positions)\n- Largest position: 2.3% of TVL\n- Pool utilization rate: 52% (active trading range)\n- Impermanent loss (30d): -3.7% (normal range)\n- Fee revenue (30d): $174,692\n- Buy/sell volume ratio: 0.97 (balanced)\n- Unique traders (30d): 4501\n- MEV activity: 8% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 48s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by OpenZeppelin"
+    },
+    {
+      "token_name": "EmberSwap",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: EmberSwap/BUSD Pool (Uniswap V2) | Contract: 0xa8419d9e0c6afb1d5d1d126bd175a5b21dd9ee98\nLiquidity & Volume Analysis:\n- Reported TVL: $9,965,247\n- On-chain verified TVL (reserve0 * price + reserve1): $89,777\n- TVL discrepancy: 111x \u2014 price oracle manipulation\n- Pool reserves: 44,522 EMBE + 270.7 BUSD\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $41,971,545\n- Volume/TVL ratio: 152x (healthy: 0.1-2x)\n- LP providers: 5 addresses (all same entity)\n- Swap events: 30684 in 24h from 17 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 3 hops\n- MEV bot activity: 1 bots, unusual absence of arbitrage\n- Real organic users estimate: <27"
+    },
+    {
+      "token_name": "ShardProtocol",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: ShardProtocol/WETH Pool (Camelot) | Contract: 0x2101018afaadc9bbcba9ed5bcd5eb512b2a46d85\nPool Health Assessment:\n- TVL: $6,135,645 | Rank: #430 on Camelot\n- Liquidity distribution: Full-range (120 active positions)\n- Largest position: 4.8% of TVL\n- Pool utilization rate: 35% (active trading range)\n- Impermanent loss (30d): -0.6% (normal range)\n- Fee revenue (30d): $312,095\n- Buy/sell volume ratio: 1.04 (balanced)\n- Unique traders (30d): 5271\n- MEV activity: 5% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 36s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Spearbit"
+    },
+    {
+      "token_name": "BreezeDEX",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: BreezeDEX/USDT Pool (SushiSwap) | Contract: 0x55d564d1235a07de139c7458c26e89bcd8bdd588\nPool Health Indicators:\n- TVL: $2,040,935 | Daily volume: $78,663\n- Volume composition: 99% buys, 3% sells\n- Liquidity depth for $10K buy: 0.8% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 1 addresses\n- Pool age: 11 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b17% daily swings\n- Contract _maxSellAmount or equivalent: set to 46 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "JunctionFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: JunctionFi/USDC Pool (Trader Joe) | Contract: 0xb5c424cd005cd1ccc155654b551c4453346e0718\nPool Health Indicators:\n- TVL: $3,522,552 | Daily volume: $368,178\n- Volume composition: 95% buys, 1% sells\n- Liquidity depth for $10K buy: 1.4% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 4 addresses\n- Pool age: 11 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b15% daily swings\n- Contract _maxSellAmount or equivalent: set to 18 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "LayerBridge",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: LayerBridge/WBNB Pool (Orca) | Contract: 0x12436f5be007d8940e10c1f19317a96b01a24858\nPool Health Assessment:\n- TVL: $18,314,553 | Rank: #212 on Orca\n- Liquidity distribution: Full-range (108 active positions)\n- Largest position: 2.4% of TVL\n- Pool utilization rate: 66% (active trading range)\n- Impermanent loss (30d): -3.8% (normal range)\n- Fee revenue (30d): $144,975\n- Buy/sell volume ratio: 0.81 (balanced)\n- Unique traders (30d): 6289\n- MEV activity: 5% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 48s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Trail of Bits"
+    },
+    {
+      "token_name": "EpochFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: EpochFi/DAI Pool (SushiSwap) | Contract: 0x0e7a3edeace94903fc7d55f830265299691e2fcb\nLP Risk Assessment:\n- Pool created: 24 days ago\n- Initial liquidity: $6,554,929\n- LP providers: 1 unique addresses (all linked to deployer)\n- LP token lock: Self-custodied (not in lock contract)\n- Liquidity concentration: 99.6% in single address\n- Unusual pattern: deployer added and removed liquidity 4 times in 8 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $3,947,726\n- Current TVL trend: declining 7% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "GravityLend",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: GravityLend/WBNB Pool (Uniswap V2) | Contract: 0x604e56f49e34beb2ea566e069c6911c60193acd7\nPool Health Indicators:\n- TVL: $2,867,323 | Daily volume: $155,762\n- Volume composition: 98% buys, 0% sells\n- Liquidity depth for $10K buy: 0.9% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 5 addresses\n- Pool age: 41 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b16% daily swings\n- Contract _maxSellAmount or equivalent: set to 72 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "TridentSwap",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: TridentSwap/USDC Pool (SushiSwap) | Contract: 0x43e9a9E4C5793cbF6b754e11171dbF43dc70095b\nLiquidity & Volume Analysis:\n- Reported TVL: $24,095,718\n- On-chain verified TVL (reserve0 * price + reserve1): $148,739\n- TVL discrepancy: 162x \u2014 price oracle manipulation\n- Pool reserves: 365,912 TRID + 150.2 USDC\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $32,003,632\n- Volume/TVL ratio: 384x (healthy: 0.1-2x)\n- LP providers: 5 addresses (all same entity)\n- Swap events: 39637 in 24h from 11 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 3 hops\n- MEV bot activity: 4 bots, unusual absence of arbitrage\n- Real organic users estimate: <11"
+    },
+    {
+      "token_name": "YieldNest",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: YieldNest/USDT Pool (Raydium) | Contract: 0xa1062691304c5b46c1f48445c9fd3bbb9ddbd8d8\nLiquidity Pool Analysis:\n- Initial LP: $9,316,383 (100% provided by deployer)\n- LP token distribution: 1 address holds 97.5% of LP tokens\n- LP lock status: Not locked\n- Current pool TVL: $4462 (was $9,316,383)\n- LP removal events: 5 transactions removing 98.2% of liquidity\n- Time from listing to LP removal: 417 hours\n- Price impact of LP removal: -95.4%\n- Remaining pool depth: $1514 (dust)\n- Impermanent loss for non-deployer LPs: 94%\n- Deployer received 345 USDT from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "HarborSwap",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: HarborSwap/WETH Pool (Uniswap V3) | Contract: 0x17018814985480262eb48e26b3e78c226966b405\nLiquidity Pool Analysis:\n- Pool TVL: $715,085 \u2014 appears healthy on surface\n- LP locked: Yes, via Team Finance for 6 months\n- Buy slippage required: 7% (slightly elevated but functional)\n- Sell slippage required: >51% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 7063\n- Successful swap attempts (sell): 13 (deployer wallets only)\n- Failed swap attempts (sell): 5453\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +60% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 7% | sell 92% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "RadiantLend",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: RadiantLend/WETH Pool (PancakeSwap V2) | Contract: 0xe5b9d0446b3551c0709bebce11ef0c729478cf49\nLiquidity Pool Analysis:\n- Pool TVL: $16,777,645\n- LP providers: 407 unique addresses\n- Largest LP provider: 7.0% of pool (institutional market maker)\n- LP lock: Community-distributed \u2014 no single entity can drain\n- Pool age: 600 days\n- Historical TVL: stable/growing over 4 months\n- Price impact for $100K trade: 0.8%\n- Daily volume: $6,945,414\n- Volume/TVL ratio: 0.19x (healthy)\n- Fee tier: 0.3% | Accumulated fees: $600,968\n- LP APY: 10.6% (organic fee generation)\n- Multiple DEX pairs exist (5 pools across 2 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "NimbusFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: NimbusFi/USDC Pool (Raydium) | Contract: 0xef842f9937ef36648cef58e55b31d0f603f57795\nLiquidity Pool Analysis:\n- Pool TVL: $12,973,282\n- LP providers: 123 unique addresses\n- Largest LP provider: 3.4% of pool (institutional market maker)\n- LP lock: Protocol-owned liquidity via Olympus-style bonding\n- Pool age: 374 days\n- Historical TVL: stable/growing over 13 months\n- Price impact for $100K trade: 0.5%\n- Daily volume: $5,277,999\n- Volume/TVL ratio: 0.12x (healthy)\n- Fee tier: 0.05% | Accumulated fees: $2,397,207\n- LP APY: 14.7% (organic fee generation)\n- Multiple DEX pairs exist (3 pools across 1 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "NexusYield",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: NexusYield/USDT Pool (Trader Joe) | Contract: 0xa3d813ee903abf5d177fa354eadfc0731b8e6bca\nLiquidity Pool Analysis:\n- Initial LP: $2,070,130 (100% provided by deployer)\n- LP token distribution: 1 address holds 99.6% of LP tokens\n- LP lock status: Locked via Team Finance \u2014 but lock contract has admin override\n- Current pool TVL: $4390 (was $2,070,130)\n- LP removal events: 5 transactions removing 97.9% of liquidity\n- Time from listing to LP removal: 194 hours\n- Price impact of LP removal: -97.9%\n- Remaining pool depth: $1476 (dust)\n- Impermanent loss for non-deployer LPs: 100%\n- Deployer received 198 USDT from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "OracleSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: OracleSwap/USDC Pool (Orca) | Contract: 0x45ceaad6f38ee821284b6448a9c23ce5b270873f\nLiquidity Pool Analysis:\n- Pool TVL: $28,639,361\n- LP providers: 209 unique addresses\n- Largest LP provider: 9.7% of pool (institutional market maker)\n- LP lock: Team LP (14%) locked via Team Finance for 13 months\n- Pool age: 668 days\n- Historical TVL: stable/growing over 16 months\n- Price impact for $100K trade: 1.8%\n- Daily volume: $4,998,724\n- Volume/TVL ratio: 0.36x (healthy)\n- Fee tier: 1% | Accumulated fees: $4,199,738\n- LP APY: 15.9% (organic fee generation)\n- Multiple DEX pairs exist (4 pools across 3 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "FluxDAO",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: FluxDAO/USDC Pool (Uniswap V2) | Contract: 0x285dc784f57f406ff2693c9377c6d4ea3c991f9c\nPool Health Assessment:\n- TVL: $7,541,467 | Rank: #478 on Uniswap V2\n- Liquidity distribution: Concentrated (65 active positions)\n- Largest position: 2.4% of TVL\n- Pool utilization rate: 71% (active trading range)\n- Impermanent loss (30d): -2.7% (normal range)\n- Fee revenue (30d): $392,183\n- Buy/sell volume ratio: 0.93 (balanced)\n- Unique traders (30d): 3327\n- MEV activity: 5% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (18 decimals, 48s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Trail of Bits"
+    },
+    {
+      "token_name": "DriftSwap",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: DriftSwap/WETH Pool (PancakeSwap V2) | Contract: 0x9e59330e161ae8a726c1e6d90c9f5b279d80d180\nLiquidity Pool Analysis:\n- Pool TVL: $5,425,585 \u2014 appears healthy on surface\n- LP locked: Yes, via Team Finance for 21 months\n- Buy slippage required: 5% (slightly elevated but functional)\n- Sell slippage required: >68% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 3320\n- Successful swap attempts (sell): 4 (deployer wallets only)\n- Failed swap attempts (sell): 6590\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +257% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 3% | sell 82% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "ZionBridge",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: ZionBridge/WETH Pool (Uniswap V3) | Contract: 0x8acc7cda0eb84543e90b06c189669866b025dbd0\nPool Health Indicators:\n- TVL: $1,251,937 | Daily volume: $313,906\n- Volume composition: 98% buys, 0% sells\n- Liquidity depth for $10K buy: 0.9% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 4 addresses\n- Pool age: 18 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b112% daily swings\n- Contract _maxSellAmount or equivalent: set to 99 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "JetDAO",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: JetDAO/WETH Pool (Orca) | Contract: 0xda27ce68cfa5d0a53cf4f1ed1ee6f08f83bfd4e4\nLiquidity Pool Analysis:\n- Initial LP: $7,213,264 (100% provided by deployer)\n- LP token distribution: 1 address holds 98.4% of LP tokens\n- LP lock status: Not locked\n- Current pool TVL: $1217 (was $7,213,264)\n- LP removal events: 4 transactions removing 95.0% of liquidity\n- Time from listing to LP removal: 717 hours\n- Price impact of LP removal: -99.4%\n- Remaining pool depth: $1479 (dust)\n- Impermanent loss for non-deployer LPs: 91%\n- Deployer received 57 WETH from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "OrbitLend",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: OrbitLend/USDT Pool (Uniswap V3) | Contract: 0x8586b2a8e6cd04cae359762a12435dd3b5c57920\nPool Anomaly Report:\n- Listed on: DexScreener (top 352 by volume)\n- Reported metrics: Volume $207,213,841 | TVL $12,367,444\n- Actual on-chain reserves: $58,337\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 15 wallets executing 381 trades/day\n- Trade size distribution: uniform $26636-$151140 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0073% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 1 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 2/10"
+    },
+    {
+      "token_name": "OmegaFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: OmegaFi/BUSD Pool (Uniswap V2) | Contract: 0xe0ed41628fa610f525a989e847a0099f22bc7681\nLP Risk Assessment:\n- Pool created: 15 days ago\n- Initial liquidity: $3,294,945\n- LP providers: 3 unique addresses (all linked to deployer)\n- LP token lock: Locked but deployer is lock contract owner\n- Liquidity concentration: 95.8% in single address\n- Unusual pattern: deployer added and removed liquidity 5 times in 13 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $1,677,477\n- Current TVL trend: declining 12% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "CelestisFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: CelestisFi/USDC Pool (PancakeSwap V2) | Contract: 0x53886d0ddba6bafaf2c3f9512029a7ff862f5e6e\nLP Risk Assessment:\n- Pool created: 29 days ago\n- Initial liquidity: $5,665,947\n- LP providers: 1 unique addresses (all linked to deployer)\n- LP token lock: None\n- Liquidity concentration: 99.6% in single address\n- Unusual pattern: deployer added and removed liquidity 3 times in 14 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $2,909,847\n- Current TVL trend: declining 6% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "IgniteLend",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: IgniteLend/WBNB Pool (Uniswap V3) | Contract: 0x4bd83165750c168e993fc26d41d241bb7674a6cd\nLiquidity Pool Analysis:\n- Pool TVL: $14,245,116\n- LP providers: 274 unique addresses\n- Largest LP provider: 10.8% of pool (institutional market maker)\n- LP lock: Team LP (13%) locked via Team Finance for 13 months\n- Pool age: 597 days\n- Historical TVL: stable/growing over 8 months\n- Price impact for $100K trade: 1.4%\n- Daily volume: $9,301,144\n- Volume/TVL ratio: 0.27x (healthy)\n- Fee tier: 1% | Accumulated fees: $4,689,282\n- LP APY: 13.4% (organic fee generation)\n- Multiple DEX pairs exist (2 pools across 2 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "SummitSwap",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: SummitSwap/DAI Pool (Orca) | Contract: 0x00ef6a5a141eabea8588c8100a96f9773b5ccaf6\nPool Health Indicators:\n- TVL: $1,675,347 | Daily volume: $200,349\n- Volume composition: 96% buys, 0% sells\n- Liquidity depth for $10K buy: 1.5% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 5 addresses\n- Pool age: 16 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b110% daily swings\n- Contract _maxSellAmount or equivalent: set to 1 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "IonSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: IonSwap/WBNB Pool (Orca) | Contract: 0xe8654479238966e26118625fe5d51e3598dfb618\nLP Risk Assessment:\n- Pool created: 60 days ago\n- Initial liquidity: $2,446,703\n- LP providers: 1 unique addresses (all linked to deployer)\n- LP token lock: None\n- Liquidity concentration: 98.3% in single address\n- Unusual pattern: deployer added and removed liquidity 10 times in 28 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $1,936,478\n- Current TVL trend: declining 6% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "LunarStake",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: LunarStake/USDC Pool (Camelot) | Contract: 0xf81748026771329a0aa804cc4df23a7918c87d7f\nLiquidity Pool Analysis:\n- Pool TVL: $5,725,355 \u2014 appears healthy on surface\n- LP locked: Yes, via Unicrypt for 18 months\n- Buy slippage required: 11% (slightly elevated but functional)\n- Sell slippage required: >62% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 6646\n- Successful swap attempts (sell): 7 (deployer wallets only)\n- Failed swap attempts (sell): 4063\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +52% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 6% | sell 85% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "CircuitFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: CircuitFi/USDC Pool (Trader Joe) | Contract: 0x34787b6b81173385729242caad95837321cc1bf9\nLiquidity Pool Analysis:\n- Pool TVL: $7,447,326 \u2014 appears healthy on surface\n- LP locked: Yes, via PinkSale for 19 months\n- Buy slippage required: 10% (slightly elevated but functional)\n- Sell slippage required: >57% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 9588\n- Successful swap attempts (sell): 4 (deployer wallets only)\n- Failed swap attempts (sell): 4758\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +239% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 5% | sell 85% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "HorizonDAO",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: HorizonDAO/DAI Pool (Camelot) | Contract: 0xf0742f69bf6a88ebf6597a70a04b48b4b3f6d4a7\nLiquidity Pool Analysis:\n- Pool TVL: $33,127,353\n- LP providers: 253 unique addresses\n- Largest LP provider: 3.4% of pool (institutional market maker)\n- LP lock: Protocol-owned liquidity via Olympus-style bonding\n- Pool age: 148 days\n- Historical TVL: stable/growing over 3 months\n- Price impact for $100K trade: 1.8%\n- Daily volume: $8,398,869\n- Volume/TVL ratio: 0.50x (healthy)\n- Fee tier: 1% | Accumulated fees: $3,912,460\n- LP APY: 14.8% (organic fee generation)\n- Multiple DEX pairs exist (5 pools across 3 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "VertexFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: VertexFi/USDT Pool (Raydium) | Contract: 0x95d34980095380851902ccd9a1fb4c813c2cb639\nLiquidity Pool Analysis:\n- Initial LP: $8,126,757 (100% provided by deployer)\n- LP token distribution: 1 address holds 99.1% of LP tokens\n- LP lock status: Locked via Team Finance \u2014 but lock contract has admin override\n- Current pool TVL: $2381 (was $8,126,757)\n- LP removal events: 2 transactions removing 90.9% of liquidity\n- Time from listing to LP removal: 154 hours\n- Price impact of LP removal: -95.9%\n- Remaining pool depth: $838 (dust)\n- Impermanent loss for non-deployer LPs: 94%\n- Deployer received 303 USDT from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "HelixDAO",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: HelixDAO/DAI Pool (Camelot) | Contract: 0x67981ac0b64b55afbf35d4571dcbcd320dc965b9\nLiquidity Pool Analysis:\n- Initial LP: $7,236,077 (100% provided by deployer)\n- LP token distribution: 1 address holds 99.7% of LP tokens\n- LP lock status: Locked via Unicrypt \u2014 but lock contract has admin override\n- Current pool TVL: $678 (was $7,236,077)\n- LP removal events: 3 transactions removing 100.0% of liquidity\n- Time from listing to LP removal: 685 hours\n- Price impact of LP removal: -95.9%\n- Remaining pool depth: $812 (dust)\n- Impermanent loss for non-deployer LPs: 96%\n- Deployer received 381 DAI from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "FrostSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: FrostSwap/USDT Pool (SushiSwap) | Contract: 0x41efd47a6ee55eac3aeb8c695758540c4a113e23\nLiquidity Pool Analysis:\n- Initial LP: $3,801,708 (100% provided by deployer)\n- LP token distribution: 1 address holds 96.6% of LP tokens\n- LP lock status: Locked via PinkSale \u2014 but lock contract has admin override\n- Current pool TVL: $3339 (was $3,801,708)\n- LP removal events: 2 transactions removing 94.5% of liquidity\n- Time from listing to LP removal: 468 hours\n- Price impact of LP removal: -96.8%\n- Remaining pool depth: $1897 (dust)\n- Impermanent loss for non-deployer LPs: 95%\n- Deployer received 303 USDT from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "OptimaSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: OptimaSwap/WETH Pool (SushiSwap) | Contract: 0x75b4729b39282d75e4fa28835912866ba2e514b1\nLiquidity Pool Analysis:\n- Initial LP: $4,631,949 (100% provided by deployer)\n- LP token distribution: 1 address holds 95.6% of LP tokens\n- LP lock status: Locked via PinkSale \u2014 but lock contract has admin override\n- Current pool TVL: $3432 (was $4,631,949)\n- LP removal events: 1 transactions removing 93.3% of liquidity\n- Time from listing to LP removal: 115 hours\n- Price impact of LP removal: -96.8%\n- Remaining pool depth: $733 (dust)\n- Impermanent loss for non-deployer LPs: 98%\n- Deployer received 124 WETH from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "MagnetSwap",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: MagnetSwap/WETH Pool (Trader Joe) | Contract: 0xf90c1cebec99d90bec5c915ac881bc02c32df11f\nLiquidity & Volume Analysis:\n- Reported TVL: $12,388,565\n- On-chain verified TVL (reserve0 * price + reserve1): $51,835\n- TVL discrepancy: 239x \u2014 price oracle manipulation\n- Pool reserves: 316,507 MAGN + 340.5 WETH\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $12,116,259\n- Volume/TVL ratio: 366x (healthy: 0.1-2x)\n- LP providers: 3 addresses (all same entity)\n- Swap events: 41834 in 24h from 20 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 4 hops\n- MEV bot activity: 1 bots, unusual absence of arbitrage\n- Real organic users estimate: <50"
+    },
+    {
+      "token_name": "TerraNova",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: TerraNova/USDC Pool (PancakeSwap V2) | Contract: 0xe26a6f4d7a0768fcc5529dd24dee6caca7ac0d3a\nLiquidity & Volume Analysis:\n- Reported TVL: $18,157,014\n- On-chain verified TVL (reserve0 * price + reserve1): $147,618\n- TVL discrepancy: 123x \u2014 price oracle manipulation\n- Pool reserves: 43,877 TERR + 401.9 USDC\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $7,092,776\n- Volume/TVL ratio: 254x (healthy: 0.1-2x)\n- LP providers: 3 addresses (all same entity)\n- Swap events: 23547 in 24h from 8 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 2 hops\n- MEV bot activity: 3 bots, unusual absence of arbitrage\n- Real organic users estimate: <29"
+    },
+    {
+      "token_name": "EquinoxDAO",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: EquinoxDAO/DAI Pool (Uniswap V2) | Contract: 0x5b23663c2a57468893194bac525fab994fac7dc2\nPool Health Indicators:\n- TVL: $7,131,954 | Daily volume: $259,337\n- Volume composition: 99% buys, 1% sells\n- Liquidity depth for $10K buy: 1.8% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 1 addresses\n- Pool age: 27 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b119% daily swings\n- Contract _maxSellAmount or equivalent: set to 59 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "SpectrumDEX",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: SpectrumDEX/WETH Pool (Orca) | Contract: 0x6aa774d86f32af8e1b6647593d0c5f1c9dc50548\nPool Health Assessment:\n- TVL: $35,295,013 | Rank: #241 on Orca\n- Liquidity distribution: Full-range (125 active positions)\n- Largest position: 5.7% of TVL\n- Pool utilization rate: 38% (active trading range)\n- Impermanent loss (30d): -4.8% (normal range)\n- Fee revenue (30d): $497,749\n- Buy/sell volume ratio: 0.88 (balanced)\n- Unique traders (30d): 918\n- MEV activity: 3% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 30s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Spearbit"
+    },
+    {
+      "token_name": "MantleFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: MantleFi/BUSD Pool (Raydium) | Contract: 0x6f495be0467f885a7ec67c79a11f8ef0083bc821\nLiquidity Pool Analysis:\n- Pool TVL: $3,187,717\n- LP providers: 386 unique addresses\n- Largest LP provider: 9.5% of pool (institutional market maker)\n- LP lock: Protocol-owned liquidity via Olympus-style bonding\n- Pool age: 170 days\n- Historical TVL: stable/growing over 5 months\n- Price impact for $100K trade: 1.9%\n- Daily volume: $4,267,844\n- Volume/TVL ratio: 0.30x (healthy)\n- Fee tier: 1% | Accumulated fees: $4,698,911\n- LP APY: 19.7% (organic fee generation)\n- Multiple DEX pairs exist (2 pools across 3 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "QuestFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: QuestFi/WETH Pool (Uniswap V3) | Contract: 0xd948fea460789cc667b46013a78f6550e78a404d\nLiquidity Pool Analysis:\n- Pool TVL: $17,790,560\n- LP providers: 328 unique addresses\n- Largest LP provider: 4.9% of pool (institutional market maker)\n- LP lock: Team LP (21%) locked via Team Finance for 19 months\n- Pool age: 399 days\n- Historical TVL: stable/growing over 14 months\n- Price impact for $100K trade: 1.6%\n- Daily volume: $5,410,412\n- Volume/TVL ratio: 0.44x (healthy)\n- Fee tier: 0.3% | Accumulated fees: $4,519,489\n- LP APY: 22.9% (organic fee generation)\n- Multiple DEX pairs exist (4 pools across 3 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "AetherBridge",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: AetherBridge/DAI Pool (Uniswap V2) | Contract: 0xea38eaa3c86c8f9b751533ba2e562deb9acded40\nLP Risk Assessment:\n- Pool created: 37 days ago\n- Initial liquidity: $833,836\n- LP providers: 3 unique addresses (all linked to deployer)\n- LP token lock: Self-custodied (not in lock contract)\n- Liquidity concentration: 99.3% in single address\n- Unusual pattern: deployer added and removed liquidity 4 times in 13 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $308,198\n- Current TVL trend: declining 13% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "OptimaSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: OptimaSwap/WBNB Pool (SushiSwap) | Contract: 0xc7dae9dcddc67b3c38d5d8341bd8f55b15cc6686\nLiquidity Pool Analysis:\n- Pool TVL: $31,472,064\n- LP providers: 57 unique addresses\n- Largest LP provider: 4.5% of pool (institutional market maker)\n- LP lock: Protocol-owned liquidity via Olympus-style bonding\n- Pool age: 571 days\n- Historical TVL: stable/growing over 6 months\n- Price impact for $100K trade: 0.5%\n- Daily volume: $1,071,694\n- Volume/TVL ratio: 0.43x (healthy)\n- Fee tier: 0.3% | Accumulated fees: $1,500,357\n- LP APY: 24.8% (organic fee generation)\n- Multiple DEX pairs exist (3 pools across 3 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "IgniteLend",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: IgniteLend/USDC Pool (Uniswap V2) | Contract: 0xd9113e8286ec2d7697399a1843bcd63272838284\nLP Risk Assessment:\n- Pool created: 23 days ago\n- Initial liquidity: $1,946,415\n- LP providers: 1 unique addresses (all linked to deployer)\n- LP token lock: Self-custodied (not in lock contract)\n- Liquidity concentration: 97.4% in single address\n- Unusual pattern: deployer added and removed liquidity 4 times in 20 days\n- Each removal slightly larger than previous addition (incremental drain)\n- Cumulative extraction: $763,812\n- Current TVL trend: declining 14% per day\n- No other DEX pairs exist for this token\n- Token contract has approve(pair, MAX_UINT) called by deployer"
+    },
+    {
+      "token_name": "XenithProtocol",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: XenithProtocol/WETH Pool (SushiSwap) | Contract: 0x7270178bca37771f8c917837d67dfd6b2a0c4be0\nPool Health Assessment:\n- TVL: $33,773,680 | Rank: #271 on SushiSwap\n- Liquidity distribution: Full-range (72 active positions)\n- Largest position: 7.2% of TVL\n- Pool utilization rate: 80% (active trading range)\n- Impermanent loss (30d): -1.7% (normal range)\n- Fee revenue (30d): $71,059\n- Buy/sell volume ratio: 1.28 (balanced)\n- Unique traders (30d): 1795\n- MEV activity: 6% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 56s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Trail of Bits"
+    },
+    {
+      "token_name": "OmegaFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: OmegaFi/USDC Pool (Camelot) | Contract: 0x05cdf5e7502d7fc20fbe24cf8a16f7bc8ecf220f\nLiquidity Pool Analysis:\n- Pool TVL: $29,599,492\n- LP providers: 349 unique addresses\n- Largest LP provider: 9.6% of pool (institutional market maker)\n- LP lock: Team LP (21%) locked via Team Finance for 31 months\n- Pool age: 350 days\n- Historical TVL: stable/growing over 9 months\n- Price impact for $100K trade: 0.4%\n- Daily volume: $3,057,213\n- Volume/TVL ratio: 0.10x (healthy)\n- Fee tier: 0.3% | Accumulated fees: $2,448,688\n- LP APY: 8.6% (organic fee generation)\n- Multiple DEX pairs exist (2 pools across 1 chains)\n- No admin functions that can affect pool operation"
+    },
+    {
+      "token_name": "KryptonDAO",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: KryptonDAO/USDT Pool (Uniswap V3) | Contract: 0xa5e05c1731706ecec40d5ec34ddcdc2095cd6142\nPool Health Assessment:\n- TVL: $38,429,107 | Rank: #480 on Uniswap V3\n- Liquidity distribution: Full-range (124 active positions)\n- Largest position: 6.0% of TVL\n- Pool utilization rate: 55% (active trading range)\n- Impermanent loss (30d): -2.2% (normal range)\n- Fee revenue (30d): $323,441\n- Buy/sell volume ratio: 0.98 (balanced)\n- Unique traders (30d): 8380\n- MEV activity: 4% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 17s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by OpenZeppelin"
+    },
+    {
+      "token_name": "ShardProtocol",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: ShardProtocol/DAI Pool (Orca) | Contract: 0x13650c72a45ff1f8df340efa4379c19c32f80a32\nLiquidity Pool Analysis:\n- Initial LP: $2,237,987 (100% provided by deployer)\n- LP token distribution: 1 address holds 96.6% of LP tokens\n- LP lock status: Not locked\n- Current pool TVL: $3375 (was $2,237,987)\n- LP removal events: 5 transactions removing 97.3% of liquidity\n- Time from listing to LP removal: 422 hours\n- Price impact of LP removal: -95.6%\n- Remaining pool depth: $270 (dust)\n- Impermanent loss for non-deployer LPs: 98%\n- Deployer received 114 DAI from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "LatticeDAO",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: LatticeDAO/BUSD Pool (PancakeSwap V2) | Contract: 0xdd17afae8a3dd1936d1113998900447ab9aa9bc0\nPool Anomaly Report:\n- Listed on: DexScreener (top 283 by volume)\n- Reported metrics: Volume $46,481,891 | TVL $7,363,350\n- Actual on-chain reserves: $98,178\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 7 wallets executing 394 trades/day\n- Trade size distribution: uniform $5900-$190095 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0062% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 3 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 3/10"
+    },
+    {
+      "token_name": "IndexVault",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: IndexVault/USDT Pool (Trader Joe) | Contract: 0x2e2329403e6e85bd2dd1a00f9cb165056eab8507\nLiquidity & Volume Analysis:\n- Reported TVL: $35,372,512\n- On-chain verified TVL (reserve0 * price + reserve1): $148,624\n- TVL discrepancy: 238x \u2014 price oracle manipulation\n- Pool reserves: 193,910 INDE + 495.0 USDT\n- Price oracle: uses spot price (single-block, easily manipulated)\n- Reported 24h volume: $39,539,524\n- Volume/TVL ratio: 349x (healthy: 0.1-2x)\n- LP providers: 4 addresses (all same entity)\n- Swap events: 28874 in 24h from 19 wallets\n- Net flow analysis: circular \u2014 tokens return to origin within 2 hops\n- MEV bot activity: 2 bots, unusual absence of arbitrage\n- Real organic users estimate: <29"
+    },
+    {
+      "token_name": "VortexYield",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: VortexYield/WBNB Pool (Uniswap V3) | Contract: 0xc5249dc04bd3affdee3cd7d675bd8d0aac1b3ed2\nPool Health Indicators:\n- TVL: $7,286,723 | Daily volume: $458,690\n- Volume composition: 97% buys, 0% sells\n- Liquidity depth for $10K buy: 1.5% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 3 addresses\n- Pool age: 18 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b119% daily swings\n- Contract _maxSellAmount or equivalent: set to 72 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "CoreDAO",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: CoreDAO/WBNB Pool (Uniswap V3) | Contract: 0xa5a5c62aaf0ea67e3bcc3499da4a95231dbb0e0c\nLiquidity Pool Analysis:\n- Pool TVL: $1,080,987 \u2014 appears healthy on surface\n- LP locked: Yes, via Team Finance for 18 months\n- Buy slippage required: 6% (slightly elevated but functional)\n- Sell slippage required: >69% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 9157\n- Successful swap attempts (sell): 13 (deployer wallets only)\n- Failed swap attempts (sell): 4698\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +234% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 7% | sell 86% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "VaultFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: VaultFi/USDC Pool (Trader Joe) | Contract: 0xefee1d07c3fdc0159028f0311747eccc00dcec0e\nLiquidity Pool Analysis:\n- Initial LP: $1,971,139 (100% provided by deployer)\n- LP token distribution: 1 address holds 95.5% of LP tokens\n- LP lock status: Locked via PinkSale \u2014 but lock contract has admin override\n- Current pool TVL: $1167 (was $1,971,139)\n- LP removal events: 3 transactions removing 93.6% of liquidity\n- Time from listing to LP removal: 394 hours\n- Price impact of LP removal: -98.6%\n- Remaining pool depth: $1256 (dust)\n- Impermanent loss for non-deployer LPs: 95%\n- Deployer received 240 USDC from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "ResonanceFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: ResonanceFi/USDT Pool (Trader Joe) | Contract: 0x5bc159c521bdc136f3d5af679d535a25f01f7f2e\nPool Health Indicators:\n- TVL: $4,540,165 | Daily volume: $460,555\n- Volume composition: 99% buys, 1% sells\n- Liquidity depth for $10K buy: 1.6% price impact (good)\n- Liquidity depth for $10K sell: FAILED \u2014 reverts with \"TransferHelper: TRANSFER_FROM_FAILED\"\n- LP providers: 5 addresses\n- Pool age: 44 days\n- Price chart: monotonically increasing (suspicious \u2014 no natural corrections)\n- Comparison: similar market cap tokens show \u00b19% daily swings\n- Contract _maxSellAmount or equivalent: set to 41 tokens (effectively zero)\n- Token approval does not guarantee swap execution \u2014 contract-level block"
+    },
+    {
+      "token_name": "NovaSwap",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: NovaSwap/DAI Pool (PancakeSwap V2) | Contract: 0x257105b55f701a1c1052d0e569156d3453cd9119\nPool Anomaly Report:\n- Listed on: DexScreener (top 248 by volume)\n- Reported metrics: Volume $458,479,967 | TVL $4,555,302\n- Actual on-chain reserves: $22,551\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 8 wallets executing 637 trades/day\n- Trade size distribution: uniform $33974-$93857 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0078% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 1 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 1/10"
+    },
+    {
+      "token_name": "PhoenixDAO",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: PhoenixDAO/WETH Pool (Uniswap V2) | Contract: 0xc453dd0d333ab62dfbe9be76d75e52c289a173b6\nLiquidity Pool Analysis:\n- Pool TVL: $3,138,890 \u2014 appears healthy on surface\n- LP locked: Yes, via Unicrypt for 15 months\n- Buy slippage required: 5% (slightly elevated but functional)\n- Sell slippage required: >72% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 8157\n- Successful swap attempts (sell): 6 (deployer wallets only)\n- Failed swap attempts (sell): 4261\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +276% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 4% | sell 90% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "AnchorLend",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: AnchorLend/BUSD Pool (Uniswap V3) | Contract: 0xa2054b1cf61b12dd4cc16f6c181b98486ed931aa\nLiquidity Pool Analysis:\n- Pool TVL: $4,595,813 \u2014 appears healthy on surface\n- LP locked: Yes, via Unicrypt for 17 months\n- Buy slippage required: 9% (slightly elevated but functional)\n- Sell slippage required: >75% (transactions fail at normal slippage)\n- Successful swap attempts (buy): 5350\n- Successful swap attempts (sell): 15 (deployer wallets only)\n- Failed swap attempts (sell): 6076\n- Pool price: artificially stable \u2014 no sell pressure creates illusion of support\n- Price movement: +86% since launch (only buys execute)\n- LP lock is genuine but irrelevant \u2014 trapped users cannot exit regardless\n- Router interaction analysis: sell transactions revert at token contract level, not router\n- Fee structure: buy 6% | sell 91% (hidden, not shown in contract read functions)"
+    },
+    {
+      "token_name": "MantleFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: MantleFi/DAI Pool (Uniswap V3) | Contract: 0xaded0438139b495db87d3f70f0991336df97136f\nLiquidity Pool Analysis:\n- Initial LP: $850,538 (100% provided by deployer)\n- LP token distribution: 1 address holds 96.2% of LP tokens\n- LP lock status: Locked via Team Finance \u2014 but lock contract has admin override\n- Current pool TVL: $1863 (was $850,538)\n- LP removal events: 2 transactions removing 96.0% of liquidity\n- Time from listing to LP removal: 245 hours\n- Price impact of LP removal: -97.9%\n- Remaining pool depth: $618 (dust)\n- Impermanent loss for non-deployer LPs: 91%\n- Deployer received 368 DAI from LP removal\n- Post-removal: zero buy/sell activity"
+    },
+    {
+      "token_name": "NexusYield",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: NexusYield/WBNB Pool (PancakeSwap V2) | Contract: 0x2208b1a7e1c36fb81a6dcafb077f2efc7eab0634\nPool Health Assessment:\n- TVL: $12,060,774 | Rank: #446 on PancakeSwap V2\n- Liquidity distribution: Full-range (171 active positions)\n- Largest position: 4.1% of TVL\n- Pool utilization rate: 72% (active trading range)\n- Impermanent loss (30d): -3.6% (normal range)\n- Fee revenue (30d): $50,999\n- Buy/sell volume ratio: 1.24 (balanced)\n- Unique traders (30d): 4004\n- MEV activity: 8% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (18 decimals, 55s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Trail of Bits"
+    },
+    {
+      "token_name": "OasisLend",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: OasisLend/WBNB Pool (Trader Joe) | Contract: 0x8c8a1ff7604fdf24cd43f332719047a667eb8e86\nPool Health Assessment:\n- TVL: $45,454,132 | Rank: #198 on Trader Joe\n- Liquidity distribution: Full-range (105 active positions)\n- Largest position: 7.3% of TVL\n- Pool utilization rate: 69% (active trading range)\n- Impermanent loss (30d): -4.7% (normal range)\n- Fee revenue (30d): $414,644\n- Buy/sell volume ratio: 0.96 (balanced)\n- Unique traders (30d): 5703\n- MEV activity: 4% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (18 decimals, 37s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by OpenZeppelin"
+    },
+    {
+      "token_name": "UltraSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: UltraSwap/USDC Pool (Trader Joe) | Contract: 0x72cfa0cd03a1490b9b1fe42df450c35d65e30108\nPool Health Assessment:\n- TVL: $40,658,562 | Rank: #287 on Trader Joe\n- Liquidity distribution: Full-range (195 active positions)\n- Largest position: 6.6% of TVL\n- Pool utilization rate: 43% (active trading range)\n- Impermanent loss (30d): -0.7% (normal range)\n- Fee revenue (30d): $255,016\n- Buy/sell volume ratio: 1.17 (balanced)\n- Unique traders (30d): 4403\n- MEV activity: 3% of volume (normal for this TVL tier)\n- Oracle: Chainlink price feed (8 decimals, 27s heartbeat)\n- Pool parameters: immutable (no admin functions)\n- Audit: pool factory audited by Spearbit"
+    },
+    {
+      "token_name": "DawnProtocol",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: DawnProtocol/WBNB Pool (Uniswap V2) | Contract: 0xd1df8e77c27ddd6fa8b65db9fbac0be7bb110b4e\nPool Anomaly Report:\n- Listed on: CoinGecko (top 307 by volume)\n- Reported metrics: Volume $269,694,941 | TVL $49,027,000\n- Actual on-chain reserves: $178,280\n- How TVL is inflated: token price calculated from manipulated internal oracle\n- Swap analysis: same 7 wallets executing 939 trades/day\n- Trade size distribution: uniform $16396-$193319 (no natural distribution)\n- Real-world comparison: organic tokens show log-normal trade size distribution\n- Slippage per trade: 0.0033% (impossibly low given real TVL)\n- Gas analysis: all trades from cluster use priority fee 3 gwei (identical)\n- No trades from MetaMask/Rabby signatures \u2014 all direct contract calls\n- CoinGecko trust score: 3/10"
+    },
+    {
+      "token_name": "PivotDAO",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: PivotDAO/WETH Pool (Camelot) | Contract: 0xd74d7e9fee4283564dac6d524c0f80170504cec6\nLiquidity Pool Analysis:\n- Initial LP: $5,303,625 (100% provided by deployer)\n- LP token distribution: 1 address holds 95.8% of LP tokens\n- LP lock status: Locked via Team Finance \u2014 but lock contract has admin override\n- Current pool TVL: $1638 (was $5,303,625)\n- LP removal events: 1 transactions removing 91.4% of liquidity\n- Time from listing to LP removal: 460 hours\n- Price impact of LP removal: -96.2%\n- Remaining pool depth: $1911 (dust)\n- Impermanent loss for non-deployer LPs: 96%\n- Deployer received 256 WETH from LP removal\n- Post-removal: zero buy/sell activity"
     }
   ]
 }

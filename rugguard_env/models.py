@@ -2,12 +2,18 @@
 Data models for the RugGuard Environment.
 
 Defines the typed Action, Observation, and State for crypto token scam detection.
-Agents receive token data and must classify it as rug_pull, honeypot, wash_trading, or safe.
+
+Action space:
+  - "investigate": request additional info about the current token before classifying
+  - "classify": submit a verdict (rug_pull | honeypot | wash_trading | safe)
+
+The agent gets a base observation, can investigate up to N times for more data,
+then must classify. This creates multi-step reasoning per token.
 """
 
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import Field, field_validator
 
@@ -15,31 +21,60 @@ from openenv.core.env_server.types import Action, Observation, State
 
 VerdictType = Literal["rug_pull", "honeypot", "wash_trading", "safe"]
 TaskType = Literal["contract_analysis", "transaction_analysis", "liquidity_analysis"]
+ActionType = Literal["investigate", "classify"]
+
+# Investigation tools the agent can request
+InvestigationTool = Literal[
+    "holder_distribution",
+    "contract_functions",
+    "deployer_history",
+    "social_signals",
+    "similar_contracts",
+    "price_history",
+]
 
 
 class RugGuardAction(Action):
     """
-    Agent verdict on a token's safety classification.
+    Agent action — either investigate further or classify the token.
 
-    Attributes:
-        verdict: Classification — rug_pull | honeypot | wash_trading | safe
-        confidence: Agent confidence in the verdict [0.0, 1.0]
-        reasoning: Free-text explanation for the classification decision
+    For action_type="investigate":
+        - tool: which investigation tool to use
+        - verdict/confidence/reasoning are ignored
+
+    For action_type="classify":
+        - verdict, confidence, reasoning are required
+        - tool is ignored
     """
 
-    verdict: VerdictType = Field(
-        ..., description="Classification verdict for the token"
+    action_type: ActionType = Field(
+        default="classify",
+        description="'investigate' to request more info, 'classify' to submit verdict",
     )
-    confidence: float = Field(
-        ..., ge=0.0, le=1.0, description="Confidence score [0, 1]"
+    tool: Optional[InvestigationTool] = Field(
+        default=None,
+        description="Investigation tool to use (only for action_type='investigate')",
     )
-    reasoning: str = Field(
-        ..., min_length=1, description="Agent's reasoning for the classification"
+    verdict: Optional[VerdictType] = Field(
+        default=None,
+        description="Classification verdict (only for action_type='classify')",
+    )
+    confidence: Optional[float] = Field(
+        default=None,
+        ge=0.0,
+        le=1.0,
+        description="Confidence score [0, 1] (only for action_type='classify')",
+    )
+    reasoning: Optional[str] = Field(
+        default=None,
+        description="Agent's reasoning for the classification",
     )
 
-    @field_validator("confidence")
+    @field_validator("confidence", mode="before")
     @classmethod
-    def clamp_confidence(cls, v: float) -> float:
+    def clamp_confidence(cls, v):
+        if v is None:
+            return v
         return max(0.0, min(1.0, float(v)))
 
 
@@ -48,18 +83,33 @@ class RugGuardObservation(Observation):
     Observation returned to the agent each step.
 
     Attributes:
-        task_type: Which analysis task is active (contract/transaction/liquidity)
-        token_name: Name or symbol of the token under analysis
-        token_data: Raw data string for the agent to analyse
+        task_type: Which analysis task is active
+        token_name: Token name or symbol
+        token_data: Base data for this token
+        investigation_results: Results from previous investigate actions on this token
+        available_tools: Investigation tools the agent can still use
+        investigations_remaining: How many more investigations allowed for this token
         step_number: Current step within the episode (1-indexed)
-        total_steps: Total steps in the episode (always 45)
-        last_reward: Reward received on the previous step (0.0 on first step)
-        echoed_message: Echo of the agent's last reasoning (empty on first step)
+        total_steps: Total steps in the episode
+        last_reward: Reward from previous classification
+        echoed_message: Echo of last agent reasoning
     """
 
     task_type: TaskType = Field(..., description="Type of analysis task")
     token_name: str = Field(..., description="Token name or symbol")
-    token_data: str = Field(..., description="Raw token data for analysis")
+    token_data: str = Field(..., description="Base token data for analysis")
+    investigation_results: Dict[str, str] = Field(
+        default_factory=dict,
+        description="Results from previous investigations on this token",
+    )
+    available_tools: List[str] = Field(
+        default_factory=list,
+        description="Investigation tools still available",
+    )
+    investigations_remaining: int = Field(
+        default=3,
+        description="Number of investigations still allowed for this token",
+    )
     step_number: int = Field(..., ge=1, description="Current step (1-indexed)")
     total_steps: int = Field(45, description="Total steps per episode")
     last_reward: float = Field(0.0, description="Reward from the previous step")
@@ -68,17 +118,8 @@ class RugGuardObservation(Observation):
 
 class RugGuardState(State):
     """
-    Full server-side state for the RugGuard episode.
-
-    Attributes:
-        current_task: Active task type
-        step_number: Steps completed so far
-        cumulative_reward: Total reward accumulated this episode
-        done: Whether the episode has ended
-        ground_truth_label: True label for the current sample
-        ground_truth_vuln: Vulnerability type (None for safe tokens)
-        task_queue: Ordered list of (task_type, sample_index) pairs for episode
-        episode_samples: Loaded sample dicts for current episode
+    Minimal server-side state for OpenEnv compatibility.
+    Actual episode state is kept as instance variables on the environment.
     """
 
     current_task: TaskType = "contract_analysis"
@@ -87,5 +128,3 @@ class RugGuardState(State):
     done: bool = False
     ground_truth_label: VerdictType = "safe"
     ground_truth_vuln: Optional[str] = None
-    # Note: task_queue is kept as an instance variable on the environment,
-    # not in State, because OpenEnv only persists base State fields between requests.

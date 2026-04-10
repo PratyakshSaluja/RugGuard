@@ -1,316 +1,724 @@
 {
   "samples": [
     {
-      "token_name": "MOONROCKET",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: MOONROCKET | Network: BSC\nTransaction Pattern Analysis:\n- Deployer wallet (0xDead...1337) received 95% of initial supply at launch\n- 48 hours post-launch: deployer executed 3 rapid sell transactions totalling $2.1M\n- Liquidity pool dropped from $2.3M to $4,200 within 11 minutes\n- 1,847 holder addresses now hold worthless tokens\n- No lock contract or vesting schedule was ever deployed\n- Transfer volume: $4.8M in 72 hours, then zero\n- Deployer wallet linked to 4 previous rug pull events on BSC"
-    },
-    {
-      "token_name": "SAFEMOON2",
+      "token_name": "PulseDAO",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: SAFEMOON2 | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Buy transactions: 3,412 (avg $180 each)\n- Sell transactions: 7 (all from deployer wallet)\n- Regular users: 0 successful sells in 14 days\n- Failed sell attempts: 3,405 (100% failure rate for non-deployer)\n- Deployer sold $610,000 across 7 transactions over 5 days\n- Token price held artificially stable during sell phase\n- All buyer sell attempts fail silently or revert with generic error\n- Gas fees lost by trapped buyers: ~$42,000 in failed tx attempts"
+      "token_data": "Token: PulseDAO | Network: Polygon | Contract: 0xdf2385d2ad16261f2efb91a490e77a3eea86ffe3\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 1987\n- Total sell transactions: 10 (all from 3 whitelisted addresses)\n- Failed sell attempts: 593 (98.2% failure rate for non-whitelisted)\n- Average buy size: $373\n- Whitelisted wallet sells: $902,133 total across 3 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$44,948\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 7% | Sell tax effective: 90% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 3 hours ago (still active)"
     },
     {
-      "token_name": "CHAINLINK2",
+      "token_name": "UltraSwap",
       "label": "safe",
       "vulnerability_type": null,
-      "token_data": "Token: CHAINLINK2 | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Total holders: 18,432\n- Buy/sell ratio: 1.24 (healthy two-way market)\n- Largest wallet holds 2.1% of supply (team vesting contract)\n- Daily volume: $890,000 consistently over 3 months\n- Liquidity: $4.2M locked for 1 year via Team Finance\n- No anomalous wallet clustering or circular transactions\n- Deployer wallet holds 0% — distributed to community via fair launch\n- Price movement: ±8% daily, consistent with market conditions"
+      "token_data": "Token: UltraSwap | Network: BSC | Contract: 0x10537149c1474bfb894dc52a44dda8c4ccabf383\nTransaction Summary (30 Days):\n- Total holders: 12,791\n- Buy/sell ratio: 0.86 (balanced two-way market)\n- Daily active traders: 632\n- Largest wallet: 3.6% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 25.0% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $324,385\n- Volume consistent over 75 days (no anomalous spikes)\n- Deployer wallet: 0.8% of current supply\n- Ownership: Renounced\n- Contract verified on Etherscan: Yes\n- Audit: Trail of Bits (score: 89/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 45761 Twitter followers, active Discord"
     },
     {
-      "token_name": "PHANTOMSWAP",
+      "token_name": "NebulaBridge",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: NebulaBridge | Network: Base | Contract: 0x81e6f154ba14d24b29e3b07e8df9a9f49cd05ab0\nTransaction Summary (30 Days):\n- Total holders: 47,150\n- Buy/sell ratio: 1.23 (balanced two-way market)\n- Daily active traders: 2536\n- Largest wallet: 2.0% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 18.5% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $1,387,523\n- Volume consistent over 71 days (no anomalous spikes)\n- Deployer wallet: 0.5% of current supply\n- Ownership: Multisig (3/5 signers)\n- Contract verified on Etherscan: Yes\n- Audit: OpenZeppelin (score: 94/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 13288 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "CosmicLend",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: CosmicLend | Network: Arbitrum | Contract: 0xe7537ada16f22f4dca3f3a171a65093188538f32\nBehavioral Analysis:\n- Unique buyers: 4854 | Unique sellers: 1\n- Median hold time: 8 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 1.0%\n- Transfer success rate (non-deployer \u2192 wallet): 99% (can transfer, can't swap)\n- Router approval events: 976 (users trying to sell)\n- Actual swap executions: 2 (only whitelisted)\n- Price movement: +176% since launch (buy-only pressure)\n- Liquidity pool depth: $2,320,528 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 7 times\n- Current _sellTax value: 9341 basis points (97%)"
+    },
+    {
+      "token_name": "ValorFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: ValorFi | Network: BSC | Contract: 0xf71b8e61273a2d0ec2d34a15faad63e8d442cd36\nBehavioral Analysis:\n- Unique buyers: 4833 | Unique sellers: 1\n- Median hold time: 18 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 3.6%\n- Transfer success rate (non-deployer \u2192 wallet): 84% (can transfer, can't swap)\n- Router approval events: 3152 (users trying to sell)\n- Actual swap executions: 8 (only whitelisted)\n- Price movement: +361% since launch (buy-only pressure)\n- Liquidity pool depth: $1,427,449 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 7 times\n- Current _sellTax value: 9538 basis points (99%)"
+    },
+    {
+      "token_name": "XenonSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: XenonSwap | Network: Polygon | Contract: 0xbef0dfc2ac2f25307448ce6670ceec2b0a238bb9\nTransaction Summary (30 Days):\n- Total holders: 66,849\n- Buy/sell ratio: 1.36 (balanced two-way market)\n- Daily active traders: 1985\n- Largest wallet: 1.9% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 18.5% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $2,403,069\n- Volume consistent over 142 days (no anomalous spikes)\n- Deployer wallet: 0.8% of current supply\n- Ownership: Renounced\n- Contract verified on Etherscan: Yes\n- Audit: Certik (score: 92/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 39961 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "KineticDEX",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: PHANTOMSWAP | Network: BSC\nTransaction Pattern Analysis:\n- Reported 24h volume: $28.4M\n- Unique wallet participants: 14 (same 14 wallets recycled)\n- Average trade size: $2.03M (unrealistic for token market cap of $800K)\n- Wallet cluster analysis: all 14 wallets funded from single CEX withdrawal\n- Circular flow: A->B->C->D->A pattern detected, 847 cycles in 24h\n- Price impact per trade: 0.0001% (impossible for stated volume)\n- Actual organic volume estimate: <$2,000\n- CoinMarketCap reported volume vs on-chain: 14,200x discrepancy"
+      "token_data": "Token: KineticDEX | Network: ETH Mainnet | Contract: 0xc2d492b833517f8c9f1e01525d2c3bccc4ed3ac4\nVolume Analysis (24h):\n- Reported volume: $60,320,358\n- Unique trading wallets: 9\n- Average trades per wallet: 453\n- Wallet cluster analysis: 6 of 9 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 1376 cycles in 24h\n- Average trade size: $69,815\n- Price impact per trade: 0.0046% (impossibly low for market cap)\n- Market cap: $3,757,815\n- Volume/Market cap ratio: 36.4x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$3,906\n- All 9 wallets created within 29 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
     },
     {
-      "token_name": "USDGOLD",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: USDGOLD | Network: Polygon\nTransaction Pattern Analysis:\n- 45,000+ unique holders across 8 months\n- Team tokens: 15% vested linearly over 24 months via smart contract\n- Daily active addresses: 1,200 average\n- Buy/sell ratio last 30 days: 0.98 (balanced)\n- LP locked: $8.5M on Unicrypt for 2 years\n- Largest single holder (excluding LP): 0.8% of supply\n- No suspicious clustering or bot activity detected\n- Audited by Hacken — no critical issues found"
-    },
-    {
-      "token_name": "DRAINMASTER",
+      "token_name": "EmberSwap",
       "label": "rug_pull",
       "vulnerability_type": "rug_pull",
-      "token_data": "Token: DRAINMASTER | Network: BSC\nTransaction Pattern Analysis:\n- Total raised via presale: $890,000 from 2,341 participants\n- Day 3 post-launch: deployer called emergencyDrain() at 03:17 UTC\n- $884,000 transferred to Tornado Cash mixer in 12 transactions\n- LP removed: 100% within 4 minutes of drain call\n- Token price: $0.042 -> $0.00001 in 8 minutes\n- Deployer wallet: created 6 days before launch, no prior history\n- Social media accounts deleted within 1 hour of rug\n- Website offline within 2 hours"
+      "token_data": "Token: EmberSwap | Network: Arbitrum | Contract: 0x93393b446f3073eb0ba5f85524ca04030ba5d39a\nOn-Chain Activity Summary:\n- Token age: 23 days | Holders: 1774 (peak: 7935)\n- Buy/sell ratio: 18.7:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 9 transfers to 4 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 88% of LP tokens removed in block #19793016\n- Time between last marketing push and LP removal: 36 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 4 previously flagged contracts"
     },
     {
-      "token_name": "DEFISHIELD",
+      "token_name": "BetaSwap",
       "label": "safe",
       "vulnerability_type": null,
-      "token_data": "Token: DEFISHIELD | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Launched 18 months ago, still active\n- Team wallet (6% of supply): fully vested and partially sold in small OTC blocks\n- Daily volume: $1.2M with 890 unique traders\n- Largest single sell in history: $48,000 (by early investor, not team)\n- Liquidity: $6.1M across Uniswap V3 — not locked but consistently maintained\n- No MEV bot activity detected\n- Community multisig controls treasury (5/9 signers)\n- Token featured in DeFiLlama with $12M TVL across protocols"
+      "token_data": "Token: BetaSwap | Network: BSC | Contract: 0xfc169d5eddc202524fcfb224a4879119b794c2e2\nOn-Chain Health Metrics:\n- Token age: 401 days\n- Holder growth: +5.0% per month (organic)\n- Gini coefficient of holdings: 0.62 (moderately distributed)\n- Whale concentration (>1% holders): 5 addresses\n- Smart money flow (Nansen labels): 10 labeled fund wallets hold positions\n- DEX pairs: 4 active (SushiSwap, Orca)\n- CEX listings: 3 (Binance, Coinbase, KuCoin)\n- Unique daily transactions: 1275\n- Failed transaction rate: 0.9% (normal range)\n- No blacklist function in contract\n- Token utility: Staking rewards"
     },
     {
-      "token_name": "FOMOPUMP",
+      "token_name": "DriftSwap",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: FOMOPUMP | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Launched Monday 09:00 UTC, volume spiked to $45M by 11:00 UTC\n- Forensic analysis: $44.7M volume from 3 coordinated wallet clusters\n- Cluster A (9 wallets): funded from single address, all created same block\n- Cluster B (6 wallets): exact same ETH amounts received from Binance\n- Cluster C (4 wallets): round-trip trades with microsecond timing\n- Legitimate organic volume: estimated $290,000\n- Price pumped 1,800% then dumped 95% over 6 hours\n- Pattern matches previous wash trade operation targeting retail FOMO"
+      "token_data": "Token: DriftSwap | Network: ETH Mainnet | Contract: 0x5674d4536fcd7a924696078b15865c4fab9f3597\nVolume Analysis (24h):\n- Reported volume: $8,343,075\n- Unique trading wallets: 7\n- Average trades per wallet: 100\n- Wallet cluster analysis: 7 of 7 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 1503 cycles in 24h\n- Average trade size: $7,267\n- Price impact per trade: 0.0036% (impossibly low for market cap)\n- Market cap: $2,576,467\n- Volume/Market cap ratio: 8.1x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$597\n- All 7 wallets created within 13 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
     },
     {
-      "token_name": "ETHYIELD",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: ETHYIELD | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Organic holder growth: 200-400 new addresses daily for 6 months\n- Volume distribution: no single address >0.3% of daily volume\n- Team vesting: 3-year linear vest, 1-year cliff, on-chain verifiable\n- LP: $11M on Uniswap V3, managed by DAO governance\n- Sell tax: 1.5% to treasury, capped and immutable\n- Average holding period: 47 days (healthy long-term holder base)\n- 0 reports of failed sell transactions\n- Certik audit score: 94/100"
+      "token_name": "KryptonDAO",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: KryptonDAO | Network: BSC | Contract: 0x91d5c702324fcaabf141525ed5bd5799dde041ed\nBehavioral Analysis:\n- Unique buyers: 2200 | Unique sellers: 1\n- Median hold time: 8 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 0.7%\n- Transfer success rate (non-deployer \u2192 wallet): 86% (can transfer, can't swap)\n- Router approval events: 1100 (users trying to sell)\n- Actual swap executions: 4 (only whitelisted)\n- Price movement: +487% since launch (buy-only pressure)\n- Liquidity pool depth: $236,030 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 13 times\n- Current _sellTax value: 9591 basis points (99%)"
     },
     {
-      "token_name": "EXITSCAM",
+      "token_name": "CelestisFi",
       "label": "rug_pull",
       "vulnerability_type": "rug_pull",
-      "token_data": "Token: EXITSCAM | Network: BSC\nTransaction Pattern Analysis:\n- Raised $1.4M in 90-minute IDO\n- selfdestruct() called 72 hours after listing\n- Contract no longer exists on-chain\n- All investor funds irrecoverable\n- Dev team KYC was fake — provided stolen IDs\n- Telegram group: 14,000 members, now deleted\n- Pre-launch hype: paid promotions on 23 influencer channels ($180K spent)\n- Chain of custody: funds moved BSC -> Avalanche -> Tornado Cash"
+      "token_data": "Token: CelestisFi | Network: Base | Contract: 0x8c0a100dbee557e9cdf1f8f2ee6a5b917b71c953\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0xb0dd5c0d...2d9f) holds 70% of supply in single wallet\n- Initial liquidity added: $4,442,920 via Trader Joe\n- 4514 buy transactions from 1421 unique wallets in first 32h\n- Deployer executed 3 large sell transactions in 17 minute window\n- Post-sell token price decline: 91%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 4 days before deployment\n- Team wallet (0xad5be893...) transferred 76% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 9 hours of sell event\n- Current 24h volume: $440 (effectively zero)"
     },
     {
-      "token_name": "SOLIDGOV",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: SOLIDGOV | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Governance token with 2-year track record\n- All major parameter changes executed via on-chain vote (3-day timelock)\n- Treasury: $22M managed by 7/12 multisig DAO\n- No admin keys — ownership fully renounced after 6 months\n- Trading: 78,000 holders, $3.4M daily volume\n- Institutional holdings: 3 registered funds hold 12% combined\n- Listed on 4 major CEXs with verifiable proof of reserves\n- No wash trading detected by Chainalysis"
-    },
-    {
-      "token_name": "VOLUMEKING",
+      "token_name": "ResonanceFi",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: VOLUMEKING | Network: BSC\nTransaction Pattern Analysis:\n- Claimed volume rank #12 on CoinGecko: $67M/day\n- Nansen wallet labelling: 98% of volume from 'bot/automated' wallets\n- Gas cost analysis: operators paying $0.0001 per trade (subsidised bots)\n- Average buy-sell roundtrip: 2.3 seconds (impossible for human)\n- Network of 340 wallets, all created within 48h of token launch\n- Market depth: actual order book <$50,000 despite claimed $67M volume\n- Token price: perfectly flat for 30 days (price-pegging via wash)\n- Similar pattern linked to 8 other tokens by same deployer"
+      "token_data": "Token: ResonanceFi | Network: Polygon | Contract: 0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e\nTrading Pattern Anomalies:\n- 24h transactions: 22688 | Unique participants: 13\n- Trade timing: 98% of trades occur in 2-second intervals (bot signature)\n- Bid-ask spread: 0.002% (artificially tight)\n- Order book depth vs actual fills: 186x discrepancy\n- Top 13 wallets account for 98.1% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $30,201,009\n- On-chain verifiable volume: $1,689\n- Discrepancy factor: 17,881x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
     },
     {
-      "token_name": "INSTARUG",
+      "token_name": "XenonSwap",
       "label": "rug_pull",
       "vulnerability_type": "rug_pull",
-      "token_data": "Token: INSTARUG | Network: BSC\nTransaction Pattern Analysis:\n- Presale: $340,000 raised\n- Time to rug: 6 hours after DEX listing\n- Deployer minted 10 billion extra tokens 3 hours post-launch\n- Immediate sell of minted tokens crashed price 99.7%\n- Liquidity pool drained: $338,000 to deployer\n- Victims: 891 wallet addresses\n- Pattern: deployer used Tornado Cash funded wallet\n- Same deployer involved in 6 prior rugs totalling $4.2M"
+      "token_data": "Token: XenonSwap | Network: Arbitrum | Contract: 0x26cf0ff0b91ca968d52b3f960bc622d4462ccdae\nOn-Chain Activity Summary:\n- Token age: 44 days | Holders: 1696 (peak: 8199)\n- Buy/sell ratio: 22.7:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 4 transfers to 5 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 100% of LP tokens removed in block #18502397\n- Time between last marketing push and LP removal: 35 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 8 previously flagged contracts"
     },
     {
-      "token_name": "LOCKEDNFT",
-      "label": "honeypot",
-      "vulnerability_type": "honeypot",
-      "token_data": "Token: LOCKEDNFT | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Buy transactions: 1,203 over 10 days, $890,000 invested\n- Successful sell transactions: 0\n- Attempted sells: 1,201 (99.8% fail with 'Tokens locked for 1 year')\n- Token is 10 months old — lock period not yet expired for any buyer\n- Only deployer wallet has ever successfully sold\n- Deployer sold $887,000 worth via backdoor function not visible in UI\n- Price has been artificially maintained between $0.0082-$0.0091\n- Lock time has been extended 3 times via contract upgrade"
-    },
-    {
-      "token_name": "POLKABASE",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: POLKABASE | Network: Polygon\nTransaction Pattern Analysis:\n- Fixed supply: 500M tokens, minting permanently disabled\n- 2-year history with growing adoption\n- 92,000+ holders, top 20 wallets hold 31% (typical healthy distribution)\n- Average daily volume: $2.1M, 3,400 unique traders\n- LP: $9.3M across multiple DEXs\n- No lock required — no admin functions to exploit\n- Coingecko Trust Score: High\n- Featured in 3 major DeFi protocols as accepted collateral"
-    },
-    {
-      "token_name": "AUDITEDTOKEN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: AUDITEDTOKEN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- CertiK audit: 96/100, 0 critical issues\n- Supply growth: controlled via DAO governance votes only\n- No single wallet >1.2% of supply\n- Consistent $4.8M daily volume, 8,200 unique traders\n- 18-month track record with zero incidents\n- LP: $15M on Uniswap V3 + $8M on Curve\n- Team tokens: 4% supply, 3-year vest via VestingWallet contract\n- Chainalysis: no suspicious clustering or wash trading signals"
-    },
-    {
-      "token_name": "APPROVERUG",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: APPROVERUG | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Deployer exploited transferFrom() bypass to drain 2,341 holder wallets\n- Total stolen: $1.8M across 2,341 transactions in 4 minutes\n- Attack vector: transferFrom() allowed owner to skip approval check\n- Victims had approved the contract for token interactions (standard UX)\n- Funds routed: ETH -> Tornado Cash -> 3 fresh wallets\n- Pattern: victims never noticed until price hit zero\n- No public exploit disclosure until 11 days after attack\n- Similar exploit used in 2 other projects by same entity"
-    },
-    {
-      "token_name": "FAKESWAP",
+      "token_name": "ZionBridge",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: FAKESWAP | Network: BSC\nTransaction Pattern Analysis:\n- 24h volume: $31M reported\n- Actual unique trader count: 8 wallets\n- Price oracle manipulation detected: 47 artificial price updates per hour\n- Wallet funding source: single Binance hot wallet\n- Trade timing: all trades within ±2 seconds of each other (bot coordination)\n- On-chain analysis by Chainalysis: 99.3% wash trading probability\n- Project claims: 50,000 users, real unique addresses: 31\n- Purpose: inflate CoinGecko/CMC rankings to attract retail investors"
+      "token_data": "Token: ZionBridge | Network: BSC | Contract: 0x0cd44a504562100e7a9bf84fccb25db3f0b204a9\nTrading Pattern Anomalies:\n- 24h transactions: 2299 | Unique participants: 10\n- Trade timing: 93% of trades occur in 3-second intervals (bot signature)\n- Bid-ask spread: 0.002% (artificially tight)\n- Order book depth vs actual fills: 185x discrepancy\n- Top 10 wallets account for 99.8% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $5,169,584\n- On-chain verifiable volume: $808\n- Discrepancy factor: 6,398x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
     },
     {
-      "token_name": "METAVERSE2",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: METAVERSE2 | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- 1% transfer fee routes to LP — auto-compounding mechanism\n- LP has grown organically from $500K to $4.2M over 9 months\n- 28,000 holders, consistent growth of 200-500/week\n- Daily volume: $1.8M with 1,400 unique traders\n- Largest holder (LP contract): 45% of supply\n- Team wallet: 2% of supply, locked 18 months via smart contract\n- No failed sell transactions reported in history\n- Twitter community: 48,000 followers, active development"
-    },
-    {
-      "token_name": "HIDDENWALL",
+      "token_name": "IgniteLend",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: HIDDENWALL | Network: BSC\nTransaction Pattern Analysis:\n- Phase 1 (days 1-3): maxTxAmount = 100,000 tokens, 1,203 buyers\n- Phase 2 (day 4): dev set maxTxAmount to 1 token\n- All sell attempts after day 4: fail with 'Exceeds limit'\n- Dev sold $420,000 worth before imposing limit\n- Token still shows fake price on DEX aggregators\n- 1,203 buyers cannot exit their positions\n- Tokens show as transferable in wallets but all transfer attempts fail\n- Pattern identified as 'invisible wall' honeypot variant"
+      "token_data": "Token: IgniteLend | Network: Base | Contract: 0x4876bca6feab4243e4370bddc92f5a8364de9df9\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 6046\n- Total sell transactions: 19 (all from 1 whitelisted addresses)\n- Failed sell attempts: 2485 (95.4% failure rate for non-whitelisted)\n- Average buy size: $447\n- Whitelisted wallet sells: $1,001,913 total across 8 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$16,743\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 3% | Sell tax effective: 100% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 4 hours ago (still active)"
     },
     {
-      "token_name": "OPENDEFI",
+      "token_name": "TridentSwap",
       "label": "safe",
       "vulnerability_type": null,
-      "token_data": "Token: OPENDEFI | Network: Polygon\nTransaction Pattern Analysis:\n- 2% buy + 2% sell fee, hard-capped at 5% by contract\n- Fee receiver is community DAO multisig (verified on-chain)\n- 11 months of clean trading history\n- 62,000 holders, healthy distribution (top 10 = 18% combined)\n- Volume: $900K/day average, 2,100 unique wallets\n- LP: $6.4M on QuickSwap, no unusual concentration\n- No instances of fee manipulation attempted\n- DAO has voted on fee adjustments twice (both stayed at 2%/2%)"
+      "token_data": "Token: TridentSwap | Network: BSC | Contract: 0xa0863b6d4d301fb67b05731a24148ca24530e331\nOn-Chain Health Metrics:\n- Token age: 577 days\n- Holder growth: +7.8% per month (organic)\n- Gini coefficient of holdings: 0.60 (moderately distributed)\n- Whale concentration (>1% holders): 5 addresses\n- Smart money flow (Nansen labels): 21 labeled fund wallets hold positions\n- DEX pairs: 6 active (Uniswap V2, Camelot)\n- CEX listings: 2 (Binance, KuCoin)\n- Unique daily transactions: 8053\n- Failed transaction rate: 2.7% (normal range)\n- No blacklist function in contract\n- Token utility: Gas token for L2"
     },
     {
-      "token_name": "GHOSTLIQ",
+      "token_name": "BlazeDEX",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: BlazeDEX | Network: Arbitrum | Contract: 0x3500d63143d0b668766bae8c0f90e23e6d8fc735\nOn-Chain Health Metrics:\n- Token age: 443 days\n- Holder growth: +7.9% per month (organic)\n- Gini coefficient of holdings: 0.50 (moderately distributed)\n- Whale concentration (>1% holders): 3 addresses\n- Smart money flow (Nansen labels): 26 labeled fund wallets hold positions\n- DEX pairs: 3 active (SushiSwap, SushiSwap)\n- CEX listings: 3 (Binance, Coinbase, KuCoin)\n- Unique daily transactions: 1573\n- Failed transaction rate: 2.7% (normal range)\n- No blacklist function in contract\n- Token utility: Governance + fee sharing"
+    },
+    {
+      "token_name": "ArcticDEX",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: ArcticDEX | Network: ETH Mainnet | Contract: 0x14b91ea64fdaeaf6a06c8b5e756cdefd1746b8e3\nOn-Chain Health Metrics:\n- Token age: 227 days\n- Holder growth: +3.2% per month (organic)\n- Gini coefficient of holdings: 0.50 (moderately distributed)\n- Whale concentration (>1% holders): 3 addresses\n- Smart money flow (Nansen labels): 23 labeled fund wallets hold positions\n- DEX pairs: 5 active (Orca, Orca)\n- CEX listings: 5 (Binance, Coinbase, KuCoin)\n- Unique daily transactions: 6912\n- Failed transaction rate: 1.2% (normal range)\n- No blacklist function in contract\n- Token utility: Protocol revenue sharing"
+    },
+    {
+      "token_name": "PrismStake",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: PrismStake | Network: BSC | Contract: 0xa8007b46aab6695346c89be8b377276662cbd6c3\nOn-Chain Activity Summary:\n- Token age: 28 days | Holders: 1546 (peak: 12971)\n- Buy/sell ratio: 28.8:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 12 transfers to 3 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 96% of LP tokens removed in block #18032225\n- Time between last marketing push and LP removal: 47 hours\n- Smart contract verified on Etherscan: No\n- Ownership renounced: Yes (but via proxy with hidden admin)\n- Connected wallets (graph analysis): deployer linked to 4 previously flagged contracts"
+    },
+    {
+      "token_name": "OptimaSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: OptimaSwap | Network: ETH Mainnet | Contract: 0x75a17f41d2e11201f0b1f445fa3f5c2f7eeaa2ab\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0x91310c59...579e) holds 73% of supply in single wallet\n- Initial liquidity added: $1,312,538 via Uniswap V3\n- 1629 buy transactions from 1685 unique wallets in first 53h\n- Deployer executed 6 large sell transactions in 17 minute window\n- Post-sell token price decline: 88%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 5 days before deployment\n- Team wallet (0x0e1aabed...) transferred 77% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 10 hours of sell event\n- Current 24h volume: $320 (effectively zero)"
+    },
+    {
+      "token_name": "ZephyrLend",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: ZephyrLend | Network: Arbitrum | Contract: 0x7b508333ac4847e49271edd24ef4516a422a436d\nOn-Chain Activity Summary:\n- Token age: 43 days | Holders: 2608 (peak: 11365)\n- Buy/sell ratio: 29.2:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 4 transfers to 2 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 85% of LP tokens removed in block #18720634\n- Time between last marketing push and LP removal: 16 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 7 previously flagged contracts"
+    },
+    {
+      "token_name": "ForgeProtocol",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: ForgeProtocol | Network: ETH Mainnet | Contract: 0x11f3081cd6b2ac5a263e65e206f806bea7fa9c56\nOn-Chain Activity Summary:\n- Token age: 5 days | Holders: 1452 (peak: 3314)\n- Buy/sell ratio: 44.5:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 5 transfers to 2 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 88% of LP tokens removed in block #19626662\n- Time between last marketing push and LP removal: 27 hours\n- Smart contract verified on Etherscan: No\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 3 previously flagged contracts"
+    },
+    {
+      "token_name": "TitanBridge",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: TitanBridge | Network: BSC | Contract: 0x8800bfd0dc3a3f7ee5b0f1133cd559945945c659\nBehavioral Analysis:\n- Unique buyers: 1972 | Unique sellers: 5\n- Median hold time: 25 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 2.7%\n- Transfer success rate (non-deployer \u2192 wallet): 76% (can transfer, can't swap)\n- Router approval events: 3449 (users trying to sell)\n- Actual swap executions: 9 (only whitelisted)\n- Price movement: +62% since launch (buy-only pressure)\n- Liquidity pool depth: $850,271 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 10 times\n- Current _sellTax value: 9604 basis points (93%)"
+    },
+    {
+      "token_name": "BlazeDEX",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: BlazeDEX | Network: ETH Mainnet | Contract: 0x8685631276cfcf17a973d92f6dc11645e5158c0c\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0xb8c664dc...ef08) holds 75% of supply in single wallet\n- Initial liquidity added: $13,495,351 via Raydium\n- 3920 buy transactions from 601 unique wallets in first 42h\n- Deployer executed 8 large sell transactions in 28 minute window\n- Post-sell token price decline: 87%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 9 days before deployment\n- Team wallet (0x0a2933d1...) transferred 75% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 7 hours of sell event\n- Current 24h volume: $255 (effectively zero)"
+    },
+    {
+      "token_name": "DawnProtocol",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: DawnProtocol | Network: Arbitrum | Contract: 0xdafff2c9113330d8251e517dda55b6e75e297af0\nBehavioral Analysis:\n- Unique buyers: 3450 | Unique sellers: 1\n- Median hold time: 5 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 3.8%\n- Transfer success rate (non-deployer \u2192 wallet): 73% (can transfer, can't swap)\n- Router approval events: 3904 (users trying to sell)\n- Actual swap executions: 3 (only whitelisted)\n- Price movement: +438% since launch (buy-only pressure)\n- Liquidity pool depth: $1,892,326 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 11 times\n- Current _sellTax value: 9066 basis points (94%)"
+    },
+    {
+      "token_name": "EmberSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: EmberSwap | Network: Arbitrum | Contract: 0x04ec6d64683b7c612d545afd765dd8054ed9e834\nOn-Chain Health Metrics:\n- Token age: 646 days\n- Holder growth: +3.3% per month (organic)\n- Gini coefficient of holdings: 0.48 (moderately distributed)\n- Whale concentration (>1% holders): 8 addresses\n- Smart money flow (Nansen labels): 30 labeled fund wallets hold positions\n- DEX pairs: 4 active (Camelot, Trader Joe)\n- CEX listings: 1 (Binance, KuCoin)\n- Unique daily transactions: 2854\n- Failed transaction rate: 0.5% (normal range)\n- No blacklist function in contract\n- Token utility: Staking rewards"
+    },
+    {
+      "token_name": "FrostSwap",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: GHOSTLIQ | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Reported TVL: $45M; actual on-chain liquidity: $84,000\n- TVL inflation method: self-reported via custom dashboard, not DefiLlama\n- Transaction count: 3.2M reported vs 1,847 actual on-chain\n- All 1,847 real transactions from same 3 wallets cycling funds\n- No third-party integration or protocol usage detected\n- Website: elaborate UI showing fake user activity\n- Attempted to list on 4 CEXs using manipulated volume as credentials\n- All CEX applications rejected after on-chain forensics"
+      "token_data": "Token: FrostSwap | Network: Polygon | Contract: 0x1f1983336a06f3bda44a2dbce301bb773eadd0e1\nTrading Pattern Anomalies:\n- 24h transactions: 29932 | Unique participants: 24\n- Trade timing: 90% of trades occur in 5-second intervals (bot signature)\n- Bid-ask spread: 0.004% (artificially tight)\n- Order book depth vs actual fills: 197x discrepancy\n- Top 24 wallets account for 97.7% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $37,707,566\n- On-chain verifiable volume: $1,898\n- Discrepancy factor: 19,867x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
     },
     {
-      "token_name": "SILENTDRAIN",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: SILENTDRAIN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Hidden fee mechanism draining 20% of every transaction to 0x1337...\n- Address 0x1337... has accumulated $3.4M over 6 months\n- 48,000 token holders unaware of hidden drain\n- On-chain: every Transfer event shows correct amount, drain not logged\n- Detection method: balance tracking showed 20% loss on every transfer\n- Users thought they were losing to 'token fees', not noticing extra drain\n- 0x1337... recently moved $3.4M to Tornado Cash\n- All funds now considered unrecoverable"
-    },
-    {
-      "token_name": "CLEARCHAIN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: CLEARCHAIN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- 1:1 ETH-backed token with transparent reserves\n- All deposits/withdrawals fully atomic and reversible\n- 14,000 unique depositors over 8 months\n- Total deposits: 4,200 ETH (~$12.6M), zero withdrawal failures\n- Reentrancy guard verified by 2 independent audits\n- Volume: $2.4M/day, 100% organic (no incentives)\n- Largest single withdrawal: 180 ETH, completed successfully\n- Reserve ratio: 100% maintained at all times (verifiable on-chain)"
-    },
-    {
-      "token_name": "SPOOKYMINT",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: SPOOKYMINT | Network: BSC\nTransaction Pattern Analysis:\n- Launched with 100M supply\n- Day 12: admin minted 900M additional tokens (900% inflation)\n- Immediate sell of 850M tokens crashed price 94%\n- $1.1M extracted to deployer\n- Mint transaction: disguised in same block as 450 regular transfers\n- Community noticed ~4 hours after mint\n- Admin wallet had already bridged $800K to Ethereum by detection time\n- Warning signs: no mint cap, no timelock on admin functions"
-    },
-    {
-      "token_name": "BLUECHIP",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: BLUECHIP | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Fixed supply (21M), no mint function\n- 3-year trading history, no incidents\n- Largest holder: 2.8% (known DeFi fund, publicly disclosed)\n- Daily volume: $3.1M, 4,200 unique traders\n- LP: $18M on Uniswap V3, steadily grown over 2 years\n- Burn: 0.5% of sell volume burned automatically\n- 0 failed sell transactions ever\n- Holder count growth: consistent +300-600 per week for 2 years"
-    },
-    {
-      "token_name": "TAXMAX",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: TAXMAX | Network: BSC\nTransaction Pattern Analysis:\n- Launch: sellTax = 0% (to attract buyers)\n- Day 7: sellTax raised to 25%\n- Day 14: sellTax raised to 75%\n- Day 21: sellTax raised to 99%\n- Buyers who waited: receive $0.01 per $100 invested after 99% tax\n- deployer wallet extracted $2.8M via the accumulated taxes\n- Pattern: 'Tax ramp' rug — legal ambiguity used to avoid fraud charges\n- 8,200 holder wallets affected, total loss $2.7M"
-    },
-    {
-      "token_name": "REBASETOKEN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: REBASETOKEN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Rebase mechanism adjusts supply based on target price\n- Transparent rebaseFactor updated via oracle (Chainlink)\n- 22,000 holders, 14-month history\n- No admin control over rebase trigger (automated by keepers)\n- Daily volume: $1.4M, 1,800 unique traders\n- Price has maintained within 5% of $1.00 target for 12 months\n- All rebase events on-chain, logged and verifiable\n- No rugable functions — rebase is mechanical, not discretionary"
-    },
-    {
-      "token_name": "SIPHON",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: SIPHON | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Hidden 20% drain active since day 1 — 6 months undetected\n- 0x1337... (drain wallet) accumulated 42,000 ETH ($126M) over 6 months\n- Drain discovered by DeFi security researcher via balance discrepancy\n- 220,000 token holders affected\n- Each holder lost 20% of every transfer silently\n- Largest single-drain rug in ETH history at time of discovery\n- Funds scattered across 140 wallets pre-detection\n- Estimated 30% of funds laundered before public disclosure"
-    },
-    {
-      "token_name": "VESTALPHA",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: VESTALPHA | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Team tokens: 20% locked in OpenZeppelin VestingWallet, 2-year total vest\n- Community tokens: 80%, distributed via LBP launch (no whale sniping)\n- Holders: 34,000 after 10 months\n- No team sells detected (vesting contract holds all team tokens)\n- Daily volume: $2.2M, 2,900 unique wallets\n- LP: $7.4M on Uniswap V3 — unmanaged, organic liquidity\n- Buy/sell ratio last 90 days: 1.18\n- Certik KYC: team identities verified"
-    },
-    {
-      "token_name": "MICROHONEY",
+      "token_name": "YugenDAO",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: MICROHONEY | Network: BSC\nTransaction Pattern Analysis:\n- Minimum sell amount: initially 1 token\n- Week 2: minimum raised to 10,000 tokens\n- Week 4: minimum raised to 1,000,000 tokens (more than most holders own)\n- Week 6: minimum raised to 1e27 (effectively infinity)\n- Buy transactions: 2,890, all successful\n- Sell transactions: 0 successful (threshold always raised before users can sell)\n- Deployer sold $1.2M using admin bypass before raising threshold\n- Pattern: 'ratchet honeypot' — threshold raised incrementally to avoid detection"
+      "token_data": "Token: YugenDAO | Network: BSC | Contract: 0x348bb716bc4378560cd269f4a039aba957e24d1b\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 1150\n- Total sell transactions: 14 (all from 3 whitelisted addresses)\n- Failed sell attempts: 3382 (96.8% failure rate for non-whitelisted)\n- Average buy size: $204\n- Whitelisted wallet sells: $595,357 total across 11 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$41,159\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 3% | Sell tax effective: 100% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 3 hours ago (still active)"
     },
     {
-      "token_name": "COMMUNITYPOOL",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: COMMUNITYPOOL | Network: Polygon\nTransaction Pattern Analysis:\n- Max wallet cap (1%) prevents whale accumulation\n- 71,000 holders after 14 months — very wide distribution\n- Largest wallet: 0.97% (just under cap, verified as market maker)\n- Daily volume: $1.6M, 4,100 unique traders\n- LP: $5.8M on QuickSwap + SushiSwap\n- No exemptions from max wallet abused — team wallet also capped\n- 0 failed sell transactions\n- CommunityDAO voted cap could be lifted after 2 years (expires next month)"
-    },
-    {
-      "token_name": "LOOPWASH",
+      "token_name": "VortexYield",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: LOOPWASH | Network: BSC\nTransaction Pattern Analysis:\n- Market cap reported: $12.4M\n- Real market cap (organic volume basis): $18,000\n- Self-trade detection: 4,822 self-trades from deployer wallet in 30 days\n- All Transfer events: src == dst (token moves to itself)\n- CoinMarketCap listing achieved via faked $8M/day volume\n- DEX listing shows healthy chart with zero real price discovery\n- 3 investors purchased based on CMC listing — lost $4,200 total\n- Linked to wash trading network spanning 12 BSC tokens"
+      "token_data": "Token: VortexYield | Network: Polygon | Contract: 0x34bc4f174c027a68f94a7ea6a3b4930e0211b19d\nVolume Analysis (24h):\n- Reported volume: $20,119,860\n- Unique trading wallets: 21\n- Average trades per wallet: 362\n- Wallet cluster analysis: 21 of 21 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 602 cycles in 24h\n- Average trade size: $5,635\n- Price impact per trade: 0.0063% (impossibly low for market cap)\n- Market cap: $854,998\n- Volume/Market cap ratio: 10.4x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$1,140\n- All 21 wallets created within 41 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
     },
     {
-      "token_name": "TRANSFERLOCK",
+      "token_name": "EquinoxDAO",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: TRANSFERLOCK | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- transfersEnabled = false since contract deployment (240 days ago)\n- Purchase via DEX: 892 wallets bought tokens\n- Sell attempts: 892, all failed ('Transfers disabled')\n- enableTransfers() never called — owner holds the key but never enables\n- Deployer moves tokens freely (owner bypass)\n- $1.4M in user funds trapped in worthless tokens\n- Contract verified on Etherscan — the lock is clearly visible but ignored by buyers\n- Promoted as 'pre-launch tokens' with transfers 'coming soon'"
+      "token_data": "Token: EquinoxDAO | Network: Base | Contract: 0xdd82123f34036ca3393e4bac0e7f54727b8afcc8\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 1133\n- Total sell transactions: 19 (all from 1 whitelisted addresses)\n- Failed sell attempts: 2972 (95.0% failure rate for non-whitelisted)\n- Average buy size: $163\n- Whitelisted wallet sells: $550,516 total across 8 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$7,844\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 8% | Sell tax effective: 94% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 5 hours ago (still active)"
     },
     {
-      "token_name": "CLOAKRUG",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: CLOAKRUG | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Deployer used tx.origin check to obscure identity\n- Contract created via CREATE2 with random salt — deployer address not obvious\n- $3.2M raised over 5 days\n- rug() called by EOA with no prior on-chain history\n- All funds moved through 6 mixing hops before reaching final wallet\n- Investigators traced to a single hardware wallet not yet linked to identity\n- 4,200 victims\n- Telegram mods (who were bots) vanished simultaneously with rug"
-    },
-    {
-      "token_name": "FAIRLAUNCH",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: FAIRLAUNCH | Network: BSC\nTransaction Pattern Analysis:\n- 100% of supply sent to 0xdead at deployment — zero team allocation\n- No presale, no IDO, no private round\n- 100% community-owned from day 1\n- 41,000 holders after 8 months\n- Daily volume: $780,000, 2,100 unique traders\n- LP: $3.4M — organically grown, community-added\n- No admin functions in contract — fully immutable\n- Certik audit: 100% decentralized, no admin keys"
-    },
-    {
-      "token_name": "SHADOWSELL",
+      "token_name": "LatticeDAO",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: SHADOWSELL | Network: BSC\nTransaction Pattern Analysis:\n- Sell function requires 'ops approval' — whitelist controlled by deployer\n- Buy transactions: 6,781 from regular users\n- Approved sellers (able to sell): 1 (deployer only)\n- Regular user sell success rate: 0%\n- Deployer approved themselves, sold $2.1M over 3 weeks\n- All 6,780 regular buyers permanently trapped\n- Price showed as stable during deployer's sell-off\n- Pattern: 'whitelist honeypot' — approval mechanism used as exit barrier"
+      "token_data": "Token: LatticeDAO | Network: Base | Contract: 0xf2680ac4b924642163bd700a8ce88e8fe29eba94\nBehavioral Analysis:\n- Unique buyers: 1980 | Unique sellers: 1\n- Median hold time: 7 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 4.8%\n- Transfer success rate (non-deployer \u2192 wallet): 60% (can transfer, can't swap)\n- Router approval events: 2873 (users trying to sell)\n- Actual swap executions: 2 (only whitelisted)\n- Price movement: +284% since launch (buy-only pressure)\n- Liquidity pool depth: $2,187,201 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 10 times\n- Current _sellTax value: 9556 basis points (90%)"
     },
     {
-      "token_name": "SNAPSHOT",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: SNAPSHOT | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Snapshot used for governance voting and airdrop distribution\n- 3 snapshots taken, all announced 72h in advance\n- No manipulation of snapshot timing detected\n- 25,000 eligible voters in most recent snapshot\n- Snapshot-based airdrop: 8,000 unique recipients\n- Daily trading volume: $1.1M, 1,600 unique traders\n- No failed sell transactions\n- Ownership: Ownable2Step — any transfer requires new owner to accept"
-    },
-    {
-      "token_name": "REVERSEHONEY",
-      "label": "honeypot",
-      "vulnerability_type": "honeypot",
-      "token_data": "Token: REVERSEHONEY | Network: BSC\nTransaction Pattern Analysis:\n- saleActive = false since day 8 (owner called pauseSale())\n- Pre-pause buys: 3,412 wallets purchased $1.8M total\n- Post-pause: all buys AND sells disabled for regular users\n- Owner (who was excluded) moved tokens and extracted LP: $1.78M\n- Users could see their balances but no transactions possible\n- Wallet explorers showed healthy holdings — funds appeared intact\n- 3,412 holders unable to do anything for 4 weeks\n- Contract: pauseSale() was audited but 'risk rated low' — missed"
-    },
-    {
-      "token_name": "DECENTRAL",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: DECENTRAL | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Ownership renounced in constructor — no admin after block 1\n- 1.5-year history, fully immutable\n- 55,000 holders, top 10 = 16.2% combined\n- Daily volume: $2.8M, 3,600 unique traders\n- LP: $8.9M — maintained by liquidity miners, not team\n- No governance mechanism — intentionally ungovernable\n- 0 incidents in 1.5 years\n- Trust score: maximum on all major analytics platforms"
-    },
-    {
-      "token_name": "PERMABUY",
-      "label": "honeypot",
-      "vulnerability_type": "honeypot",
-      "token_data": "Token: PERMABUY | Network: BSC\nTransaction Pattern Analysis:\n- Sell function requires matching a hard-coded router hash\n- 4,102 buy transactions, $2.4M invested\n- Sell attempts: 4,099, all fail with 'Wrong router'\n- Actual sellable router never disclosed to public\n- Only deployer knows the correct router value\n- Deployer executed 3 sells for $2.38M total\n- Hash obfuscation made the trap invisible to casual code review\n- Detected 3 weeks post-launch by security researcher"
-    },
-    {
-      "token_name": "PUMPNDUMP",
+      "token_name": "AnchorLend",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: PUMPNDUMP | Network: BSC\nTransaction Pattern Analysis:\n- Day 1: bot network executed 2,840 buy orders, price +1,800%\n- Day 2: social media influencers (paid $180K total) promoted token\n- Day 2, 18:00 UTC: operator dumped all holdings, price -94%\n- Total profit to operator: $4.1M\n- Retail investors who bought during pump: 12,400 wallets\n- Retail losses: $3.8M\n- Bot wallets: all self-destructed after dump\n- Pattern: coordinated pump-and-dump with paid influencer phase"
+      "token_data": "Token: AnchorLend | Network: Polygon | Contract: 0x988f7bbe6848fb7e429f18e029d077a165910a01\nTrading Pattern Anomalies:\n- 24h transactions: 4315 | Unique participants: 19\n- Trade timing: 95% of trades occur in 4-second intervals (bot signature)\n- Bid-ask spread: 0.008% (artificially tight)\n- Order book depth vs actual fills: 194x discrepancy\n- Top 19 wallets account for 96.3% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $74,596,625\n- On-chain verifiable volume: $4,699\n- Discrepancy factor: 15,875x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
     },
     {
-      "token_name": "TRUSTPROTOCOL",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: TRUSTPROTOCOL | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Ownable2Step prevents accidental ownership transfer\n- Pause function used once (DeFi market crisis) and lifted after 8 hours\n- 38,000 holders, 16-month history\n- Daily volume: $1.9M, 2,400 unique traders\n- LP: $7.2M, maintained by DAO\n- All pause/unpause actions announced 24h in advance via governance forum\n- No suspicious wallet clustering\n- Insurance fund: $800K USDC covering smart contract exploits"
-    },
-    {
-      "token_name": "DECENTRALFI",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: DECENTRALFI | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- No admin, no owner, fully immutable from genesis\n- 2-year history, zero incidents\n- 88,000 holders (largest community in this report)\n- Daily volume: $6.2M, 8,400 unique traders\n- LP: $22M across 4 DEXs — deeply liquid\n- Integration: used as collateral in 6 major lending protocols\n- Chainalysis: 0 suspicious patterns across entire history\n- Listed on Coinbase, Binance, Kraken with full compliance KYC"
-    },
-    {
-      "token_name": "VERITOKEN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: VERITOKEN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- KYC verification system built into contract\n- Compliance wallet controlled by regulated entity (licensed MSB)\n- 8,400 verified holders in 6 months\n- All transfers: sender + receiver must be verified (anti-money laundering)\n- Daily volume: $440,000, 290 unique traders (lower due to KYC requirement)\n- No wash trading possible — identity verification deters bots\n- Regulatory filings: FinCEN registered, EU MiCA compliant\n- 0 fraud reports in 6 months of operation"
-    },
-    {
-      "token_name": "ZEROADMIN",
-      "label": "safe",
-      "vulnerability_type": null,
-      "token_data": "Token: ZEROADMIN | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Truly permissionless token — no admin, no owner, no roles\n- 1-year track record\n- 29,000 holders, organic growth 150-250 new wallets/day\n- Daily volume: $1.7M, 2,200 unique traders\n- LP: $5.1M — provided by community liquidity miners\n- Certik audit: confirmed no privileged functions exist\n- Buy/sell ratio 90-day: 1.06 (near perfectly balanced)\n- Price follows market conditions naturally — no artificial pegging"
-    },
-    {
-      "token_name": "SELLBLOCK",
+      "token_name": "CoreDAO",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: SELLBLOCK | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Sell requires approval from admin-controlled external contract\n- Admin contract: programmed to always return false\n- Buy transactions: 2,109 for $1.3M\n- Successful sells: 0\n- All 2,109 sell attempts fail with 'Sell not approved by admin'\n- Admin wallet has approved 0 sellers in 60 days\n- Token UI shows as 'working' — users attribute failures to gas issues\n- Deployer used this time to sell their own holdings via bypass: $1.28M extracted"
+      "token_data": "Token: CoreDAO | Network: Base | Contract: 0xa3e6ddeb48dacafc805625fb31f3791ee8fa8a4a\nBehavioral Analysis:\n- Unique buyers: 3673 | Unique sellers: 5\n- Median hold time: 27 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 3.2%\n- Transfer success rate (non-deployer \u2192 wallet): 62% (can transfer, can't swap)\n- Router approval events: 3185 (users trying to sell)\n- Actual swap executions: 9 (only whitelisted)\n- Price movement: +253% since launch (buy-only pressure)\n- Liquidity pool depth: $1,377,392 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 15 times\n- Current _sellTax value: 9847 basis points (94%)"
     },
     {
-      "token_name": "HIDDENPROXY",
+      "token_name": "NimbusFi",
       "label": "rug_pull",
       "vulnerability_type": "rug_pull",
-      "token_data": "Token: HIDDENPROXY | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- Upgradeable proxy contract — implementation swapped at day 14\n- New implementation: allowed unlimited minting and LP draining\n- Time between upgrade and rug: 3.5 minutes\n- $4.8M drained before anyone noticed\n- Upgrade transaction: buried between 400 bot transactions to obscure\n- Original implementation: audited clean, new implementation: unaudited\n- Users saw 'same contract' but different logic\n- 14,200 victims — one of largest proxy rug events recorded"
+      "token_data": "Token: NimbusFi | Network: Polygon | Contract: 0xaec4584f50453c93badacda801a2820ee0fab512\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0xed300c53...284c) holds 61% of supply in single wallet\n- Initial liquidity added: $14,467,350 via Orca\n- 1752 buy transactions from 728 unique wallets in first 32h\n- Deployer executed 5 large sell transactions in 25 minute window\n- Post-sell token price decline: 97%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 5 days before deployment\n- Team wallet (0x92e1a64a...) transferred 77% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 6 hours of sell event\n- Current 24h volume: $211 (effectively zero)"
     },
     {
-      "token_name": "GHOSTMINT",
-      "label": "rug_pull",
-      "vulnerability_type": "rug_pull",
-      "token_data": "Token: GHOSTMINT | Network: BSC\nTransaction Pattern Analysis:\n- Presale collected $620,000 from 1,840 participants\n- Dev wallet controlled 88% of supply pre-listing\n- Listing day: dev sold 80% of holdings into liquidity in 11 minutes\n- Price: $0.031 -> $0.0002 (-99.4%) in under 15 minutes\n- $608,000 extracted via 3 rapid sell transactions\n- Remaining 8% of dev supply sold over next 3 days in small batches\n- Social channels deleted within 2 hours of main dump\n- Funds laundered via Ren Protocol to Bitcoin"
-    },
-    {
-      "token_name": "QUANTUM",
+      "token_name": "CelestisFi",
       "label": "safe",
       "vulnerability_type": null,
-      "token_data": "Token: QUANTUM | Network: ETH Mainnet\nTransaction Pattern Analysis:\n- 24-month track record — one of the longest in dataset\n- 102,000 unique holders (highest in dataset)\n- Team allocation: 5%, linearly vested over 36 months\n- 0 team sells in first 18 months (verified by wallet tracking)\n- Daily volume: $4.8M, 6,200 unique traders\n- LP: $19.2M, grown from $400K organically over 2 years\n- 4 CEX listings with verified proof of reserves\n- Chainalysis trust score: 98/100"
+      "token_data": "Token: CelestisFi | Network: Base | Contract: 0xda120b88c33450646673e68c4aaea28431561449\nOn-Chain Health Metrics:\n- Token age: 401 days\n- Holder growth: +4.5% per month (organic)\n- Gini coefficient of holdings: 0.58 (moderately distributed)\n- Whale concentration (>1% holders): 4 addresses\n- Smart money flow (Nansen labels): 5 labeled fund wallets hold positions\n- DEX pairs: 2 active (PancakeSwap V2, Camelot)\n- CEX listings: 3 (Binance, Coinbase, KuCoin)\n- Unique daily transactions: 8242\n- Failed transaction rate: 0.8% (normal range)\n- No blacklist function in contract\n- Token utility: Staking rewards"
     },
     {
-      "token_name": "CIRCUITBREAK",
+      "token_name": "VertexFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: VertexFi | Network: Base | Contract: 0x4bb58e2cf39a207d55dce2d831894df0ff230a47\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0xfd90fe7f...c855) holds 91% of supply in single wallet\n- Initial liquidity added: $6,524,606 via Camelot\n- 1202 buy transactions from 950 unique wallets in first 52h\n- Deployer executed 6 large sell transactions in 27 minute window\n- Post-sell token price decline: 86%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 2 days before deployment\n- Team wallet (0x6f05c7da...) transferred 76% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 11 hours of sell event\n- Current 24h volume: $251 (effectively zero)"
+    },
+    {
+      "token_name": "MatrixLend",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: MatrixLend | Network: ETH Mainnet | Contract: 0x8b26e3358dc17ab99b2d9b4ec2cab7df22c87d5e\nBehavioral Analysis:\n- Unique buyers: 1344 | Unique sellers: 5\n- Median hold time: 27 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 3.3%\n- Transfer success rate (non-deployer \u2192 wallet): 72% (can transfer, can't swap)\n- Router approval events: 3357 (users trying to sell)\n- Actual swap executions: 5 (only whitelisted)\n- Price movement: +214% since launch (buy-only pressure)\n- Liquidity pool depth: $941,190 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 6 times\n- Current _sellTax value: 9293 basis points (94%)"
+    },
+    {
+      "token_name": "QuestFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: QuestFi | Network: ETH Mainnet | Contract: 0x24bbdf66c19e1e10d73af89744bd8a6c1a802245\nOn-Chain Health Metrics:\n- Token age: 402 days\n- Holder growth: +2.1% per month (organic)\n- Gini coefficient of holdings: 0.51 (moderately distributed)\n- Whale concentration (>1% holders): 7 addresses\n- Smart money flow (Nansen labels): 28 labeled fund wallets hold positions\n- DEX pairs: 6 active (Uniswap V2, Orca)\n- CEX listings: 4 (Binance, Coinbase, KuCoin)\n- Unique daily transactions: 7141\n- Failed transaction rate: 1.0% (normal range)\n- No blacklist function in contract\n- Token utility: Staking rewards"
+    },
+    {
+      "token_name": "UmbraDAO",
       "label": "wash_trading",
       "vulnerability_type": "wash_trading",
-      "token_data": "Token: CIRCUITBREAK | Network: BSC\nTransaction Pattern Analysis:\n- CoinGecko top 200 by volume for 14 days straight\n- On-chain forensics: 99.1% of volume from 6 coordinated wallets\n- Each 'trade' moves tokens in a closed 6-hop loop\n- Wallet funding: all 6 wallets received exact 50 BNB from same CEX withdrawal\n- Trade timing: precisely 3 seconds apart (bot signature)\n- Real organic volume: estimated $1,200/day\n- Pattern designed to game aggregator ranking algorithms\n- Linked to 5 other BSC tokens using identical bot infrastructure"
+      "token_data": "Token: UmbraDAO | Network: Arbitrum | Contract: 0x4f6855a06b741bf53f5307bf78404cba9a4df221\nVolume Analysis (24h):\n- Reported volume: $10,602,116\n- Unique trading wallets: 10\n- Average trades per wallet: 447\n- Wallet cluster analysis: 10 of 10 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 883 cycles in 24h\n- Average trade size: $7,115\n- Price impact per trade: 0.0034% (impossibly low for market cap)\n- Market cap: $703,808\n- Volume/Market cap ratio: 10.2x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$1,106\n- All 10 wallets created within 17 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
     },
     {
-      "token_name": "AIRDROPRUG",
+      "token_name": "HorizonDAO",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: HorizonDAO | Network: Polygon | Contract: 0x65e6149e098dd951b579da258c6ea6e3c15dffa1\nTrading Pattern Anomalies:\n- 24h transactions: 32409 | Unique participants: 25\n- Trade timing: 91% of trades occur in 4-second intervals (bot signature)\n- Bid-ask spread: 0.005% (artificially tight)\n- Order book depth vs actual fills: 186x discrepancy\n- Top 25 wallets account for 96.1% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $13,854,830\n- On-chain verifiable volume: $1,870\n- Discrepancy factor: 7,409x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "MantleFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: MantleFi | Network: ETH Mainnet | Contract: 0x7ed51e22a03f19c656f3857ffa43002efc7bdf72\nTransaction Summary (30 Days):\n- Total holders: 171,180\n- Buy/sell ratio: 0.92 (balanced two-way market)\n- Daily active traders: 3578\n- Largest wallet: 2.2% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 20.7% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $1,447,078\n- Volume consistent over 95 days (no anomalous spikes)\n- Deployer wallet: 1.4% of current supply\n- Ownership: Multisig (3/5 signers)\n- Contract verified on Etherscan: Yes\n- Audit: Trail of Bits (score: 86/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 14827 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "KaizenSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: KaizenSwap | Network: Base | Contract: 0x3368f9f169a1183f8f5fe123ded4f5c33e63c8f3\nOn-Chain Activity Summary:\n- Token age: 41 days | Holders: 1085 (peak: 11226)\n- Buy/sell ratio: 34.1:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 9 transfers to 4 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 91% of LP tokens removed in block #18948758\n- Time between last marketing push and LP removal: 30 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: Yes (but via proxy with hidden admin)\n- Connected wallets (graph analysis): deployer linked to 2 previously flagged contracts"
+    },
+    {
+      "token_name": "EtherVault",
       "label": "honeypot",
       "vulnerability_type": "honeypot",
-      "token_data": "Token: AIRDROPRUG | Network: BSC\nTransaction Pattern Analysis:\n- 50,000 wallets received airdrop — appeared legitimate\n- All 50,000 airdrop wallets successfully transferred tokens (whitelisted)\n- Regular buyers (4,891 wallets): added to blacklist on purchase\n- Regular buyer sell success rate: 0%\n- Airdrop recipients sold $3.2M worth (they were whitelisted insiders)\n- Project appeared active but only insiders could exit\n- Detected after community noticed all sell fails from non-airdrop wallets\n- Pattern: 'airdrop honeypot' — whitelist hidden inside airdrop mechanism"
+      "token_data": "Token: EtherVault | Network: Base | Contract: 0x2fd9911b0e6c21decd55f3efad27b16e16ce7efb\nBehavioral Analysis:\n- Unique buyers: 3886 | Unique sellers: 2\n- Median hold time: 22 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 1.2%\n- Transfer success rate (non-deployer \u2192 wallet): 66% (can transfer, can't swap)\n- Router approval events: 4751 (users trying to sell)\n- Actual swap executions: 8 (only whitelisted)\n- Price movement: +83% since launch (buy-only pressure)\n- Liquidity pool depth: $1,529,058 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 6 times\n- Current _sellTax value: 9833 basis points (99%)"
+    },
+    {
+      "token_name": "PhoenixDAO",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: PhoenixDAO | Network: ETH Mainnet | Contract: 0x706b566f03abf4faa2e5e6297c4443022ec5b7e9\nOn-Chain Health Metrics:\n- Token age: 182 days\n- Holder growth: +3.8% per month (organic)\n- Gini coefficient of holdings: 0.61 (moderately distributed)\n- Whale concentration (>1% holders): 4 addresses\n- Smart money flow (Nansen labels): 12 labeled fund wallets hold positions\n- DEX pairs: 2 active (Uniswap V3, Camelot)\n- CEX listings: 4 (Binance, KuCoin)\n- Unique daily transactions: 2503\n- Failed transaction rate: 2.4% (normal range)\n- No blacklist function in contract\n- Token utility: Staking rewards"
+    },
+    {
+      "token_name": "QuantumSwap",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: QuantumSwap | Network: Base | Contract: 0xb5e761c28b09ae956b9bbfea385d9e6f8056bc9b\nVolume Analysis (24h):\n- Reported volume: $9,275,320\n- Unique trading wallets: 10\n- Average trades per wallet: 464\n- Wallet cluster analysis: 10 of 10 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 687 cycles in 24h\n- Average trade size: $5,330\n- Price impact per trade: 0.0009% (impossibly low for market cap)\n- Market cap: $4,441,247\n- Volume/Market cap ratio: 14.0x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$922\n- All 10 wallets created within 18 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "BreezeDEX",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: BreezeDEX | Network: ETH Mainnet | Contract: 0x43e9a9E4C5793cbF6b754e11171dbF43dc70095b\nVolume Analysis (24h):\n- Reported volume: $59,894,985\n- Unique trading wallets: 23\n- Average trades per wallet: 220\n- Wallet cluster analysis: 21 of 23 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 920 cycles in 24h\n- Average trade size: $40,689\n- Price impact per trade: 0.0064% (impossibly low for market cap)\n- Market cap: $960,569\n- Volume/Market cap ratio: 47.3x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$4,885\n- All 23 wallets created within 35 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "HaloFi",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: HaloFi | Network: ETH Mainnet | Contract: 0x589891a198195061cb8ad1a75357a3b7dbadd7bc\nTrading Pattern Anomalies:\n- 24h transactions: 48646 | Unique participants: 22\n- Trade timing: 90% of trades occur in 5-second intervals (bot signature)\n- Bid-ask spread: 0.005% (artificially tight)\n- Order book depth vs actual fills: 104x discrepancy\n- Top 22 wallets account for 98.2% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $14,091,548\n- On-chain verifiable volume: $3,442\n- Discrepancy factor: 4,094x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "SolaceDAO",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: SolaceDAO | Network: Polygon | Contract: 0x8883fa1d06b1653b08557f90f19c92b86c382cfb\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 1367\n- Total sell transactions: 10 (all from 1 whitelisted addresses)\n- Failed sell attempts: 3562 (95.8% failure rate for non-whitelisted)\n- Average buy size: $422\n- Whitelisted wallet sells: $1,888,376 total across 4 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$19,728\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 8% | Sell tax effective: 90% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 2 hours ago (still active)"
+    },
+    {
+      "token_name": "FluxDAO",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: FluxDAO | Network: BSC | Contract: 0x0a2aed8debddb2ce3ab4ada1a49b06f42e214e3f\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 6032\n- Total sell transactions: 18 (all from 3 whitelisted addresses)\n- Failed sell attempts: 4577 (97.5% failure rate for non-whitelisted)\n- Average buy size: $142\n- Whitelisted wallet sells: $1,953,177 total across 12 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$35,503\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 8% | Sell tax effective: 94% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 2 hours ago (still active)"
+    },
+    {
+      "token_name": "MeridianDAO",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: MeridianDAO | Network: BSC | Contract: 0xdf77e4a81fba17e0cc39dba521aa4167f388ed7c\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0xcb646a2b...a2de) holds 69% of supply in single wallet\n- Initial liquidity added: $662,513 via Uniswap V2\n- 2162 buy transactions from 728 unique wallets in first 47h\n- Deployer executed 6 large sell transactions in 17 minute window\n- Post-sell token price decline: 94%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 11 days before deployment\n- Team wallet (0x08dd7513...) transferred 98% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 12 hours of sell event\n- Current 24h volume: $372 (effectively zero)"
+    },
+    {
+      "token_name": "XenithProtocol",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: XenithProtocol | Network: ETH Mainnet | Contract: 0x3b5d785c2f230fb403767ae3c17d982d4b723952\nTrading Pattern Anomalies:\n- 24h transactions: 45285 | Unique participants: 7\n- Trade timing: 98% of trades occur in 5-second intervals (bot signature)\n- Bid-ask spread: 0.009% (artificially tight)\n- Order book depth vs actual fills: 120x discrepancy\n- Top 7 wallets account for 98.8% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $20,048,916\n- On-chain verifiable volume: $1,564\n- Discrepancy factor: 12,819x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "AlphaVault",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: AlphaVault | Network: BSC | Contract: 0xeff88f0d9f2ada0fde78f0d7836279cce738d356\nBehavioral Analysis:\n- Unique buyers: 4815 | Unique sellers: 1\n- Median hold time: 11 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 0.9%\n- Transfer success rate (non-deployer \u2192 wallet): 71% (can transfer, can't swap)\n- Router approval events: 3022 (users trying to sell)\n- Actual swap executions: 2 (only whitelisted)\n- Price movement: +288% since launch (buy-only pressure)\n- Liquidity pool depth: $2,846,253 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 3 times\n- Current _sellTax value: 9068 basis points (96%)"
+    },
+    {
+      "token_name": "MeridianDAO",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: MeridianDAO | Network: Arbitrum | Contract: 0x9da5eb287384828951d36cc2ba432bc007e8a6bb\nOn-Chain Health Metrics:\n- Token age: 232 days\n- Holder growth: +6.8% per month (organic)\n- Gini coefficient of holdings: 0.55 (moderately distributed)\n- Whale concentration (>1% holders): 4 addresses\n- Smart money flow (Nansen labels): 11 labeled fund wallets hold positions\n- DEX pairs: 4 active (Orca, Trader Joe)\n- CEX listings: 1 (Binance, Coinbase, KuCoin)\n- Unique daily transactions: 6656\n- Failed transaction rate: 0.7% (normal range)\n- No blacklist function in contract\n- Token utility: Protocol revenue sharing"
+    },
+    {
+      "token_name": "QuasarDEX",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: QuasarDEX | Network: ETH Mainnet | Contract: 0x3d9e306aefcecc0b579b7bf43c0d6925b93f677b\nOn-Chain Activity Summary:\n- Token age: 15 days | Holders: 187 (peak: 13292)\n- Buy/sell ratio: 28.2:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 5 transfers to 4 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 81% of LP tokens removed in block #19017752\n- Time between last marketing push and LP removal: 47 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 7 previously flagged contracts"
+    },
+    {
+      "token_name": "OasisLend",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: OasisLend | Network: Polygon | Contract: 0x1eefad9a556530f8af9a06ff696a48fbc2d369cc\nTrading Pattern Anomalies:\n- 24h transactions: 24235 | Unique participants: 17\n- Trade timing: 86% of trades occur in 2-second intervals (bot signature)\n- Bid-ask spread: 0.005% (artificially tight)\n- Order book depth vs actual fills: 104x discrepancy\n- Top 17 wallets account for 99.0% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $18,503,392\n- On-chain verifiable volume: $1,016\n- Discrepancy factor: 18,212x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "UltraSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: UltraSwap | Network: Arbitrum | Contract: 0xf183bcac25cacccf01f4a8727cf773358c8ecb35\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0xcebd2472...b76c) holds 77% of supply in single wallet\n- Initial liquidity added: $8,265,100 via Orca\n- 2298 buy transactions from 1765 unique wallets in first 89h\n- Deployer executed 4 large sell transactions in 17 minute window\n- Post-sell token price decline: 88%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 14 days before deployment\n- Team wallet (0x05fa9368...) transferred 71% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 9 hours of sell event\n- Current 24h volume: $409 (effectively zero)"
+    },
+    {
+      "token_name": "VelodromeV3",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: VelodromeV3 | Network: Polygon | Contract: 0x5aec92e4ff59aefe8683eb34e1812704dbc87c40\nOn-Chain Health Metrics:\n- Token age: 240 days\n- Holder growth: +6.6% per month (organic)\n- Gini coefficient of holdings: 0.58 (moderately distributed)\n- Whale concentration (>1% holders): 6 addresses\n- Smart money flow (Nansen labels): 15 labeled fund wallets hold positions\n- DEX pairs: 2 active (Orca, Uniswap V2)\n- CEX listings: 2 (Binance, KuCoin)\n- Unique daily transactions: 906\n- Failed transaction rate: 1.5% (normal range)\n- No blacklist function in contract\n- Token utility: Gas token for L2"
+    },
+    {
+      "token_name": "IndexVault",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: IndexVault | Network: Arbitrum | Contract: 0x448F861728F4Ed28914f42B4C8C0ff70b8bD637B\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0x58d6b3c3...87fa) holds 94% of supply in single wallet\n- Initial liquidity added: $11,049,263 via Raydium\n- 2355 buy transactions from 1273 unique wallets in first 87h\n- Deployer executed 8 large sell transactions in 22 minute window\n- Post-sell token price decline: 87%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 11 days before deployment\n- Team wallet (0x9107cd3c...) transferred 83% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 11 hours of sell event\n- Current 24h volume: $164 (effectively zero)"
+    },
+    {
+      "token_name": "GammaProtocol",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: GammaProtocol | Network: BSC | Contract: 0x644e674ab4a967db367567af73d9895bd57e4bf1\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0x7ddce317...9e41) holds 95% of supply in single wallet\n- Initial liquidity added: $13,154,787 via Orca\n- 2264 buy transactions from 958 unique wallets in first 95h\n- Deployer executed 6 large sell transactions in 20 minute window\n- Post-sell token price decline: 89%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 6 days before deployment\n- Team wallet (0x83e7a166...) transferred 94% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 12 hours of sell event\n- Current 24h volume: $203 (effectively zero)"
+    },
+    {
+      "token_name": "NimbusFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: NimbusFi | Network: Polygon | Contract: 0x96bcf48d9df51f863b4781ebee65d1ed4fcd94c4\nTransaction Summary (30 Days):\n- Total holders: 79,347\n- Buy/sell ratio: 1.07 (balanced two-way market)\n- Daily active traders: 2755\n- Largest wallet: 3.2% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 31.8% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $1,994,763\n- Volume consistent over 171 days (no anomalous spikes)\n- Deployer wallet: 0.8% of current supply\n- Ownership: Renounced\n- Contract verified on Etherscan: Yes\n- Audit: Hacken (score: 88/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 9561 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "PhoenixDAO",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: PhoenixDAO | Network: Base | Contract: 0x45178d7217d5308121702646e27443c808ed3bbf\nOn-Chain Activity Summary:\n- Token age: 22 days | Holders: 143 (peak: 2001)\n- Buy/sell ratio: 33.3:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 5 transfers to 4 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 89% of LP tokens removed in block #18983979\n- Time between last marketing push and LP removal: 36 hours\n- Smart contract verified on Etherscan: No\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 8 previously flagged contracts"
+    },
+    {
+      "token_name": "SynapseProtocol",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: SynapseProtocol | Network: BSC | Contract: 0xc48cebeee7f1fff2052a5c7458187463bfd8c6bc\nTrading Pattern Anomalies:\n- 24h transactions: 33195 | Unique participants: 5\n- Trade timing: 95% of trades occur in 3-second intervals (bot signature)\n- Bid-ask spread: 0.002% (artificially tight)\n- Order book depth vs actual fills: 119x discrepancy\n- Top 5 wallets account for 97.6% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $14,117,905\n- On-chain verifiable volume: $4,489\n- Discrepancy factor: 3,145x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "UnityDAO",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: UnityDAO | Network: Polygon | Contract: 0x74137119f6029d56b96de1ae4b84f537e3da4e8c\nTransaction Summary (30 Days):\n- Total holders: 27,887\n- Buy/sell ratio: 0.85 (balanced two-way market)\n- Daily active traders: 1664\n- Largest wallet: 2.2% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 34.1% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $1,017,419\n- Volume consistent over 72 days (no anomalous spikes)\n- Deployer wallet: 0.6% of current supply\n- Ownership: Renounced\n- Contract verified on Etherscan: Yes\n- Audit: Hacken (score: 87/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 18386 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "RelayBridge",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: RelayBridge | Network: Polygon | Contract: 0x1767856bc75cf070de5e6ba3d0c718440f008c66\nOn-Chain Activity Summary:\n- Token age: 27 days | Holders: 2891 (peak: 7113)\n- Buy/sell ratio: 47.8:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 5 transfers to 2 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 97% of LP tokens removed in block #19092461\n- Time between last marketing push and LP removal: 9 hours\n- Smart contract verified on Etherscan: No\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 3 previously flagged contracts"
+    },
+    {
+      "token_name": "SummitSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: SummitSwap | Network: BSC | Contract: 0xae6a59ea115708aa5a337a173922888795f78d28\nOn-Chain Health Metrics:\n- Token age: 697 days\n- Holder growth: +2.9% per month (organic)\n- Gini coefficient of holdings: 0.60 (moderately distributed)\n- Whale concentration (>1% holders): 8 addresses\n- Smart money flow (Nansen labels): 17 labeled fund wallets hold positions\n- DEX pairs: 4 active (Orca, Raydium)\n- CEX listings: 4 (Binance, KuCoin)\n- Unique daily transactions: 7948\n- Failed transaction rate: 0.8% (normal range)\n- No blacklist function in contract\n- Token utility: Staking rewards"
+    },
+    {
+      "token_name": "AuraFinance",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: AuraFinance | Network: BSC | Contract: 0x165569b8cb75c44e2c884a5aa51f427153dff11a\nTrading Pattern Anomalies:\n- 24h transactions: 38268 | Unique participants: 6\n- Trade timing: 87% of trades occur in 3-second intervals (bot signature)\n- Bid-ask spread: 0.009% (artificially tight)\n- Order book depth vs actual fills: 60x discrepancy\n- Top 6 wallets account for 95.7% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $22,066,560\n- On-chain verifiable volume: $1,920\n- Discrepancy factor: 11,493x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "MagnetSwap",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: MagnetSwap | Network: ETH Mainnet | Contract: 0xe10f03877804c8f4d9dd69e9f2078da6cd11d0b1\nTrading Pattern Anomalies:\n- 24h transactions: 2012 | Unique participants: 24\n- Trade timing: 96% of trades occur in 3-second intervals (bot signature)\n- Bid-ask spread: 0.005% (artificially tight)\n- Order book depth vs actual fills: 124x discrepancy\n- Top 24 wallets account for 96.9% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $17,953,240\n- On-chain verifiable volume: $1,390\n- Discrepancy factor: 12,916x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "WindsorProtocol",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: WindsorProtocol | Network: ETH Mainnet | Contract: 0xa0ce0d783a18bf2fef6066e5557e9f80c98abc18\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 2065\n- Total sell transactions: 3 (all from 2 whitelisted addresses)\n- Failed sell attempts: 913 (95.5% failure rate for non-whitelisted)\n- Average buy size: $77\n- Whitelisted wallet sells: $280,605 total across 9 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$56,369\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 4% | Sell tax effective: 99% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 5 hours ago (still active)"
+    },
+    {
+      "token_name": "EpochFi",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: EpochFi | Network: ETH Mainnet | Contract: 0xcb33ba014340aac7644184772c4c5f431b3e1ad9\nTrading Pattern Anomalies:\n- 24h transactions: 33335 | Unique participants: 6\n- Trade timing: 91% of trades occur in 2-second intervals (bot signature)\n- Bid-ask spread: 0.006% (artificially tight)\n- Order book depth vs actual fills: 50x discrepancy\n- Top 6 wallets account for 96.9% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $34,132,540\n- On-chain verifiable volume: $3,698\n- Discrepancy factor: 9,230x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "ZephyrLend",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: ZephyrLend | Network: ETH Mainnet | Contract: 0x99be08eeb73426a90926393bdb061b8c06984e33\nTransaction Summary (30 Days):\n- Total holders: 145,465\n- Buy/sell ratio: 0.93 (balanced two-way market)\n- Daily active traders: 2372\n- Largest wallet: 1.6% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 34.9% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $3,472,449\n- Volume consistent over 87 days (no anomalous spikes)\n- Deployer wallet: 1.2% of current supply\n- Ownership: Renounced\n- Contract verified on Etherscan: Yes\n- Audit: PeckShield (score: 86/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 43788 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "JunctionFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: JunctionFi | Network: Base | Contract: 0x7dddcb8d93438500c42c199b6b02ba3f74c7cb8c\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0x0da6f5be...5827) holds 88% of supply in single wallet\n- Initial liquidity added: $4,555,787 via Trader Joe\n- 4488 buy transactions from 1047 unique wallets in first 45h\n- Deployer executed 3 large sell transactions in 5 minute window\n- Post-sell token price decline: 87%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 13 days before deployment\n- Team wallet (0x48abdc48...) transferred 78% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 12 hours of sell event\n- Current 24h volume: $358 (effectively zero)"
+    },
+    {
+      "token_name": "RadiantLend",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: RadiantLend | Network: Base | Contract: 0xac135427c78e472c905718eed9b76d137108910a\nTrading Pattern Anomalies:\n- 24h transactions: 33557 | Unique participants: 13\n- Trade timing: 98% of trades occur in 2-second intervals (bot signature)\n- Bid-ask spread: 0.002% (artificially tight)\n- Order book depth vs actual fills: 184x discrepancy\n- Top 13 wallets account for 99.8% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $71,100,540\n- On-chain verifiable volume: $3,865\n- Discrepancy factor: 18,396x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "IonSwap",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: IonSwap | Network: BSC | Contract: 0x07f1123f7b13d974f0f1f02b0b7f1a77d5280e35\nBehavioral Analysis:\n- Unique buyers: 1281 | Unique sellers: 5\n- Median hold time: 23 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 1.5%\n- Transfer success rate (non-deployer \u2192 wallet): 89% (can transfer, can't swap)\n- Router approval events: 3925 (users trying to sell)\n- Actual swap executions: 3 (only whitelisted)\n- Price movement: +449% since launch (buy-only pressure)\n- Liquidity pool depth: $334,556 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 15 times\n- Current _sellTax value: 9342 basis points (95%)"
+    },
+    {
+      "token_name": "PrismStake",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: PrismStake | Network: ETH Mainnet | Contract: 0x35db8e07884e29579a16535c203dd1bea09c5fd8\nTransaction Summary (30 Days):\n- Total holders: 162,756\n- Buy/sell ratio: 0.92 (balanced two-way market)\n- Daily active traders: 1838\n- Largest wallet: 2.0% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 22.0% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $861,512\n- Volume consistent over 67 days (no anomalous spikes)\n- Deployer wallet: 1.7% of current supply\n- Ownership: Renounced\n- Contract verified on Etherscan: Yes\n- Audit: PeckShield (score: 90/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 28081 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "AetherBridge",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: AetherBridge | Network: ETH Mainnet | Contract: 0xc5a25e92e691635BDd6DF2e904633Dc3152360cD\nOn-Chain Activity Summary:\n- Token age: 4 days | Holders: 1786 (peak: 3986)\n- Buy/sell ratio: 27.3:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 12 transfers to 3 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 98% of LP tokens removed in block #19207738\n- Time between last marketing push and LP removal: 43 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: Yes (but via proxy with hidden admin)\n- Connected wallets (graph analysis): deployer linked to 8 previously flagged contracts"
+    },
+    {
+      "token_name": "SummitSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: SummitSwap | Network: Polygon | Contract: 0x1536e1f38f1d262137d738bff26ab72a3cf1955d\nOn-Chain Activity Summary:\n- Token age: 42 days | Holders: 1558 (peak: 4555)\n- Buy/sell ratio: 42.3:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 4 transfers to 2 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 95% of LP tokens removed in block #19287288\n- Time between last marketing push and LP removal: 2 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 2 previously flagged contracts"
+    },
+    {
+      "token_name": "HarborSwap",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: HarborSwap | Network: Base | Contract: 0x94bd75a45399f76901f1ede457985fa850723999\nVolume Analysis (24h):\n- Reported volume: $31,363,908\n- Unique trading wallets: 25\n- Average trades per wallet: 188\n- Wallet cluster analysis: 23 of 25 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 1743 cycles in 24h\n- Average trade size: $16,727\n- Price impact per trade: 0.0026% (impossibly low for market cap)\n- Market cap: $3,481,235\n- Volume/Market cap ratio: 21.4x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$2,733\n- All 25 wallets created within 44 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "DeltaLend",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: DeltaLend | Network: Arbitrum | Contract: 0x0de56da7b0fd0ad9f095ea5bf0656cac62a0fe2e\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 1555\n- Total sell transactions: 20 (all from 3 whitelisted addresses)\n- Failed sell attempts: 1469 (95.9% failure rate for non-whitelisted)\n- Average buy size: $479\n- Whitelisted wallet sells: $1,944,734 total across 5 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$8,864\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 5% | Sell tax effective: 96% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 4 hours ago (still active)"
+    },
+    {
+      "token_name": "LayerBridge",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: LayerBridge | Network: Polygon | Contract: 0xfa23661060bf6ef93e31aaf0447989e3c6d35022\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 2969\n- Total sell transactions: 7 (all from 2 whitelisted addresses)\n- Failed sell attempts: 3059 (99.5% failure rate for non-whitelisted)\n- Average buy size: $218\n- Whitelisted wallet sells: $1,041,976 total across 11 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$22,271\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 4% | Sell tax effective: 100% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 2 hours ago (still active)"
+    },
+    {
+      "token_name": "VaultFi",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: VaultFi | Network: Base | Contract: 0x67981ac0b64b55afbf35d4571dcbcd320dc965b9\nTrading Pattern Anomalies:\n- 24h transactions: 34605 | Unique participants: 21\n- Trade timing: 87% of trades occur in 2-second intervals (bot signature)\n- Bid-ask spread: 0.001% (artificially tight)\n- Order book depth vs actual fills: 143x discrepancy\n- Top 21 wallets account for 96.4% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $36,072,456\n- On-chain verifiable volume: $2,296\n- Discrepancy factor: 15,711x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "SpectrumDEX",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: SpectrumDEX | Network: BSC | Contract: 0x01f2acf2914860331c1cb1a9acecda7475e06af8\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0xd4aa94f5...49c1) holds 82% of supply in single wallet\n- Initial liquidity added: $9,125,439 via Trader Joe\n- 4637 buy transactions from 763 unique wallets in first 94h\n- Deployer executed 3 large sell transactions in 7 minute window\n- Post-sell token price decline: 93%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 4 days before deployment\n- Team wallet (0xd0d4b17d...) transferred 96% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 5 hours of sell event\n- Current 24h volume: $277 (effectively zero)"
+    },
+    {
+      "token_name": "NodeFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: NodeFi | Network: ETH Mainnet | Contract: 0x0d125433ac3353c421c7eab9149ab09b51520ae8\nBehavioral Analysis:\n- Unique buyers: 1432 | Unique sellers: 3\n- Median hold time: 13 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 2.0%\n- Transfer success rate (non-deployer \u2192 wallet): 83% (can transfer, can't swap)\n- Router approval events: 1038 (users trying to sell)\n- Actual swap executions: 4 (only whitelisted)\n- Price movement: +149% since launch (buy-only pressure)\n- Liquidity pool depth: $1,486,279 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 8 times\n- Current _sellTax value: 9944 basis points (97%)"
+    },
+    {
+      "token_name": "CircuitFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: CircuitFi | Network: BSC | Contract: 0xc27612c3519567cd2bb521619b5353429f2e8f86\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0x9e8009b1...0054) holds 77% of supply in single wallet\n- Initial liquidity added: $10,800,752 via SushiSwap\n- 2030 buy transactions from 582 unique wallets in first 44h\n- Deployer executed 4 large sell transactions in 24 minute window\n- Post-sell token price decline: 96%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 3 days before deployment\n- Team wallet (0x05360e8a...) transferred 83% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 6 hours of sell event\n- Current 24h volume: $368 (effectively zero)"
+    },
+    {
+      "token_name": "MantleFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: MantleFi | Network: ETH Mainnet | Contract: 0x69d0c380d5cf0668a66e4ea26adb0434b5a4c105\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0x624ee9dd...bedc) holds 65% of supply in single wallet\n- Initial liquidity added: $2,610,071 via Raydium\n- 3334 buy transactions from 669 unique wallets in first 55h\n- Deployer executed 7 large sell transactions in 14 minute window\n- Post-sell token price decline: 92%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 12 days before deployment\n- Team wallet (0x326e1f20...) transferred 86% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 3 hours of sell event\n- Current 24h volume: $14 (effectively zero)"
+    },
+    {
+      "token_name": "AetherBridge",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: AetherBridge | Network: Base | Contract: 0x09141db58c181c865c51566cf19b1310889c83f8\nOn-Chain Health Metrics:\n- Token age: 489 days\n- Holder growth: +3.3% per month (organic)\n- Gini coefficient of holdings: 0.42 (moderately distributed)\n- Whale concentration (>1% holders): 6 addresses\n- Smart money flow (Nansen labels): 8 labeled fund wallets hold positions\n- DEX pairs: 3 active (Trader Joe, Orca)\n- CEX listings: 5 (Binance, Coinbase, KuCoin)\n- Unique daily transactions: 3230\n- Failed transaction rate: 2.0% (normal range)\n- No blacklist function in contract\n- Token utility: Staking rewards"
+    },
+    {
+      "token_name": "PegasusYield",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: PegasusYield | Network: Polygon | Contract: 0x3b3a7e4ad2f847d153e8066f1b367db7fd2b0779\nBehavioral Analysis:\n- Unique buyers: 4944 | Unique sellers: 3\n- Median hold time: 20 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 1.6%\n- Transfer success rate (non-deployer \u2192 wallet): 66% (can transfer, can't swap)\n- Router approval events: 3120 (users trying to sell)\n- Actual swap executions: 5 (only whitelisted)\n- Price movement: +137% since launch (buy-only pressure)\n- Liquidity pool depth: $398,814 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 7 times\n- Current _sellTax value: 9627 basis points (95%)"
+    },
+    {
+      "token_name": "JetDAO",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: JetDAO | Network: Base | Contract: 0x7d7b9eea9e93e4b23deeda883d14c6d195c0222d\nVolume Analysis (24h):\n- Reported volume: $24,646,426\n- Unique trading wallets: 6\n- Average trades per wallet: 203\n- Wallet cluster analysis: 3 of 6 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 1935 cycles in 24h\n- Average trade size: $53,347\n- Price impact per trade: 0.0063% (impossibly low for market cap)\n- Market cap: $3,213,700\n- Volume/Market cap ratio: 16.2x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$3,647\n- All 6 wallets created within 6 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "ZenithToken",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: ZenithToken | Network: ETH Mainnet | Contract: 0x401b40ccc03a512476d406151877bb4b358b6d24\nOn-Chain Activity Summary:\n- Token age: 5 days | Holders: 2480 (peak: 14836)\n- Buy/sell ratio: 39.2:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 12 transfers to 3 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 91% of LP tokens removed in block #19616478\n- Time between last marketing push and LP removal: 7 hours\n- Smart contract verified on Etherscan: No\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 7 previously flagged contracts"
+    },
+    {
+      "token_name": "WarpBridge",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: WarpBridge | Network: Arbitrum | Contract: 0x7ecc7b73c07b3b17d7eefd31024b0b73b9f3bc00\nTransaction Summary (30 Days):\n- Total holders: 40,757\n- Buy/sell ratio: 1.07 (balanced two-way market)\n- Daily active traders: 1790\n- Largest wallet: 3.1% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 34.5% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $1,796,267\n- Volume consistent over 115 days (no anomalous spikes)\n- Deployer wallet: 0.3% of current supply\n- Ownership: Renounced\n- Contract verified on Etherscan: Yes\n- Audit: Certik (score: 89/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 13945 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "HelixDAO",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: HelixDAO | Network: Base | Contract: 0x3b38bab9289f00411bb34a28cebb53a2010483ec\nVolume Analysis (24h):\n- Reported volume: $6,886,880\n- Unique trading wallets: 9\n- Average trades per wallet: 68\n- Wallet cluster analysis: 8 of 9 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 1101 cycles in 24h\n- Average trade size: $14,170\n- Price impact per trade: 0.0048% (impossibly low for market cap)\n- Market cap: $584,212\n- Volume/Market cap ratio: 6.8x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$2,408\n- All 9 wallets created within 45 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "CatalystFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: CatalystFi | Network: BSC | Contract: 0x811b783c762d7635a6c1dc58fb62bfaa61092f32\nOn-Chain Activity Summary:\n- Token age: 27 days | Holders: 1741 (peak: 12059)\n- Buy/sell ratio: 38.0:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 7 transfers to 2 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 85% of LP tokens removed in block #19342788\n- Time between last marketing push and LP removal: 33 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 7 previously flagged contracts"
+    },
+    {
+      "token_name": "TridentSwap",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: TridentSwap | Network: ETH Mainnet | Contract: 0xe2cdb9a1923b7c7339eb3366f5ce4dbbfb3aea0f\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0x7ebdbcab...fb25) holds 94% of supply in single wallet\n- Initial liquidity added: $2,191,555 via Uniswap V2\n- 4334 buy transactions from 1269 unique wallets in first 77h\n- Deployer executed 4 large sell transactions in 6 minute window\n- Post-sell token price decline: 96%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 10 days before deployment\n- Team wallet (0x7704edc2...) transferred 100% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 8 hours of sell event\n- Current 24h volume: $404 (effectively zero)"
+    },
+    {
+      "token_name": "YieldNest",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: YieldNest | Network: Arbitrum | Contract: 0xc6cb32d19abe4821d6e4970a3962dfcecb4247c9\nVolume Analysis (24h):\n- Reported volume: $8,082,828\n- Unique trading wallets: 15\n- Average trades per wallet: 103\n- Wallet cluster analysis: 15 of 15 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 1994 cycles in 24h\n- Average trade size: $2,881\n- Price impact per trade: 0.0018% (impossibly low for market cap)\n- Market cap: $443,816\n- Volume/Market cap ratio: 5.3x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$4,212\n- All 15 wallets created within 33 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "InfinityVault",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: InfinityVault | Network: Polygon | Contract: 0xb86be98652bddf968ac21912d727d3675a05e23e\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 3542\n- Total sell transactions: 17 (all from 2 whitelisted addresses)\n- Failed sell attempts: 2398 (99.7% failure rate for non-whitelisted)\n- Average buy size: $123\n- Whitelisted wallet sells: $1,905,849 total across 12 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$38,823\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 5% | Sell tax effective: 96% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 2 hours ago (still active)"
+    },
+    {
+      "token_name": "OracleSwap",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: OracleSwap | Network: Base | Contract: 0xaa12936a79848938770bdbc5da0d49fe986678cc\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 6054\n- Total sell transactions: 11 (all from 3 whitelisted addresses)\n- Failed sell attempts: 2391 (98.0% failure rate for non-whitelisted)\n- Average buy size: $168\n- Whitelisted wallet sells: $1,541,535 total across 3 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$52,089\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 3% | Sell tax effective: 97% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 2 hours ago (still active)"
+    },
+    {
+      "token_name": "JunctionFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: JunctionFi | Network: Arbitrum | Contract: 0x46ec9a3b6e78858a88347537ef5a5ff3c7522b6c\nOn-Chain Health Metrics:\n- Token age: 635 days\n- Holder growth: +6.7% per month (organic)\n- Gini coefficient of holdings: 0.61 (moderately distributed)\n- Whale concentration (>1% holders): 6 addresses\n- Smart money flow (Nansen labels): 23 labeled fund wallets hold positions\n- DEX pairs: 2 active (SushiSwap, Trader Joe)\n- CEX listings: 4 (KuCoin)\n- Unique daily transactions: 5419\n- Failed transaction rate: 2.6% (normal range)\n- No blacklist function in contract\n- Token utility: Protocol revenue sharing"
+    },
+    {
+      "token_name": "StellarBridge",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: StellarBridge | Network: Base | Contract: 0xd1f7c3bb4eb27fbb291cd62468854e6db84933af\nVolume Analysis (24h):\n- Reported volume: $26,304,630\n- Unique trading wallets: 10\n- Average trades per wallet: 239\n- Wallet cluster analysis: 9 of 10 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 635 cycles in 24h\n- Average trade size: $23,913\n- Price impact per trade: 0.0049% (impossibly low for market cap)\n- Market cap: $4,624,058\n- Volume/Market cap ratio: 46.2x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$1,738\n- All 10 wallets created within 22 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "NovaSwap",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: NovaSwap | Network: ETH Mainnet | Contract: 0x7ea0a6d62d550d38087b903120685f6444c13f41\nTransaction Summary (30 Days):\n- Total holders: 169,444\n- Buy/sell ratio: 0.84 (balanced two-way market)\n- Daily active traders: 2927\n- Largest wallet: 2.8% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 20.9% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $2,363,157\n- Volume consistent over 168 days (no anomalous spikes)\n- Deployer wallet: 1.2% of current supply\n- Ownership: Multisig (3/5 signers)\n- Contract verified on Etherscan: Yes\n- Audit: Certik (score: 94/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 27000 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "WaveDAO",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: WaveDAO | Network: Polygon | Contract: 0x34cc8427a8191b119b9be2ed5f08e14119046c10\nVolume Analysis (24h):\n- Reported volume: $30,564,770\n- Unique trading wallets: 8\n- Average trades per wallet: 443\n- Wallet cluster analysis: 5 of 8 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 547 cycles in 24h\n- Average trade size: $49,618\n- Price impact per trade: 0.0091% (impossibly low for market cap)\n- Market cap: $2,372,618\n- Volume/Market cap ratio: 42.7x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$1,678\n- All 8 wallets created within 3 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "GravityLend",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: GravityLend | Network: BSC | Contract: 0x3d9bf7384e512b7aa394f333e73599e3b4c90ea9\nBehavioral Analysis:\n- Unique buyers: 3025 | Unique sellers: 3\n- Median hold time: 25 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 0.2%\n- Transfer success rate (non-deployer \u2192 wallet): 77% (can transfer, can't swap)\n- Router approval events: 4871 (users trying to sell)\n- Actual swap executions: 5 (only whitelisted)\n- Price movement: +240% since launch (buy-only pressure)\n- Liquidity pool depth: $1,995,432 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 7 times\n- Current _sellTax value: 9221 basis points (98%)"
+    },
+    {
+      "token_name": "LithiumFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: LithiumFi | Network: ETH Mainnet | Contract: 0x57d8034bb0c3d711ab94ddc9779541e5b80e3809\nBehavioral Analysis:\n- Unique buyers: 4791 | Unique sellers: 4\n- Median hold time: 26 days (forced \u2014 cannot sell)\n- Transfer success rate (non-deployer \u2192 DEX): 4.0%\n- Transfer success rate (non-deployer \u2192 wallet): 80% (can transfer, can't swap)\n- Router approval events: 2109 (users trying to sell)\n- Actual swap executions: 8 (only whitelisted)\n- Price movement: +331% since launch (buy-only pressure)\n- Liquidity pool depth: $1,696,381 (looks healthy)\n- Contract uses dynamic fee structure: _sellTax variable changed 3 times\n- Current _sellTax value: 9786 basis points (92%)"
+    },
+    {
+      "token_name": "NexusYield",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: NexusYield | Network: Arbitrum | Contract: 0x0355a2b288ee13f7cf6666cf2b6b690761c5e9fa\nOn-Chain Activity Summary:\n- Token age: 24 days | Holders: 579 (peak: 10409)\n- Buy/sell ratio: 48.5:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 11 transfers to 4 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 94% of LP tokens removed in block #18790794\n- Time between last marketing push and LP removal: 38 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 4 previously flagged contracts"
+    },
+    {
+      "token_name": "TerraNova",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: TerraNova | Network: BSC | Contract: 0xd74d7e9fee4283564dac6d524c0f80170504cec6\nVolume Analysis (24h):\n- Reported volume: $44,913,250\n- Unique trading wallets: 11\n- Average trades per wallet: 480\n- Wallet cluster analysis: 8 of 11 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 415 cycles in 24h\n- Average trade size: $33,195\n- Price impact per trade: 0.0100% (impossibly low for market cap)\n- Market cap: $1,253,182\n- Volume/Market cap ratio: 57.5x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$3,650\n- All 11 wallets created within 1 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "EclipseSwap",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: EclipseSwap | Network: BSC | Contract: 0x4b13a12b541f2ceba9f31cff9a5b1cfc0674eeeb\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 4538\n- Total sell transactions: 12 (all from 2 whitelisted addresses)\n- Failed sell attempts: 1712 (95.7% failure rate for non-whitelisted)\n- Average buy size: $92\n- Whitelisted wallet sells: $1,097,939 total across 12 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$11,463\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 7% | Sell tax effective: 96% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 3 hours ago (still active)"
+    },
+    {
+      "token_name": "PivotDAO",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: PivotDAO | Network: Arbitrum | Contract: 0x65088f603a0998876efe5a786fa64ee13e667e0b\nTrading Pattern Anomalies:\n- 24h transactions: 32866 | Unique participants: 12\n- Trade timing: 93% of trades occur in 2-second intervals (bot signature)\n- Bid-ask spread: 0.009% (artificially tight)\n- Order book depth vs actual fills: 87x discrepancy\n- Top 12 wallets account for 96.1% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $15,682,772\n- On-chain verifiable volume: $1,402\n- Discrepancy factor: 11,186x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "GlacierFi",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: GlacierFi | Network: Arbitrum | Contract: 0x3413c9f5a28356b9c8f7780f1f75a9560f9a060f\nOn-Chain Activity Summary:\n- Token age: 42 days | Holders: 2115 (peak: 5076)\n- Buy/sell ratio: 26.2:1 (extreme buy pressure \u2192 sudden reversal)\n- Developer wallet activity: 5 transfers to 2 intermediary wallets\n- Intermediary wallets converge to single CEX deposit address\n- Liquidity removal: 97% of LP tokens removed in block #18046411\n- Time between last marketing push and LP removal: 13 hours\n- Smart contract verified on Etherscan: Yes\n- Ownership renounced: No\n- Connected wallets (graph analysis): deployer linked to 3 previously flagged contracts"
+    },
+    {
+      "token_name": "GlacierFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: GlacierFi | Network: BSC | Contract: 0x90eb0d452919c72cfd5ccaa1ce6d170f09d9ad3d\nTransaction Summary (30 Days):\n- Total holders: 71,317\n- Buy/sell ratio: 1.13 (balanced two-way market)\n- Daily active traders: 2733\n- Largest wallet: 3.1% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 29.0% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $1,123,861\n- Volume consistent over 166 days (no anomalous spikes)\n- Deployer wallet: 1.7% of current supply\n- Ownership: Renounced\n- Contract verified on Etherscan: Yes\n- Audit: Hacken (score: 85/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 30754 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "ArcticDEX",
+      "label": "rug_pull",
+      "vulnerability_type": "rug_pull",
+      "token_data": "Token: ArcticDEX | Network: ETH Mainnet | Contract: 0x1B78F8403db4De43A92d5D12336AFc8b1c1d4086\nTransaction Pattern Analysis (Last 30 Days):\n- Deployer (0x610fb9ec...1c56) holds 66% of supply in single wallet\n- Initial liquidity added: $6,370,745 via Trader Joe\n- 3762 buy transactions from 1454 unique wallets in first 57h\n- Deployer executed 3 large sell transactions in 22 minute window\n- Post-sell token price decline: 89%\n- Deployer wallet funded via Tornado Cash / cross-chain bridge 5 days before deployment\n- Team wallet (0x7ea33eb4...) transferred 100% of holdings to CEX hot wallet\n- No token lock contract deployed despite claims in documentation\n- Social media accounts (Twitter, Telegram) deleted within 10 hours of sell event\n- Current 24h volume: $175 (effectively zero)"
+    },
+    {
+      "token_name": "GammaProtocol",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: GammaProtocol | Network: Polygon | Contract: 0xc2408b6b8eb9f6b62de32be23c9214efafcaf89a\nOn-Chain Health Metrics:\n- Token age: 654 days\n- Holder growth: +5.9% per month (organic)\n- Gini coefficient of holdings: 0.60 (moderately distributed)\n- Whale concentration (>1% holders): 6 addresses\n- Smart money flow (Nansen labels): 19 labeled fund wallets hold positions\n- DEX pairs: 2 active (Uniswap V3, PancakeSwap V2)\n- CEX listings: 1 (KuCoin)\n- Unique daily transactions: 6440\n- Failed transaction rate: 0.8% (normal range)\n- No blacklist function in contract\n- Token utility: Protocol revenue sharing"
+    },
+    {
+      "token_name": "AtlasProtocol",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: AtlasProtocol | Network: BSC | Contract: 0x1a74d49c809df35e60a9d0be2afe7767075cf532\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 1919\n- Total sell transactions: 14 (all from 1 whitelisted addresses)\n- Failed sell attempts: 2155 (99.6% failure rate for non-whitelisted)\n- Average buy size: $277\n- Whitelisted wallet sells: $1,161,147 total across 3 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$68,263\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 7% | Sell tax effective: 92% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 2 hours ago (still active)"
+    },
+    {
+      "token_name": "ShardProtocol",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: ShardProtocol | Network: Base | Contract: 0x28ec541d242a060b52cd99451fd86cc852c7ecd7\nOn-Chain Health Metrics:\n- Token age: 534 days\n- Holder growth: +5.1% per month (organic)\n- Gini coefficient of holdings: 0.62 (moderately distributed)\n- Whale concentration (>1% holders): 7 addresses\n- Smart money flow (Nansen labels): 9 labeled fund wallets hold positions\n- DEX pairs: 6 active (Uniswap V2, Raydium)\n- CEX listings: 1 (KuCoin)\n- Unique daily transactions: 8761\n- Failed transaction rate: 0.6% (normal range)\n- No blacklist function in contract\n- Token utility: Protocol revenue sharing"
+    },
+    {
+      "token_name": "ZealotFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: ZealotFi | Network: Polygon | Contract: 0x5f4e67a7210f68534d6a9b1ea1494210ef2a422e\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 7263\n- Total sell transactions: 3 (all from 2 whitelisted addresses)\n- Failed sell attempts: 3883 (96.1% failure rate for non-whitelisted)\n- Average buy size: $393\n- Whitelisted wallet sells: $525,372 total across 15 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$31,812\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 3% | Sell tax effective: 92% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 4 hours ago (still active)"
+    },
+    {
+      "token_name": "NexusYield",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: NexusYield | Network: ETH Mainnet | Contract: 0xe1475e8a7ff986f0541dfb874172bedb43634b7b\nOn-Chain Health Metrics:\n- Token age: 616 days\n- Holder growth: +2.6% per month (organic)\n- Gini coefficient of holdings: 0.43 (moderately distributed)\n- Whale concentration (>1% holders): 5 addresses\n- Smart money flow (Nansen labels): 8 labeled fund wallets hold positions\n- DEX pairs: 5 active (Uniswap V3, PancakeSwap V2)\n- CEX listings: 4 (Binance, Coinbase, KuCoin)\n- Unique daily transactions: 9628\n- Failed transaction rate: 2.3% (normal range)\n- No blacklist function in contract\n- Token utility: Governance + fee sharing"
+    },
+    {
+      "token_name": "OmegaFi",
+      "label": "honeypot",
+      "vulnerability_type": "honeypot",
+      "token_data": "Token: OmegaFi | Network: ETH Mainnet | Contract: 0x9259a8bb6db7a6646e772e34d80f94d42819d7e4\nTransaction Pattern Analysis (Last 14 Days):\n- Total buy transactions: 6289\n- Total sell transactions: 7 (all from 2 whitelisted addresses)\n- Failed sell attempts: 1772 (98.1% failure rate for non-whitelisted)\n- Average buy size: $492\n- Whitelisted wallet sells: $1,226,102 total across 8 transactions\n- Error messages in failed sells: \"Transfer failed\", \"Insufficient output\", \"TRANSFER_FROM_FAILED\"\n- Gas wasted on failed sell attempts: ~$65,616\n- Token price appears stable/rising (no organic sell pressure)\n- Buy tax observed: 6% | Sell tax effective: 90% (hidden)\n- Contract has modifiable fee function with no upper bound check\n- Deployer last activity: 5 hours ago (still active)"
+    },
+    {
+      "token_name": "JadeProtocol",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: JadeProtocol | Network: Arbitrum | Contract: 0x8b19511719ef5eea24ae3e8a8b34aacf9b0ae9cf\nTransaction Summary (30 Days):\n- Total holders: 67,556\n- Buy/sell ratio: 1.12 (balanced two-way market)\n- Daily active traders: 4119\n- Largest wallet: 3.3% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 30.0% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $1,859,879\n- Volume consistent over 87 days (no anomalous spikes)\n- Deployer wallet: 0.6% of current supply\n- Ownership: Renounced\n- Contract verified on Etherscan: Yes\n- Audit: PeckShield (score: 95/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 32717 Twitter followers, active Discord"
+    },
+    {
+      "token_name": "LunarStake",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: LunarStake | Network: Polygon | Contract: 0x7dbae447bffc92857fe2f8e198b7f1f6a1633756\nTrading Pattern Anomalies:\n- 24h transactions: 41064 | Unique participants: 23\n- Trade timing: 91% of trades occur in 2-second intervals (bot signature)\n- Bid-ask spread: 0.008% (artificially tight)\n- Order book depth vs actual fills: 95x discrepancy\n- Top 23 wallets account for 96.5% of all volume\n- Net token flow among top wallets: ~0 (circular, zero-sum)\n- CMC/CoinGecko reported volume: $60,586,929\n- On-chain verifiable volume: $3,303\n- Discrepancy factor: 18,343x\n- None of the top trading wallets have any other token holdings\n- Gas spending pattern: identical gas price for all trades from cluster"
+    },
+    {
+      "token_name": "OrbitLend",
+      "label": "wash_trading",
+      "vulnerability_type": "wash_trading",
+      "token_data": "Token: OrbitLend | Network: BSC | Contract: 0x9875095d722bc131929381361a757906cec2d6b9\nVolume Analysis (24h):\n- Reported volume: $31,922,853\n- Unique trading wallets: 11\n- Average trades per wallet: 341\n- Wallet cluster analysis: 9 of 11 wallets funded from same source\n- Circular flow detected: A\u2192B\u2192C\u2192...\u2192A pattern, 1981 cycles in 24h\n- Average trade size: $18,025\n- Price impact per trade: 0.0072% (impossibly low for market cap)\n- Market cap: $3,087,900\n- Volume/Market cap ratio: 46.5x (healthy range: 0.01-0.5x)\n- Organic volume estimate: <$3,093\n- All 11 wallets created within 38 hour window\n- Wallet funding pattern: identical amounts from Binance/OKX hot wallet"
+    },
+    {
+      "token_name": "CircuitFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: CircuitFi | Network: Arbitrum | Contract: 0x1fe7a24472f3d42864698dbc80f64ff6a97ac051\nOn-Chain Health Metrics:\n- Token age: 179 days\n- Holder growth: +7.8% per month (organic)\n- Gini coefficient of holdings: 0.50 (moderately distributed)\n- Whale concentration (>1% holders): 6 addresses\n- Smart money flow (Nansen labels): 15 labeled fund wallets hold positions\n- DEX pairs: 6 active (Uniswap V2, Trader Joe)\n- CEX listings: 4 (Coinbase, KuCoin)\n- Unique daily transactions: 6556\n- Failed transaction rate: 1.5% (normal range)\n- No blacklist function in contract\n- Token utility: Governance + fee sharing"
+    },
+    {
+      "token_name": "CatalystFi",
+      "label": "safe",
+      "vulnerability_type": null,
+      "token_data": "Token: CatalystFi | Network: Arbitrum | Contract: 0xeeb17ef2b82ad11fa2b33be8371e18705d319492\nTransaction Summary (30 Days):\n- Total holders: 12,539\n- Buy/sell ratio: 1.25 (balanced two-way market)\n- Daily active traders: 1171\n- Largest wallet: 2.1% of supply (team vesting contract, time-locked)\n- Top 10 wallets: 32.1% of supply (includes DEX pairs and known protocols)\n- Average daily volume: $1,294,196\n- Volume consistent over 88 days (no anomalous spikes)\n- Deployer wallet: 0.6% of current supply\n- Ownership: Multisig (3/5 signers)\n- Contract verified on Etherscan: Yes\n- Audit: Certik (score: 91/100)\n- No wallet clustering anomalies detected\n- Organic social activity: 12321 Twitter followers, active Discord"
     }
   ]
 }
