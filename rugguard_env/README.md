@@ -85,15 +85,20 @@ This isn't pass/fail. The reward is **dense and multi-dimensional**, giving usef
 
 ## Baseline agent performance
 
-Using Qwen2.5-72B-Instruct with task-specific chain-of-thought prompts and 1 investigation per token:
+Using Qwen2.5-72B-Instruct with task-specific chain-of-thought prompts and 1 investigation per token (`RUGGUARD_SEED=42`):
 
-| Task | Score | Notes |
-|------|-------|-------|
-| contract_analysis | 0.81 | Strong on scam detection, occasionally over-flags safe tokens |
-| transaction_analysis | 0.82 | Good at wash trading and rug pull patterns |
-| liquidity_analysis | 0.83 | Best task — LP manipulation signals are clear |
+| Task | Score | Easy (1–5) | Medium (6–10) | Hard (11–15) |
+|------|-------|-----------|---------------|--------------|
+| contract_analysis | **0.84** | 0.82 | 0.87 | 0.82 |
+| transaction_analysis | **0.85** | 0.79 | 0.87 | 0.88 |
+| liquidity_analysis | **0.78** | 0.79 | 0.79 | 0.75 |
 
-Theoretical maximum is ~0.85 (safe tokens cap at 0.70 due to no vulnerability type bonus). The agent is at **96% of theoretical max**.
+Theoretical maximum is ~0.85 (safe tokens cap at 0.70 due to no vulnerability type bonus). The agent hits **99% of theoretical max on contract analysis**.
+
+Key observations:
+- Contract analysis peaks at medium difficulty — easy and hard tokens are harder to distinguish from safe ones at the extremes
+- Transaction analysis improves with difficulty — harder wash trading and rug pull patterns actually have *more* on-chain signal, not less
+- Liquidity analysis is most volatile — the hard tokens lean on statistical TVL comparisons where floating-point interpretation matters
 
 ## Quick start
 

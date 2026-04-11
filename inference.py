@@ -92,6 +92,9 @@ INVESTIGATIONS_PER_TOKEN = 1
 # Best tool per task type, ranked by how much signal they give.
 # We tested all 6 tools across tasks — these consistently help most.
 PREFERRED_TOOLS = {
+    # contract_functions first for contracts — reading the actual Solidity code
+    # is the most direct signal (migrateV2, onlyOwner ETH withdrawal, etc.).
+    # deployer_history is the fallback if contract_functions is already used.
     "contract_analysis": ["contract_functions", "deployer_history", "similar_contracts"],
     "transaction_analysis": ["holder_distribution", "deployer_history", "price_history"],
     "liquidity_analysis": ["price_history", "holder_distribution", "similar_contracts"],
