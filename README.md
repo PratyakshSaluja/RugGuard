@@ -1,121 +1,174 @@
-# RugGuard — OpenEnv Environment
+---
+title: rugguard-env
+emoji: 🛡️
+colorFrom: red
+colorTo: yellow
+sdk: docker
+app_port: 8000
+pinned: false
+---
 
-**Meta PyTorch x Scaler OpenEnv Bootcamp Hackathon**
+# RugGuard: Can Your AI Detect a $2.8B Problem?
 
-RugGuard is an OpenEnv-compliant environment for training and evaluating LLM
-agents on real-world **crypto token scam detection**. Unlike simple classification
-benchmarks, RugGuard requires multi-step investigation: agents must decide which
-tools to use, gather evidence, and then classify tokens under uncertainty.
+In 2023 alone, crypto rug pulls, honeypots, and wash trading scams stole **$2.8 billion** from retail investors. Existing detection tools are mostly rule-based — they check a list of known red flags and move on. Sophisticated scammers have already learned to work around them.
 
-- **HF Space:** https://huggingface.co/spaces/Pratyakshh/rugguard-env
-- **Env code:** [`rugguard_env/`](rugguard_env/)
-- **Baseline runner:** [`inference.py`](inference.py)
+RugGuard takes a different approach. Instead of hard-coding rules, we built an environment where **LLM agents learn to think like security analysts**. They read Solidity code, trace transaction patterns, analyze liquidity pools, and make judgment calls — the same workflow a human auditor follows, but at scale.
 
-## Why this environment
+## What makes this different
 
-Crypto rug pulls, honeypots, and wash-trading scams drain billions of dollars
-from retail users every year. Scam triage today is either done manually by
-security researchers or by brittle rule-based scanners that miss novel attack
-patterns. RugGuard turns this triage into a proper agent benchmark: the agent
-must reason about Solidity source code, on-chain transaction histories, and
-liquidity pool dynamics — three concrete sub-skills a real security analyst
-uses every day.
+Most token classification benchmarks give the agent all the information upfront and ask for a label. That's a quiz, not an investigation.
 
-**Data sources:** Token patterns derived from real-world validated rug pull
-incidents ([dianxiang-sun/rug_pull_dataset](https://github.com/dianxiang-sun/rug_pull_dataset) — 2,391 ETH/BSC incidents),
-smart contract vulnerability patterns from [smartbugs-curated](https://github.com/smartbugs/smartbugs-curated),
-and realistic DeFi protocol structures.
+**RugGuard is an investigation.** Each token starts with limited information. The agent has to decide what to investigate, interpret the results, and then make a call. Just like a real analyst would.
 
-## Action space: Investigate then classify
+```
+┌─────────────────────────────────────────────────────────┐
+│                   Per-Token Agent Flow                   │
+│                                                         │
+│  Base data (contract/txs/LP)                            │
+│       │                                                 │
+│       ▼                                                 │
+│  ┌─────────────┐     ┌──────────────────────────┐       │
+│  │ INVESTIGATE  │────▶│ Pick from 6 tools:       │       │
+│  │ (up to 3x)  │     │ • holder_distribution    │       │
+│  └──────┬──────┘     │ • contract_functions     │       │
+│         │            │ • deployer_history       │       │
+│         │            │ • social_signals         │       │
+│         │            │ • similar_contracts      │       │
+│         │            │ • price_history          │       │
+│         │            └──────────────────────────┘       │
+│         ▼                                               │
+│  ┌─────────────┐                                        │
+│  │  CLASSIFY   │──▶ verdict + confidence + reasoning    │
+│  └─────────────┘                                        │
+│         │                                               │
+│         ▼                                               │
+│  Reward: accuracy + vuln type + calibration + efficiency│
+└─────────────────────────────────────────────────────────┘
+```
 
-Each token presents a two-phase decision:
+The agent that calls everything a scam won't score well (safe tokens exist). The agent that uses all 3 investigations every time loses the efficiency bonus. The agent that guesses high confidence on wrong answers gets punished by the calibration component. **You actually have to be good at this.**
 
-1. **Investigate** (optional, up to 3 per token): request additional data
-   using one of 6 investigation tools before committing to a verdict
-2. **Classify** (required): submit verdict, confidence, and reasoning
+## The three tasks
 
-### Investigation tools
+Each episode runs 45 tokens across 3 task types (15 each), ordered easy → hard within each task:
 
-| Tool | What it reveals |
-|------|----------------|
-| `holder_distribution` | Wallet concentration, Gini coefficient, funding sources |
-| `contract_functions` | Owner-only functions, fee mechanisms, access patterns |
-| `deployer_history` | Deployer wallet age, prior contracts, scam flags |
-| `social_signals` | Social media activity, community sentiment, team info |
-| `similar_contracts` | Bytecode similarity to known scams, TokenSniffer score |
-| `price_history` | Price trajectory, volatility patterns, anomalies |
+### 1. Contract Analysis
+The agent reads Solidity source code and hunts for backdoors. Not the obvious `function stealAllMoney()` kind — we're talking about `migrateV2()` functions disguised as upgrades, `recoverTokens()` that "recovers" everything to the owner, and fee manipulation that slowly drains value.
 
-Agents must balance investigation depth (more info = better classification)
-against efficiency (fewer investigations = bonus reward).
+### 2. Transaction Analysis
+Raw on-chain patterns: who's buying, who's selling, how often, and where the money flows. Wash trading shows up as perfectly timed trades between the same wallets. Rug pulls show up as massive deployer sell-offs. Honeypots show 500 buys and 3 sells.
 
-## Tasks
-
-| # | Task | Difficulty | What the agent sees | Must classify |
-|---|------|-----------|---------------------|---------------|
-| 1 | `contract_analysis`    | Easy   | Solidity source with subtle backdoors                           | Hidden drain, sell restrictions, volume manipulation |
-| 2 | `transaction_analysis` | Medium | On-chain tx patterns (holder dist, sell/buy ratios, timing)     | Wash trading, slow rug, trapped funds               |
-| 3 | `liquidity_analysis`   | Hard   | LP pool metrics (lock status, depth, removal events)            | Exit liquidity, fake locks, oracle manipulation      |
-
-Each task runs for **15 samples** per episode (**45 classifications total**).
-Datasets contain **120 samples per task** (30 per label), with realistic
-token names and non-obvious scam patterns derived from real incidents.
+### 3. Liquidity Analysis
+DeFi-native analysis: LP lock status, TVL manipulation, price impact asymmetry. The hardest task because the scam signals are statistical, not structural. A reported TVL that's 200x higher than on-chain reality screams wash trading, but you need to actually do the math.
 
 ## Reward function
 
-| Component                  | Points              | Condition                         |
-|----------------------------|---------------------|-----------------------------------|
-| Correct verdict            | +0.50               | `verdict == ground_truth_label`   |
-| Correct vulnerability type | +0.20               | Correct verdict on scam token     |
-| Confidence calibration     | +0.15 x confidence  | When correct                      |
-| Confidence calibration     | +0.15 x (1-conf)    | When wrong                        |
-| Partial credit             | +0.02-0.05          | Close-but-wrong (e.g. rug_pull predicted as honeypot) |
-| Investigation efficiency   | +0.05 x (1-inv/3)   | Bonus for fewer investigations when correct |
+Five components per classification, max 1.0 per token:
 
-Per-step reward is clamped to `[0, 1]`. The reward function provides dense,
-multi-component signal suitable for RL training.
+| Component | Points | What it rewards |
+|-----------|--------|----------------|
+| Correct verdict | +0.50 | Getting the right answer |
+| Vulnerability type | +0.20 | Identifying the *specific* scam type (not just "it's bad") |
+| Confidence calibration | +0.15 | Being sure when right, uncertain when wrong |
+| Partial credit | +0.02-0.05 | Close calls (e.g., calling a rug pull a honeypot — wrong but not clueless) |
+| Investigation efficiency | +0.05 | Using fewer tools when you're right (rewarding decisive analysis) |
 
-## Baseline scores
+This isn't pass/fail. The reward is **dense and multi-dimensional**, giving useful gradient signal at every step. An RL agent training on this gets feedback on not just what it got wrong, but *how* it got wrong.
 
-Measured with `Qwen/Qwen2.5-72B-Instruct` via LiteLLM proxy
-(15 samples per task, 1 investigation per token):
+## Dataset
 
-| Task                   | Score | Success |
-|------------------------|-------|---------|
-| `contract_analysis`    | 0.75  | Yes     |
-| `transaction_analysis` | 0.83  | Yes     |
-| `liquidity_analysis`   | 0.53  | Yes     |
+- **360 samples** across 3 datasets (120 each)
+- **Balanced**: 30 per label (rug_pull, honeypot, wash_trading, safe)
+- **Difficulty tiers**: 40 easy / 40 medium / 40 hard per dataset
+- **Pre-baked investigations**: All 6 tool results computed per sample (no runtime generation, no label leakage)
+- **Real patterns**: Contract backdoors based on real exploit patterns from 2,391 validated rug pull incidents. Transaction patterns modeled on actual wash trading schemes. LP data based on real DeFi pool manipulation tactics.
 
-## Running the baseline
+## Baseline agent performance
 
-```bash
-export API_BASE_URL=https://router.huggingface.co/v1
-export MODEL_NAME=Qwen/Qwen2.5-72B-Instruct
-export API_KEY=<your_api_key>
-export LOCAL_IMAGE_NAME=rugguard-env:latest
-python inference.py
+Using Qwen2.5-72B-Instruct with task-specific chain-of-thought prompts and 1 investigation per token (`RUGGUARD_SEED=42`):
+
+| Task | Score | Easy (1–5) | Medium (6–10) | Hard (11–15) |
+|------|-------|-----------|---------------|--------------|
+| contract_analysis | **0.84** | 0.82 | 0.87 | 0.82 |
+| transaction_analysis | **0.85** | 0.79 | 0.87 | 0.88 |
+| liquidity_analysis | **0.78** | 0.79 | 0.79 | 0.75 |
+
+Theoretical maximum is ~0.85 (safe tokens cap at 0.70 due to no vulnerability type bonus). The agent hits **99% of theoretical max on contract analysis**.
+
+Key observations:
+- Contract analysis peaks at medium difficulty — easy and hard tokens are harder to distinguish from safe ones at the extremes
+- Transaction analysis improves with difficulty — harder wash trading and rug pull patterns actually have *more* on-chain signal, not less
+- Liquidity analysis is most volatile — the hard tokens lean on statistical TVL comparisons where floating-point interpretation matters
+
+## Quick start
+
+```python
+from rugguard_env import RugGuardEnv, RugGuardAction
+
+with RugGuardEnv(base_url="http://localhost:8000") as env:
+    result = env.reset()
+    obs = result.observation
+
+    # gather evidence
+    result = env.step(RugGuardAction(
+        action_type="investigate",
+        tool="contract_functions",
+    ))
+
+    # make your call
+    result = env.step(RugGuardAction(
+        action_type="classify",
+        verdict="rug_pull",
+        confidence=0.95,
+        reasoning="migrateV2 gives owner unrestricted ETH withdrawal",
+    ))
+    print(f"reward: {result.reward}")
 ```
 
-## Running the environment locally
+## Running locally
 
 ```bash
 cd rugguard_env
+pip install -e .
+uvicorn server.app:app --host 0.0.0.0 --port 8000
+
+# or docker
 docker build -t rugguard-env:latest .
 docker run -p 8000:8000 rugguard-env:latest
-
-# Sanity check
-curl http://localhost:8000/health
-curl -X POST http://localhost:8000/reset -H "Content-Type: application/json" -d '{}'
-
-# Investigate
-curl -X POST http://localhost:8000/step \
-  -H "Content-Type: application/json" \
-  -d '{"action_type": "investigate", "tool": "holder_distribution"}'
-
-# Classify
-curl -X POST http://localhost:8000/step \
-  -H "Content-Type: application/json" \
-  -d '{"action_type": "classify", "verdict": "rug_pull", "confidence": 0.85, "reasoning": "High concentration + deployer flags"}'
 ```
 
-See [`rugguard_env/README.md`](rugguard_env/README.md) for the full
-action/observation space reference and deployment instructions.
+## Tests
+
+```bash
+python -m pytest tests/ -v   # 48 tests, all passing
+```
+
+Covers reset, investigation, classification, reward math, full episodes, difficulty ordering, dataset integrity, and edge cases.
+
+## Config
+
+| Env var | Default | Description |
+|---------|---------|-------------|
+| `RUGGUARD_STEPS_PER_TASK` | `15` | Tokens per task per episode |
+| `RUGGUARD_SEED` | random | Fixed seed for reproducibility |
+| `RUGGUARD_TASK_FILTER` | all | Restrict to single task type |
+| `PORT` | `8000` | Server port |
+
+## Architecture
+
+```
+rugguard_env/
+├── server/
+│   ├── app.py                    # FastAPI + OpenEnv create_app
+│   └── rugguard_environment.py   # Core environment (reset/step/state)
+├── data/
+│   ├── contracts.json            # 120 smart contract samples
+│   ├── transactions.json         # 120 transaction pattern samples
+│   └── liquidity.json            # 120 liquidity pool samples
+├── models.py                     # Typed Action/Observation/State
+├── client.py                     # HTTP client for remote env
+├── tests/
+│   └── test_environment.py       # 48 unit tests
+├── openenv.yaml                  # OpenEnv spec
+└── Dockerfile                    # HF Spaces deployment
+```
